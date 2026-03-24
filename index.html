@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>موسوعة المسلم الشاملة</title>
+    <title>موسوعة المسلم</title>
     <meta property="og:title" content="موسوعة المسلم الشاملة">
     <meta property="og:description" content="قرآن، أذكار، مواقيت صلاة، سبحة، وقبلة. صُنِعَ لِوَجْهِ الله.">
+    <meta property="og:type" content="website">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
@@ -98,7 +99,7 @@
                 <div class="qibla-pointer" id="qibla-pointer">🕋</div>
             </div>
             <p id="qibla-status" style="margin-top:20px;">جاري التحديد...</p>
-            <button class="btn" style="width:auto; padding:10px 20px;" onclick="requestLocationPermission()">تحسين الدقة 📍</button>
+            <button class="btn" style="width:auto; padding:10px 20px; margin-top: 15px;" onclick="requestLocationPermission()">تحسين الدقة 📍</button>
         </div>
     </div>
 
@@ -135,22 +136,23 @@
             </div>
         </div>
         <div class="paper-card" style="min-height:30vh; justify-content:center;">
-            <div id="now-playing-title" style="font-family:'Amiri'; color:var(--accent-color); font-size:1.5rem;">🎧 اختر قارئ وسورة للاستماع</div>
+            <div id="now-playing-title" style="font-family:'Amiri'; color:var(--accent-color); font-size:1.4rem; padding: 10px;">🎧 اختر قارئ وسورة للاستماع</div>
         </div>
     </div>
 
     <div id="prayerTimes-screen" class="screen hidden">
         <div class="header-wrapper">
             <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
+            <span class="screen-title">مواقيت الصلاة</span>
         </div>
         <div class="paper-card">
-            <h2 style="font-family:'Amiri'; color:var(--accent-color);">مواقيت الصلاة اليوم</h2>
-            <div id="prayer-times-list" style="width:100%; margin-top:20px;"></div>
+            <div id="prayer-times-list" style="width:100%; margin-top:10px;"></div>
         </div>
     </div>
 
     <div id="toast-msg">رسالة</div>
 
+    <script> if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); }); } </script>
     <script src="script.js"></script>
 </body>
 </html>
