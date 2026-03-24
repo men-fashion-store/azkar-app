@@ -1,4 +1,4 @@
-const CACHE_NAME = 'islamic-encyclopedia-v12';
+const CACHE_NAME = 'islamic-encyclopedia-v13';
 const urlsToCache = [
   './',
   './index.html',
