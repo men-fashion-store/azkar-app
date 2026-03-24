@@ -1,20 +1,19 @@
-// --- 1. الأذكار الكاملة ---
 const ayatAlKursi="أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ\nبِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ﴾ [البقرة: 255]";
 const surahAlIkhlas="بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾";
 const surahAlFalaq="بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾";
 const surahAnNas="بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ﴾";
 
 const azkarData = {
-    morning:[{text:ayatAlKursi,count:1,proof:"الدليل: أُجير من الجن حتى يمسي."},{text:surahAlIkhlas,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:surahAlFalaq,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:surahAnNas,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ، وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ، وَعَذَابٍ فِي الْقَبْرِ.",count:1,proof:"الدليل: صحيح مسلم."},{text:"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ، اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذَا الْيَوْمِ: فَتْحَهُ، وَنَصْرَهُ، وَنُورَهُ، وَبَرَكَتَهُ، وَهُدَاهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِيهِ وَشَرِّ مَا بَعْدَهُ.",count:1,proof:"الدليل: حديث حسن."},{text:"اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ.",count:1,proof:"الدليل: حديث صحيح."},{text:"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي؛ فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ.",count:1,proof:"الدليل: سيد الاستغفار. (رواه البخاري)."},{text:"اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي.",count:1,proof:"الدليل: حديث صحيح."},{text:"اللَّهُمَّ عَالِمَ الْغَيْبِ وَالشَّهَادَةِ، فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ، وَأَنْ أَقْتَرِفَ عَلَى نَفْسِي سُوءًا أَوْ أَجُرَّهُ إِلَى مُسْلِمٍ.",count:1,proof:"الدليل: حديث صحيح."},{text:"اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ. اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ، وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَهَ إِلَّا أَنْتَ.",count:3,proof:"الدليل: حديث حسن."},{text:"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَأَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ، وَقَهْرِ الرِّجَالِ.",count:3,proof:"الدليل: صحيح البخاري."},{text:"يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ.",count:1,proof:"الدليل: حديث صحيح."},{text:"حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.",count:7,proof:"الدليل: كفاه الله ما أهمه."},{text:"رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا.",count:3,proof:"الدليل: كان حقاً على الله أن يرضيه."},{text:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ، وَهُوَ السَّمِيعُ الْعَلِيمُ.",count:3,proof:"الدليل: لم يضره شيء."},{text:"يَا رَبِّ، لَكَ الْحَمْدُ كَمَا يَنْبَغِي لِجَلَالِ وَجْهِكَ، وَلِعَظِيمِ سُلْطَانِكَ.",count:3,proof:"الدليل: حديث حسن."},{text:"اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ، وَنَسْتَغْفِرُكَ لِمَا لَا نَعْلَمُهُ.",count:3,proof:"الدليل: حديث صحيح."},{text:"اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا.",count:1,proof:"الدليل: حديث صحيح."},{text:"أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَهَ إِلَّا هُوَ، الْحَيَّ الْقَيُّومَ، وَأَتُوبُ إِلَيْهِ.",count:3,proof:"الدليل: حديث صحيح."},{text:"أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ.",count:100,proof:"الدليل: متفق عليه."},{text:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ.",count:100,proof:"الدليل: حطت خطاياه."},{text:"لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.",count:100,proof:"الدليل: كانت له عدل عشر رقاب."},{text:"اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ عَلَى نَبِيِّنَا مُحَمَّدٍ.",count:10,proof:"الدليل: أدركته شفاعتي."}],
-    evening:[{text:ayatAlKursi,count:1,proof:"الدليل: أُجير من الجن حتى يصبح."},{text:surahAlIkhlas,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:surahAlFalaq,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:surahAnNas,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذِهِ اللَّيْلَةِ وَشَرِّ مَا بَعْدَهَا، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ، وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ، وَعَذَابٍ فِي الْقَبْرِ.",count:1,proof:"الدليل: صحيح مسلم."},{text:"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ، اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذِهِ اللَّيْلَةِ: فَتْحَهَا، وَنَصْرَهَا، وَنُورَهَا، وَبَرَكَتَهَا، وَهُدَاهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِيهَا وَشَرِّ مَا بَعْدَهَا.",count:1,proof:"الدليل: حديث حسن."},{text:"اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ.",count:1,proof:"الدليل: حديث صحيح."},{text:"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي؛ فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ.",count:1,proof:"الدليل: سيد الاستغفار. (رواه البخاري)."},{text:"اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ...",count:1,proof:"الدليل: حديث صحيح."},{text:"اللَّهُمَّ عَالِمَ الْغَيْبِ وَالشَّهَادَةِ...",count:1,proof:"الدليل: حديث صحيح."},{text:"اللَّهُمَّ عَافِنِي فِي بَدَنِي...",count:3,proof:"الدليل: حديث حسن."},{text:"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ...",count:3,proof:"الدليل: صحيح البخاري."},{text:"يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ...",count:1,proof:"الدليل: حديث صحيح."},{text:"حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.",count:7,proof:"الدليل: كفاه الله ما أهمه."},{text:"رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ ﷺ نَبِيًّا.",count:3,proof:"الدليل: كان حقاً على الله أن يرضيه."},{text:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ، وَهُوَ السَّمِيعُ الْعَلِيمُ.",count:3,proof:"الدليل: لم يضره شيء."},{text:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.",count:3,proof:"الدليل: لم تضره حمة تلك الليلة."},{text:"يَا رَبِّ، لَكَ الْحَمْدُ كَمَا يَنْبَغِي لِجَلَالِ وَجْهِكَ، وَلِعَظِيمِ سُلْطَانِكَ.",count:3,proof:"الدليل: حديث حسن."},{text:"اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ أَنْ نُشْرِكَ بِكَ شَيْئًا نَعْلَمُهُ، وَنَسْتَغْفِرُكَ لِمَا لَا نَعْلَمُهُ.",count:3,proof:"الدليل: حديث صحيح."},{text:"أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَهَ إِلَّا هُوَ، الْحَيَّ الْقَيُّومَ، وَأَتُوبُ إِلَيْهِ.",count:3,proof:"الدليل: حديث صحيح."},{text:"أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ.",count:100,proof:"الدليل: متفق عليه."},{text:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ.",count:100,proof:"الدليل: حطت خطاياه وإن كانت مثل زبد البحر."},{text:"لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.",count:100,proof:"الدليل: كانت له عدل عشر رقاب."},{text:"اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ عَلَى نَبِيِّنَا مُحَمَّدٍ.",count:10,proof:"الدليل: أدركته شفاعتي."}],
+    morning:[{text:ayatAlKursi,count:1,proof:"الدليل: أُجير من الجن حتى يمسي."},{text:surahAlIkhlas,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:surahAlFalaq,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:surahAnNas,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ...",count:1,proof:"الدليل: صحيح مسلم."},{text:"أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ...",count:1,proof:"الدليل: حديث حسن."},{text:"اللَّهُمَّ بِكَ أَصْبَحْنَا...",count:1,proof:"الدليل: حديث صحيح."},{text:"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ...",count:1,proof:"الدليل: سيد الاستغفار."},{text:"اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ...",count:1,proof:"الدليل: حديث صحيح."},{text:"اللَّهُمَّ عَافِنِي فِي بَدَنِي...",count:3,proof:"الدليل: حديث حسن."},{text:"حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ...",count:7,proof:"الدليل: كفاه الله ما أهمه."},{text:"رَضِيتُ بِاللَّهِ رَبًّا...",count:3,proof:"الدليل: كان حقاً على الله أن يرضيه."},{text:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ.",count:100,proof:"الدليل: حطت خطاياه."}],
+    evening:[{text:ayatAlKursi,count:1,proof:"الدليل: أُجير من الجن حتى يصبح."},{text:surahAlIkhlas,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:surahAlFalaq,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:surahAnNas,count:3,proof:"الدليل: تكفيه من كل شيء."},{text:"أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ...",count:1,proof:"الدليل: صحيح مسلم."},{text:"اللَّهُمَّ بِكَ أَمْسَيْنَا...",count:1,proof:"الدليل: حديث صحيح."},{text:"اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ...",count:1,proof:"الدليل: سيد الاستغفار."},{text:"حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ...",count:7,proof:"الدليل: كفاه الله ما أهمه."},{text:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ.",count:100,proof:"الدليل: حطت خطاياه."}],
     sleep:[{text:ayatAlKursi,count:1,proof:"الدليل: حفظ من الشيطان."},{text:surahAlIkhlas,count:3,proof:"الدليل: سنة."},{text:surahAlFalaq,count:3,proof:"الدليل: سنة."},{text:surahAnNas,count:3,proof:"الدليل: سنة."},{text:"بِاسْمِكَ رَبِّي وَضَعْتُ جَنْبِي...",count:1,proof:"الدليل: متفق عليه."},{text:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا.",count:1,proof:"الدليل: صحيح البخاري."}],
     prayer:[{text:"أَسْتَغْفِرُ اللَّهَ. (ثلاثاً)\nاللَّهُمَّ أَنْتَ السَّلَامُ...",count:1,proof:"الدليل: صحيح مسلم."},{text:ayatAlKursi,count:1,proof:"الدليل: لم يمنعه من دخول الجنة إلا الموت."},{text:"سُبْحَانَ اللَّهِ.",count:33,proof:"صحيح مسلم"},{text:"الْحَمْدُ لِلَّهِ.",count:33,proof:"صحيح مسلم"},{text:"اللَّهُ أَكْبَرُ.",count:33,proof:"صحيح مسلم"}],
-    ruqyah:[{text:"بِسْمِ اللَّهِ أَرْقِيكَ، مِنْ كُلِّ شَيْءٍ يُؤْذِيكَ...",count:3,proof:"صحيح مسلم"},{text:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ...",count:3,proof:"البخاري"}]
+    ruqyah:[{text:"بِسْمِ اللَّهِ أَرْقِيكَ...",count:3,proof:"صحيح مسلم"},{text:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ...",count:3,proof:"البخاري"}]
 };
 
 const hadithsList = [
-    {text:"إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى.",proof:"(متفق عليه)"},
-    {text:"كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ، ثَقِيلَتَانِ فِي الْمِيزَانِ... سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ.",proof:"(متفق عليه)"}
+    {text:"إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ...",proof:"(متفق عليه)"},
+    {text:"كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ...",proof:"(متفق عليه)"}
 ];
 
 let currentFontSize = 1.6;
@@ -22,7 +21,7 @@ let currentCategory = [], currentIndex = 0, currentRemainingCount = 0, originalC
 let masbahaCount = 0;
 let prayerTimerInterval;
 
-// --- الإشعارات المنبثقة الأنيقة ---
+// الإشعارات
 window.showToast = function(msg) {
     const toast = document.getElementById('toast-msg');
     toast.innerText = msg; toast.style.bottom = '20px';
@@ -33,12 +32,12 @@ window.requestNotificationPermission = function() {
     if ("Notification" in window) {
         Notification.requestPermission().then(permission => {
             if (permission === "granted") showToast("تم تفعيل الإشعارات بنجاح 🔔");
-            else showToast("عذراً، المتصفح يمنع الإشعارات لضمان الخصوصية.");
+            else showToast("عذراً، المتصفح يمنع الإشعارات.");
         });
-    } else showToast("متصفحك الحالي لا يدعم الإشعارات.");
+    } else showToast("متصفحك لا يدعم الإشعارات.");
 };
 
-// --- نظام التوجيه (الهاش راوتينج) ---
+// نظام التوجيه (الرجوع والريفريش)
 window.navigateTo = function(page) { window.location.hash = page; };
 window.addEventListener('hashchange', handleRouting);
 
@@ -46,7 +45,6 @@ function handleRouting() {
     let hash = window.location.hash.replace('#', '');
     if(!hash) hash = 'home';
     if(hash === 'azkarReader' && currentCategory.length === 0) hash = 'azkarMenu';
-    if(hash === 'quranReader' && !currentSurahNumber) hash = 'quranIndex';
 
     document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.classList.add('hidden'); });
 
@@ -77,8 +75,9 @@ window.onload = () => {
         document.getElementById('masbaha-count').innerText = masbahaCount;
     }
     
-    calculatePrayerTimes();
-    loadAudioReciters(); // تحميل شيوخ الصوتيات في الخلفية
+    // تشغيل الـ IP Fallback أول حاجة عشان السرعة
+    calculatePrayerTimes(false);
+    loadAudioReciters();
     
     if(!window.location.hash) window.location.hash = 'splash';
     else handleRouting();
@@ -87,7 +86,7 @@ window.onload = () => {
 window.toggleTheme = () => { document.body.classList.toggle('dark-theme'); localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light'); };
 window.changeFontSize = (step) => { currentFontSize = Math.max(1.2, Math.min(4.0, currentFontSize + step * 0.25)); document.documentElement.style.setProperty('--zikr-font-size', `${currentFontSize}rem`); localStorage.setItem('fontSize', currentFontSize); };
 
-// --- الأذكار ---
+// الأذكار
 window.startAzkar = (type) => { currentCategory = azkarData[type]; currentIndex = 0; navigateTo('azkarReader'); loadZikr(); };
 function loadZikr() {
     if(currentIndex >= currentCategory.length) return navigateTo('azkarMenu');
@@ -114,11 +113,11 @@ document.getElementById('azkar-screen').addEventListener('touchend', e => {
     else if(diff < -50 && currentIndex > 0) { document.getElementById('zikr-card').classList.add('swipe-out-left'); setTimeout(() => { currentIndex--; loadZikr(); }, 300); }
 });
 
-// --- السبحة ---
+// السبحة
 window.incrementMasbaha = () => { masbahaCount++; document.getElementById('masbaha-count').innerText = masbahaCount; localStorage.setItem('masbahaCount', masbahaCount); if(navigator.vibrate) navigator.vibrate(30); };
 window.resetMasbaha = () => { masbahaCount=0; document.getElementById('masbaha-count').innerText=masbahaCount; localStorage.setItem('masbahaCount',0); };
 
-// --- القبلة ---
+// القبلة
 function initQibla() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((pos) => {
@@ -138,28 +137,48 @@ function initQibla() {
     }
 }
 
-// --- المواقيت ---
+// --------------------------------------------------------
+// المواقيت (زر تحديث الموقع الدقيق + Nominatim API)
+// --------------------------------------------------------
+window.forceLocationUpdate = function(e) {
+    e.stopPropagation(); // عشان زرار الودجت نفسه ميشتغلش
+    showToast("جاري البحث عن موقعك الدقيق...");
+    calculatePrayerTimes(true); // forceHighAccuracy = true
+};
+
 async function fetchByIP() {
     try { let res = await fetch('https://ipapi.co/json/'); let data = await res.json(); return { lat: data.latitude, lng: data.longitude, city: data.city }; } catch(e) { return null; }
 }
-async function calculatePrayerTimes() {
+
+async function calculatePrayerTimes(forceHighAccuracy = false) {
     let lat, lng, cityText;
-    let ipData = await fetchByIP();
+    
+    // لو مش محتاجين دقة عالية، نجيب الـ IP أولاً عشان السرعة
+    if(!forceHighAccuracy) {
+        let ipData = await fetchByIP();
+        if(ipData) fetchAndDisplayPrayers(ipData.lat, ipData.lng, ipData.city);
+    }
+
     if(navigator.geolocation) {
+        // لو ضغط على زرار التحديث، هنطلب دقة عالية جداً من הـ GPS
+        let geoOptions = forceHighAccuracy ? { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 } : { timeout: 3000 };
+        
         navigator.geolocation.getCurrentPosition(async (pos) => {
             lat = pos.coords.latitude; lng = pos.coords.longitude;
             try {
                 let geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=ar`);
                 let geoData = await geoRes.json();
-                cityText = geoData.address.town || geoData.address.village || geoData.address.city || geoData.address.state || 'موقعك';
+                // Nominatim بيجيب المركز أو القرية بدقة متناهية
+                cityText = geoData.address.town || geoData.address.village || geoData.address.suburb || geoData.address.city || geoData.address.state || 'موقعك';
                 fetchAndDisplayPrayers(lat, lng, cityText);
-            } catch(e) { fetchAndDisplayPrayers(lat, lng, 'موقعك'); }
+                if(forceHighAccuracy) showToast(`تم تحديد موقعك بدقة: ${cityText}`);
+            } catch(e) { fetchAndDisplayPrayers(lat, lng, 'موقعك المحدث'); }
         }, () => {
-            if(ipData) fetchAndDisplayPrayers(ipData.lat, ipData.lng, ipData.city);
-            else document.getElementById('prayer-location').innerText = "يرجى تفعيل الموقع لمعرفة المواقيت.";
-        }, { timeout: 3000 });
-    } else if(ipData) { fetchAndDisplayPrayers(ipData.lat, ipData.lng, ipData.city); }
+            if(forceHighAccuracy) showToast("يرجى إعطاء صلاحية الموقع للمتصفح أولاً!");
+        }, geoOptions);
+    }
 }
+
 async function fetchAndDisplayPrayers(lat, lng, cityText) {
     try {
         document.getElementById('prayer-location').innerText = `📍 ${cityText}`;
@@ -186,7 +205,7 @@ async function fetchAndDisplayPrayers(lat, lng, cityText) {
         document.getElementById('next-prayer-name').innerText = `الصلاة القادمة: ${nextName}`;
         prayerTimerInterval = setInterval(() => {
             let diff = nextTime - new Date();
-            if(diff<=0) { clearInterval(prayerTimerInterval); calculatePrayerTimes(); }
+            if(diff<=0) { clearInterval(prayerTimerInterval); calculatePrayerTimes(false); }
             else {
                 let h=Math.floor((diff%(1000*60*60*24))/(1000*60*60)), m=Math.floor((diff%(1000*60*60))/(1000*60)), s=Math.floor((diff%(1000*60))/1000);
                 document.getElementById('prayer-countdown').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
@@ -195,7 +214,7 @@ async function fetchAndDisplayPrayers(lat, lng, cityText) {
     } catch(e) {}
 }
 
-// --- 8. المصحف المقروء (مستقل) ---
+// --- المصحف والصوتيات ---
 let surahListCached=[], currentSurahNumber=null;
 async function loadQuranIndex() {
     if(surahListCached.length===0) {
@@ -208,7 +227,6 @@ async function loadQuranIndex() {
                 b.onclick = () => { navigateTo('quranReader'); loadSurahReader(s.number, s.name); };
                 l.appendChild(b);
             });
-            // تجهيز قائمة السور للصوتيات برضو
             let audioSurahSelect = document.getElementById('surah-select-audio');
             surahListCached.forEach(s => {
                 let opt = document.createElement('option'); opt.value = s.number; opt.innerText = s.name;
@@ -234,7 +252,6 @@ window.loadSurahReader = async (number, name) => {
     }catch(e){ div.innerHTML="حدث خطأ في الاتصال بالإنترنت.";}
 };
 
-// --- 9. الصوتيات (أكثر من ٢٠٠ قارئ - شغالة في الخلفية) ---
 let allAudioReciters = [];
 async function loadAudioReciters() {
     if(allAudioReciters.length > 0) return;
@@ -249,11 +266,7 @@ async function loadAudioReciters() {
                 sel.appendChild(opt);
             });
         }});
-        
-        // استرجاع آخر شيخ محفوظ
-        if(localStorage.getItem('savedReciter')) {
-            sel.value = localStorage.getItem('savedReciter');
-        }
+        if(localStorage.getItem('savedReciter')) sel.value = localStorage.getItem('savedReciter');
     } catch(e){}
     if(surahListCached.length===0) loadQuranIndex();
 }
@@ -277,16 +290,14 @@ window.updateAudioSurah = () => { playSelectedAudio(); };
 function playSelectedAudio() {
     let server = document.getElementById('reciter-select').value;
     let surahNum = document.getElementById('surah-select-audio').value;
-    
     if(!server || !surahNum) return;
     if(!server.endsWith('/')) server += '/';
     
     let audioPlayer = document.getElementById('global-quran-audio');
     let title = document.getElementById('now-playing-title');
-    
     let surahName = document.getElementById('surah-select-audio').options[document.getElementById('surah-select-audio').selectedIndex].text;
-    title.innerText = `سورة ${surahName}`;
     
+    title.innerText = `سورة ${surahName}`;
     audioPlayer.src = `${server}${padZero(surahNum)}.mp3`;
     audioPlayer.play();
 }
