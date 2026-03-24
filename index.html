@@ -35,7 +35,10 @@
                     <span id="next-prayer-name">جاري حساب الصلاة...</span>
                     <span id="prayer-countdown">00:00:00</span>
                 </div>
-                <div class="prayer-location" id="prayer-location">📍 جاري تحديد الموقع الدقيق...</div>
+                <div class="prayer-location" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                    <span id="prayer-location">📍 جاري تحديد الموقع...</span>
+                    <button onclick="forceLocationUpdate(event)" style="background:none; border:none; color:#fff; cursor:pointer; font-size:1.1rem;" title="تحديث الموقع لـ القنطرة غرب بدقة">🔄</button>
+                </div>
             </div>
 
             <h1 class="title" style="font-size: 2.8rem; margin-top: 15px;">موسوعة المسلم</h1>
