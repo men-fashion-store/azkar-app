@@ -21,7 +21,7 @@
     </div>
 
     <div id="home-screen" class="screen active">
-        <div class="content">
+        <div class="home-content">
             <h1 class="title">أذكار المسلم</h1>
             <p class="subtitle">صُنِعَ لِوَجْهِ الله</p>
             
@@ -33,25 +33,26 @@
     </div>
 
     <div id="azkar-screen" class="screen hidden">
-        <div class="top-bar">
-            <button class="back-btn" onclick="goHome()">✖ إنهاء</button>
-            <span id="progress-text" class="progress-text">١ / ٢٠</span>
-        </div>
-
-        <div class="progress-container">
-            <div id="progress-bar" class="progress-bar"></div>
+        
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">✖ إنهاء</button>
+                <span id="progress-text" class="progress-text">١ / ٢٠</span>
+            </div>
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
         </div>
         
         <div id="zikr-card" class="paper-card">
-            <p id="zikr-text">جاري التحميل...</p>
+            <div id="zikr-text">جاري التحميل...</div>
             <p id="zikr-proof" class="proof-text"></p>
             
             <button id="counter-btn" class="counter-circle">
                 <span id="zikr-count">١</span>
             </button>
+            <p class="instructions">اضغط على الدائرة للعد، أو اسحب للتخطي</p>
         </div>
-        
-        <p class="instructions">اضغط على الدائرة للعد، أو اسحب للتخطي</p>
     </div>
 
     <script type="module">
