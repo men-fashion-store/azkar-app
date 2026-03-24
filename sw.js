@@ -1,4 +1,4 @@
-const CACHE_NAME = 'azkar-quran-app-v8';
+const CACHE_NAME = 'islamic-encyclopedia-v10';
 const urlsToCache = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const urlsToCache = [
 ];
 
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil( caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)) );
 });
 
@@ -15,12 +16,10 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // استثناء ملفات الصوت من الكاش عشان مبتبوظش مساحة الجهاز
-  if (url.pathname.endsWith('.mp3')) {
-      return; 
-  }
+  // استثناء ملفات الصوتيات (القرآن) لتوفير المساحة
+  if (url.pathname.endsWith('.mp3')) return; 
 
-  // كاش للقرآن (النصوص فقط) عشان يشتغل بدون نت
+  // كاش ذكي لنصوص القرآن عشان تشتغل أوفلاين
   if (url.origin === 'https://api.alquran.cloud') {
     event.respondWith(
       caches.match(req).then(cachedRes => {
@@ -50,4 +49,5 @@ self.addEventListener('activate', event => {
       );
     })
   );
+  self.clients.claim();
 });
