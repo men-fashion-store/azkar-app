@@ -30,7 +30,6 @@
 
     <div id="home-screen" class="screen hidden">
         <div class="home-content">
-            
             <div class="prayer-widget" onclick="openPrayerTimes()">
                 <div class="prayer-info">
                     <span id="next-prayer-name">جاري حساب الصلاة...</span>
@@ -148,8 +147,10 @@
                 <select id="reciter-select" onchange="changeReciterAndPlay()"><option value="">جاري التحميل...</option></select>
                 <div class="audio-controls-custom">
                     <button class="play-btn" id="play-pause-btn" onclick="togglePlayPause()">▶ تشغيل التلاوة</button>
+                    <button class="stop-btn" onclick="stopAudio()">⏹ إيقاف</button>
                 </div>
                 <audio id="quran-audio" style="display:none;"></audio>
+                <p class="instructions" style="text-align:center; font-size:0.75rem; margin-top:5px;">(اضغط على أي آية لبدء القراءة منها)</p>
             </div>
         </div>
         <div class="paper-card quran-paper">
