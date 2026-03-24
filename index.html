@@ -24,29 +24,30 @@
             <h2 class="splash-title">حديث اليوم</h2>
             <p id="splash-hadith" class="splash-text">جاري التحميل...</p>
             <p id="splash-proof" class="proof-text"></p>
-            <button class="btn quran-main-btn" style="margin-top: 25px; width: 100%;" onclick="hideSplash()">الدخول للموسوعة</button>
+            <button class="btn quran-main-btn" style="margin-top: 25px; width: 100%;" onclick="navigateTo('home')">الدخول للموسوعة</button>
         </div>
     </div>
 
     <div id="home-screen" class="screen hidden">
         <div class="home-content">
-            <div class="prayer-widget" onclick="openPrayerTimes()">
+            
+            <div class="prayer-widget" onclick="navigateTo('prayerTimes')">
                 <div class="prayer-info">
                     <span id="next-prayer-name">جاري حساب الصلاة...</span>
                     <span id="prayer-countdown">00:00:00</span>
                 </div>
-                <div class="prayer-location" id="prayer-location">📍 جاري تحديد الموقع...</div>
+                <div class="prayer-location" id="prayer-location">📍 جاري تحديد الموقع السريع...</div>
             </div>
 
             <h1 class="title" style="font-size: 2.8rem; margin-top: 15px;">موسوعة المسلم</h1>
             <p class="subtitle" style="margin-bottom: 25px;">صُنِعَ لِوَجْهِ الله</p>
             
             <div class="main-grid">
-                <button class="grid-btn" onclick="openQuranIndex()">📖<br>المصحف</button>
-                <button class="grid-btn" onclick="openAzkarMenu()">📿<br>الأذكار</button>
-                <button class="grid-btn" onclick="openMasbaha()">👆<br>السبحة</button>
-                <button class="grid-btn" onclick="openPrayerTimes()">🕌<br>المواقيت</button>
-                <button class="grid-btn" onclick="openQibla()" style="grid-column: 1 / -1;">🕋 تحديد القبلة</button>
+                <button class="grid-btn" onclick="navigateTo('quranIndex')">📖<br>المصحف</button>
+                <button class="grid-btn" onclick="navigateTo('azkarMenu')">📿<br>الأذكار</button>
+                <button class="grid-btn" onclick="navigateTo('masbaha')">👆<br>السبحة</button>
+                <button class="grid-btn" onclick="navigateTo('prayerTimes')">🕌<br>المواقيت</button>
+                <button class="grid-btn" onclick="navigateTo('qibla')" style="grid-column: 1 / -1;">🕋 تحديد القبلة</button>
             </div>
         </div>
     </div>
@@ -54,7 +55,7 @@
     <div id="azkar-categories-screen" class="screen hidden">
         <div class="header-wrapper">
             <div class="top-bar">
-                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <button class="back-btn" onclick="window.history.back()">✖ رجوع</button>
                 <span class="progress-text">حصن المسلم</span>
             </div>
         </div>
@@ -70,7 +71,7 @@
     <div id="azkar-screen" class="screen hidden">
         <div class="header-wrapper">
             <div class="top-bar">
-                <button class="back-btn" onclick="openAzkarMenu()">✖ رجوع</button>
+                <button class="back-btn" onclick="window.history.back()">✖ رجوع</button>
                 <span id="progress-text" class="progress-text">١ من ٢٠</span>
             </div>
             <div class="progress-container"><div id="progress-bar" class="progress-bar"></div></div>
@@ -86,7 +87,7 @@
     <div id="masbaha-screen" class="screen hidden">
         <div class="header-wrapper">
             <div class="top-bar">
-                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <button class="back-btn" onclick="window.history.back()">✖ رجوع</button>
                 <span class="progress-text">السبحة الإلكترونية</span>
             </div>
         </div>
@@ -100,7 +101,7 @@
     <div id="prayer-times-screen" class="screen hidden">
         <div class="header-wrapper">
             <div class="top-bar">
-                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <button class="back-btn" onclick="window.history.back()">✖ رجوع</button>
                 <span class="progress-text">مواقيت الصلاة</span>
             </div>
         </div>
@@ -113,7 +114,7 @@
     <div id="qibla-screen" class="screen hidden">
         <div class="header-wrapper">
             <div class="top-bar">
-                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <button class="back-btn" onclick="window.history.back()">✖ رجوع</button>
                 <span class="progress-text">اتجاه القبلة</span>
             </div>
         </div>
@@ -129,7 +130,7 @@
     <div id="quran-index-screen" class="screen hidden">
         <div class="header-wrapper">
             <div class="top-bar">
-                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <button class="back-btn" onclick="window.history.back()">✖ رجوع</button>
                 <span class="progress-text">فهرس السور</span>
             </div>
         </div>
@@ -139,15 +140,15 @@
     <div id="quran-reader-screen" class="screen hidden">
         <div class="header-wrapper">
             <div class="top-bar">
-                <button class="back-btn" onclick="goBackToQuranIndex()">✖ الفهرس</button>
+                <button class="back-btn" onclick="window.history.back()">✖ الفهرس</button>
                 <span id="current-surah-name" class="progress-text">سورة</span>
             </div>
             <div class="audio-player-container">
-                <input type="text" id="reciter-search" placeholder="🔍 ابحث عن قارئ (مثال: المنشاوي، عبد الباسط)" onkeyup="filterReciters()">
-                <select id="reciter-select" onchange="changeReciterAndPlay()"><option value="">جاري التحميل...</option></select>
+                <select id="reciter-select" onchange="changeReciterAndPlay()">
+                    <option value="">جاري تحميل القراء...</option>
+                </select>
                 <div class="audio-controls-custom">
                     <button class="play-btn" id="play-pause-btn" onclick="togglePlayPause()">▶ تشغيل التلاوة</button>
-                    <button class="stop-btn" onclick="stopAudio()">⏹ إيقاف</button>
                 </div>
                 <audio id="quran-audio" style="display:none;"></audio>
                 <p class="instructions" style="text-align:center; font-size:0.75rem; margin-top:5px;">(اضغط على أي آية لبدء القراءة منها)</p>
@@ -156,6 +157,10 @@
         <div class="paper-card quran-paper">
             <div id="quran-text" class="quran-text-container">جاري تحميل السورة...</div>
         </div>
+    </div>
+
+    <div id="toast-msg" style="position:fixed; bottom:-100px; left:50%; transform:translateX(-50%); background:var(--accent-color); color:#fff; padding:15px 20px; border-radius:10px; z-index:1000; transition:bottom 0.4s; font-family:'Tajawal'; font-weight:bold; min-width:280px; text-align:center;">
+        رسالة
     </div>
 
     <script type="module">
