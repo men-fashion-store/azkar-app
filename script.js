@@ -1,4 +1,3 @@
-// تم إضافة الاستعاذة والبسملة في سطور منفصلة بفضل \n
 const ayatAlKursi = "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ\nبِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ﴾ [البقرة: 255]";
 const surahAlIkhlas = "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾";
 const surahAlFalaq = "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾";
@@ -82,7 +81,7 @@ window.toggleTheme = function() {
 };
 
 window.changeFontSize = function(step) {
-    if (step > 0 && currentFontSize < 2.8) currentFontSize += 0.25;
+    if (step > 0 && currentFontSize < 4.0) currentFontSize += 0.25;
     if (step < 0 && currentFontSize > 1.2) currentFontSize -= 0.25;
     document.documentElement.style.setProperty('--zikr-font-size', `${currentFontSize}rem`);
     if(zikrText) zikrText.style.fontSize = `${currentFontSize}rem`;
@@ -125,7 +124,9 @@ function loadZikr() {
     
     const progressPercentage = ((currentIndex + 1) / currentCategory.length) * 100;
     progressBar.style.width = `${progressPercentage}%`;
-    progressText.innerText = `${currentIndex + 1} / ${currentCategory.length}`;
+    
+    // تم ضبط العداد ليقرأ (1 من 24) عشان يليق مع العربي
+    progressText.innerText = `${currentIndex + 1} من ${currentCategory.length}`;
     
     zikrCard.className = "paper-card swipe-in";
     setTimeout(() => zikrCard.classList.remove('swipe-in'), 300);
