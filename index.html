@@ -1,1 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أذكار المسلم</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
 
+    <div id="home-screen" class="screen active">
+        <div class="content">
+            <h1 class="title">أذكار المسلم</h1>
+            <p class="subtitle">صُنِعَ لِوَجْهِ الله</p>
+            
+            <div class="buttons-container">
+                <button class="btn" onclick="startAzkar('morning')">أذكار الصباح</button>
+                <button class="btn" onclick="startAzkar('evening')">أذكار المساء</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="azkar-screen" class="screen hidden">
+        <div class="top-bar">
+            <button class="back-btn" onclick="goHome()">✖ إنهاء</button>
+            <span id="progress-text" class="progress-text">١ / ٢٠</span>
+        </div>
+
+        <div class="progress-container">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        
+        <div id="zikr-card" class="paper-card">
+            <p id="zikr-text">جاري التحميل...</p>
+            <p id="zikr-proof" class="proof-text"></p>
+            
+            <button id="counter-btn" class="counter-circle">
+                <span id="zikr-count">١</span>
+            </button>
+        </div>
+        
+        <p class="instructions">اضغط على الدائرة للعد، أو اسحب للتخطي</p>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyApCrVYHJHiPIUCTHW6ChYyXOmRpUCnYwM",
+            authDomain: "azkar-app-9219d.firebaseapp.com",
+            projectId: "azkar-app-9219d",
+            storageBucket: "azkar-app-9219d.firebasestorage.app",
+            messagingSenderId: "208264212055",
+            appId: "1:208264212055:web:6486a7fd5f37f6ba057d12",
+            measurementId: "G-7NBS95TZ1Q"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
