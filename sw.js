@@ -1,4 +1,4 @@
-const CACHE_NAME = 'encyclopedia-v14'; // غيرنا الرقم هنا عشان نمسح القديم إجبارياً
+const CACHE_NAME = 'encyclopedia-v15'; // غيرنا الرقم هنا عشان نمسح القديم إجبارياً
 const urlsToCache = [
   './',
   './index.html',
