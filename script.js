@@ -1,8 +1,8 @@
-// القرآن الكريم بالرسم العثماني الدقيق
-const ayatAlKursi = "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ: ﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ﴾ [البقرة: 255]";
-const surahAlIkhlas = "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ: ﴿قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾";
-const surahAlFalaq = "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ: ﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾";
-const surahAnNas = "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ: ﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ﴾";
+// تم إضافة الاستعاذة والبسملة في سطور منفصلة بفضل \n
+const ayatAlKursi = "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ\nبِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ﴾ [البقرة: 255]";
+const surahAlIkhlas = "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾";
+const surahAlFalaq = "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾";
+const surahAnNas = "بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿قُلْ أَعُوذُ بِرَبِّ النَّاسِ ۝ مَلِكِ النَّاسِ ۝ إِلَهِ النَّاسِ ۝ مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ ۝ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ ۝ مِنَ الْجِنَّةِ وَالنَّاسِ﴾";
 
 const azkarData = {
     morning: [
@@ -75,7 +75,6 @@ const progressBar = document.getElementById('progress-bar');
 const progressText = document.getElementById('progress-text');
 const counterBtn = document.getElementById('counter-btn');
 
-// --- جعل الدوال عامة عشان تشتغل مباشرة من أزرار الـ HTML ---
 window.toggleTheme = function() {
     document.body.classList.toggle('dark-theme');
     const isDark = document.body.classList.contains('dark-theme');
@@ -83,22 +82,16 @@ window.toggleTheme = function() {
 };
 
 window.changeFontSize = function(step) {
-    // زيادة حجم الخط أو تصغيره
     if (step > 0 && currentFontSize < 2.8) currentFontSize += 0.25;
     if (step < 0 && currentFontSize > 1.2) currentFontSize -= 0.25;
-    
-    // تطبيق الخط فوراً على الشاشة
     document.documentElement.style.setProperty('--zikr-font-size', `${currentFontSize}rem`);
     if(zikrText) zikrText.style.fontSize = `${currentFontSize}rem`;
-    
-    // حفظ الإعداد عشان لما يقفل التطبيق ويفتحه يلاقيه زي ما هو
     localStorage.setItem('fontSize', currentFontSize);
 };
 
 window.startAzkar = function(type) {
     currentCategory = azkarData[type];
     currentIndex = 0;
-    
     homeScreen.classList.remove('active'); homeScreen.classList.add('hidden');
     azkarScreen.classList.remove('hidden'); azkarScreen.classList.add('active');
     loadZikr();
@@ -109,7 +102,6 @@ window.goHome = function() {
     homeScreen.classList.remove('hidden'); homeScreen.classList.add('active');
 };
 
-// استرجاع الإعدادات عند فتح التطبيق
 window.onload = () => {
     if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-theme');
     const savedSize = localStorage.getItem('fontSize');
@@ -141,11 +133,9 @@ function loadZikr() {
 
 counterBtn.addEventListener('click', (e) => {
     e.stopPropagation(); 
-    
     if (currentRemainingCount > 1) {
         currentRemainingCount--;
         zikrCount.innerText = currentRemainingCount;
-        
         if (navigator.vibrate) {
             let passedCount = originalCount - currentRemainingCount;
             if (originalCount > 50 && (passedCount === 33 || passedCount === 66 || passedCount === 99)) {
