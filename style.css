@@ -9,12 +9,9 @@
     --zikr-font-size: 1.6rem; 
 }
 
-/* الوضع الليلي */
 body.dark-theme {
-    --bg-color: #121212;
-    --card-bg: #1E1E1E;
-    --text-color: #E0E0E0;
-    --accent-color: #BCAAA4;
+    --bg-color: #121212; --card-bg: #1E1E1E;
+    --text-color: #E0E0E0; --accent-color: #BCAAA4;
     --progress-bg: #333333;
 }
 
@@ -22,17 +19,11 @@ body.dark-theme {
 
 body {
     font-family: 'Tajawal', sans-serif; background-color: var(--bg-color);
-    color: var(--text-color); 
-    min-height: 100vh; 
-    overflow-x: hidden; 
-    user-select: none;
+    color: var(--text-color); min-height: 100vh; overflow-x: hidden; user-select: none;
     transition: background-color 0.3s, color 0.3s;
 }
 
-/* أزرار الإعدادات الثابتة في اليسار */
-.settings-bar {
-    position: fixed; top: 15px; left: 15px; z-index: 100; display: flex; gap: 8px;
-}
+.settings-bar { position: fixed; top: 15px; left: 15px; z-index: 100; display: flex; gap: 8px; }
 .settings-btn {
     background: var(--card-bg); border: 1px solid var(--accent-color);
     color: var(--text-color); border-radius: 50%; width: 42px; height: 42px;
@@ -41,82 +32,74 @@ body {
 }
 .settings-btn:active { transform: scale(0.9); }
 
-.screen {
-    width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px;
-}
+.screen { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; }
 .hidden { display: none !important; }
 .active { display: flex; animation: fadeIn 0.4s ease; }
-
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-.home-content { margin-top: 25vh; display: flex; flex-direction: column; align-items: center; width: 100%; }
-.title { font-size: 3.5rem; font-family: 'Amiri', serif; margin-bottom: 5px; color: var(--accent-color); text-align: center;}
-.subtitle { font-size: 1.2rem; text-align: center; margin-bottom: 50px; color: var(--text-color); opacity: 0.8;}
+.splash-bg { background-color: var(--bg-color); justify-content: center;}
+.splash-content {
+    text-align: center; width: 90%; max-width: 500px; padding: 40px 20px; border-radius: 20px;
+    background-color: var(--card-bg); box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid rgba(139, 90, 43, 0.1);
+}
+.splash-title { color: var(--accent-color); font-family: 'Amiri', serif; font-size: 2.5rem; margin-bottom: 20px; }
+.splash-text { font-family: 'Amiri', serif; font-size: var(--zikr-font-size); line-height: 1.8; color: var(--text-color); margin-bottom: 10px; }
 
-.buttons-container { display: flex; flex-direction: column; gap: 20px; width: 85%; max-width: 320px; }
+.home-content { margin-top: 15vh; display: flex; flex-direction: column; align-items: center; width: 100%; padding-bottom: 30px;}
+.title { font-size: 3.5rem; font-family: 'Amiri', serif; margin-bottom: 5px; color: var(--accent-color); text-align: center;}
+.subtitle { font-size: 1.2rem; text-align: center; margin-bottom: 40px; color: var(--text-color); opacity: 0.8;}
+
+.buttons-container { display: flex; flex-direction: column; gap: 15px; width: 85%; max-width: 320px; }
 .btn {
     background-color: var(--card-bg); color: var(--accent-color); border: 2px solid var(--accent-color);
-    padding: 18px; font-size: 1.3rem; font-weight: bold; font-family: 'Tajawal', sans-serif;
+    padding: 16px; font-size: 1.3rem; font-weight: bold; font-family: 'Tajawal', sans-serif;
     border-radius: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.2s;
 }
 .btn:active { transform: scale(0.96); background-color: var(--accent-color); color: var(--bg-color); }
+.quran-main-btn { background-color: var(--accent-color); color: var(--bg-color); margin-top: 10px;}
 
-/* الشريط العلوي اللاصق */
 .header-wrapper {
     position: sticky; top: 0; width: 100%; background-color: var(--bg-color);
-    padding: 20px 0; z-index: 50; display: flex; flex-direction: column; align-items: center;
+    padding: 20px 0 10px 0; z-index: 50; display: flex; flex-direction: column; align-items: center;
     box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: background-color 0.3s;
 }
-
-/* التعديل السحري لترتيب الأزرار ومنع التداخل */
 .top-bar { 
-    position: relative;
-    width: 90%; max-width: 600px; 
-    display: flex; justify-content: flex-end; /* وضع زر إنهاء في اليمين دايماً */
-    align-items: center; margin-bottom: 30px; /* مساحة لعداد الأذكار تحتها */
-    min-height: 35px;
+    position: relative; width: 90%; max-width: 600px; 
+    display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px; min-height: 35px;
 }
 .back-btn { background: none; border: none; color: var(--text-color); font-size: 1.1rem; font-weight: bold; cursor: pointer; }
-
-/* وضع العداد في اليسار بشكل لا يتداخل مع الأزرار */
-.progress-text { 
-    position: absolute; left: 0; bottom: -25px; 
-    font-weight: bold; color: var(--accent-color); direction: rtl; font-size: 1.05rem;
-}
-
+.progress-text { position: absolute; left: 0; bottom: -20px; font-weight: bold; color: var(--accent-color); direction: rtl; font-size: 1.05rem; }
 .progress-container { width: 90%; max-width: 600px; height: 6px; background-color: var(--progress-bg); border-radius: 10px; overflow: hidden; }
 .progress-bar { height: 100%; background-color: var(--accent-color); width: 0%; transition: width 0.3s ease; }
 
-/* الورقة الديناميكية */
+.audio-player-container { width: 90%; max-width: 600px; margin-top: 15px; display: flex; flex-direction: column; gap: 10px;}
+#reciter-select { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--accent-color); background-color: var(--card-bg); color: var(--text-color); font-family: 'Tajawal', sans-serif; font-size: 1rem; outline: none; font-weight: bold;}
+#quran-audio { width: 100%; height: 40px; border-radius: 10px; outline: none; }
+
 .paper-card {
-    background-color: var(--card-bg); 
-    width: 95%; max-width: 650px; 
-    height: auto; min-height: 50vh; 
+    background-color: var(--card-bg); width: 95%; max-width: 650px; height: auto; min-height: 50vh; 
     padding: 30px 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    display: flex; flex-direction: column; align-items: center; text-align: center;
-    margin-top: 20px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 15px;
 }
+.quran-paper { padding: 30px 15px; }
 
-#zikr-text { 
-    font-family: 'Amiri', serif; font-size: var(--zikr-font-size); line-height: 2.0; 
-    margin-bottom: 25px; width: 100%; display: block; 
-    transition: font-size 0.3s ease; white-space: pre-line; color: var(--text-color);
-}
-
+#zikr-text { font-family: 'Amiri', serif; font-size: var(--zikr-font-size); line-height: 2.0; margin-bottom: 25px; width: 100%; display: block; transition: font-size 0.3s ease; white-space: pre-line; color: var(--text-color);}
 .proof-text { font-size: 0.95rem; color: #798777; margin-top: 10px; padding-top: 15px; border-top: 1px dashed var(--accent-color); font-family: 'Tajawal', sans-serif; line-height: 1.5; width: 100%; opacity: 0.8;}
 
-.counter-circle {
-    width: 80px; height: 80px; border-radius: 50%; background-color: var(--accent-color); color: var(--bg-color);
-    border: none; font-size: 2rem; font-weight: bold; font-family: 'Tajawal', sans-serif; flex-shrink: 0;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center;
-    cursor: pointer; transition: transform 0.1s; margin-top: 25px;
-}
+.counter-circle { width: 80px; height: 80px; border-radius: 50%; background-color: var(--accent-color); color: var(--bg-color); border: none; font-size: 2rem; font-weight: bold; font-family: 'Tajawal', sans-serif; flex-shrink: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.1s; margin-top: 25px;}
 .counter-circle:active { transform: scale(0.9); }
-
 .instructions { margin-top: 15px; font-size: 0.85rem; color: var(--text-color); opacity: 0.6; }
+
+.surah-grid-container { width: 95%; max-width: 700px; margin-top: 20px; padding-bottom: 30px;}
+.surah-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; width: 100%; }
+.surah-card-btn { background-color: var(--card-bg); border: 1px solid var(--progress-bg); color: var(--text-color); padding: 15px 10px; border-radius: 12px; cursor: pointer; font-family: 'Amiri', serif; font-size: 1.3rem; font-weight: bold; transition: 0.2s; display: flex; align-items: center; justify-content: flex-start; gap: 10px;}
+.surah-card-btn:active { transform: scale(0.95); background-color: var(--accent-color); color: var(--bg-color); }
+.surah-number { font-family: 'Tajawal', sans-serif; font-size: 0.9rem; background: var(--progress-bg); color: var(--accent-color); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;}
+
+.quran-text-container { font-family: 'Amiri', serif; font-size: var(--zikr-font-size); line-height: 2.3; text-align: justify; direction: rtl; width: 100%; transition: font-size 0.3s; color: var(--text-color);}
+.basmalah { text-align: center; font-size: calc(var(--zikr-font-size) + 0.4rem); color: var(--accent-color); margin-bottom: 25px; border-bottom: 1px dashed var(--accent-color); padding-bottom: 15px; width: 100%;}
+.ayah-symbol { color: var(--accent-color); font-size: 0.9em; margin: 0 5px; }
 
 .swipe-out-right { transform: translateX(100vw) rotate(15deg); opacity: 0; }
 .swipe-out-left { transform: translateX(-100vw) rotate(-15deg); opacity: 0; }
 .swipe-in { animation: slideIn 0.3s forwards; }
-@keyframes slideIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
