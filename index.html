@@ -2,11 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موسوعة المسلم</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>موسوعة المسلم الشاملة</title>
     <meta property="og:title" content="موسوعة المسلم الشاملة">
     <meta property="og:description" content="قرآن، أذكار، مواقيت صلاة، سبحة، وقبلة. صُنِعَ لِوَجْهِ الله.">
-    <meta property="og:type" content="website">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
@@ -16,7 +15,7 @@
         <button class="settings-btn" onclick="toggleTheme()" title="الوضع الليلي">🌙</button>
         <button class="settings-btn" onclick="changeFontSize(1)" title="تكبير الخط">A+</button>
         <button class="settings-btn" onclick="changeFontSize(-1)" title="تصغير الخط">A-</button>
-        <button class="settings-btn" onclick="requestNotificationPermission()" title="تفعيل الإشعارات">🔔</button>
+        <button class="settings-btn" onclick="requestLocationPermission()" title="تحديث الموقع بدقة">📍</button>
     </div>
 
     <div id="splash-screen" class="screen active splash-bg">
@@ -24,7 +23,7 @@
             <h2 class="splash-title">حديث اليوم</h2>
             <p id="splash-hadith" class="splash-text">جاري التحميل...</p>
             <p id="splash-proof" class="proof-text"></p>
-            <button class="btn quran-main-btn" style="margin-top: 25px; width: 100%;" onclick="navigateTo('home')">الدخول للموسوعة</button>
+            <button class="btn quran-main-btn" style="margin-top: 25px;" onclick="navigateTo('home')">الدخول للموسوعة</button>
         </div>
     </div>
 
@@ -32,17 +31,14 @@
         <div class="home-content">
             <div class="prayer-widget" onclick="navigateTo('prayerTimes')">
                 <div class="prayer-info">
-                    <span id="next-prayer-name">جاري حساب الصلاة...</span>
+                    <span id="next-prayer-name">جاري الحساب...</span>
                     <span id="prayer-countdown">00:00:00</span>
                 </div>
-                <div class="prayer-location" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
-                    <span id="prayer-location">📍 جاري تحديد الموقع...</span>
-                    <button onclick="forceLocationUpdate(event)" style="background:none; border:none; color:#fff; cursor:pointer; font-size:1.1rem;" title="تحديث الموقع لـ القنطرة غرب بدقة">🔄</button>
-                </div>
+                <div class="prayer-location" id="prayer-location">📍 جاري تحديد الموقع...</div>
             </div>
 
-            <h1 class="title" style="font-size: 2.8rem; margin-top: 15px;">موسوعة المسلم</h1>
-            <p class="subtitle" style="margin-bottom: 25px;">صُنِعَ لِوَجْهِ الله</p>
+            <h1 class="title">موسوعة المسلم</h1>
+            <p class="subtitle">صُنِعَ لِوَجْهِ الله</p>
             
             <div class="main-grid">
                 <button class="grid-btn" onclick="navigateTo('quranIndex')">📖<br>المصحف</button>
@@ -55,44 +51,36 @@
         </div>
     </div>
 
-    <div id="azkar-categories-screen" class="screen hidden">
+    <div id="azkarMenu-screen" class="screen hidden">
         <div class="header-wrapper">
-            <div class="top-bar">
-                <button class="back-btn" onclick="navigateTo('home')">🔙 رجوع</button>
-                <span class="progress-text">حصن المسلم</span>
-            </div>
+            <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
+            <span class="screen-title">حصن المسلم</span>
         </div>
-        <div class="buttons-container" style="margin-top: 30px;">
+        <div class="buttons-container">
             <button class="btn" onclick="startAzkar('morning')">☀️ أذكار الصباح</button>
             <button class="btn" onclick="startAzkar('evening')">🌙 أذكار المساء</button>
             <button class="btn" onclick="startAzkar('sleep')">💤 أذكار النوم</button>
-            <button class="btn" onclick="startAzkar('prayer')">🕌 أذكار بعد الصلاة</button>
+            <button class="btn" onclick="startAzkar('prayer')">🕌 أذكار الصلاة</button>
             <button class="btn" onclick="startAzkar('ruqyah')">🛡️ الرقية الشرعية</button>
         </div>
     </div>
 
-    <div id="azkar-screen" class="screen hidden">
+    <div id="azkarReader-screen" class="screen hidden">
         <div class="header-wrapper">
-            <div class="top-bar">
-                <button class="back-btn" onclick="navigateTo('azkarMenu')">🔙 رجوع للأقسام</button>
-                <span id="progress-text" class="progress-text">١ من ٢٠</span>
-            </div>
+            <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
             <div class="progress-container"><div id="progress-bar" class="progress-bar"></div></div>
+            <span id="progress-text" class="progress-text-under">١ من ٢٠</span>
         </div>
         <div id="zikr-card" class="paper-card">
-            <div id="zikr-text">جاري التحميل...</div>
+            <div id="zikr-text">...</div>
             <p id="zikr-proof" class="proof-text"></p>
             <button id="counter-btn" class="counter-circle"><span id="zikr-count">١</span></button>
-            <p class="instructions">اضغط على الدائرة للعد، أو اسحب للتخطي</p>
         </div>
     </div>
 
     <div id="masbaha-screen" class="screen hidden">
         <div class="header-wrapper">
-            <div class="top-bar">
-                <button class="back-btn" onclick="navigateTo('home')">🔙 رجوع</button>
-                <span class="progress-text">السبحة الإلكترونية</span>
-            </div>
+            <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
         </div>
         <div class="paper-card" style="justify-content: center; min-height: 60vh;">
             <div class="masbaha-display" id="masbaha-count">0</div>
@@ -101,92 +89,68 @@
         </div>
     </div>
 
-    <div id="prayer-times-screen" class="screen hidden">
-        <div class="header-wrapper">
-            <div class="top-bar">
-                <button class="back-btn" onclick="navigateTo('home')">🔙 رجوع</button>
-                <span class="progress-text">مواقيت الصلاة</span>
-            </div>
-        </div>
-        <div class="paper-card" style="padding: 20px;">
-            <h2 style="color: var(--accent-color); margin-bottom: 20px; font-family: 'Amiri';">مواقيت اليوم</h2>
-            <div id="prayer-times-list" style="width: 100%;">جاري تحميل المواقيت...</div>
-        </div>
-    </div>
-
     <div id="qibla-screen" class="screen hidden">
         <div class="header-wrapper">
-            <div class="top-bar">
-                <button class="back-btn" onclick="navigateTo('home')">🔙 رجوع</button>
-                <span class="progress-text">اتجاه القبلة</span>
-            </div>
+            <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
         </div>
         <div class="paper-card" style="justify-content: center; min-height: 60vh;">
-            <p style="margin-bottom: 30px; font-size: 1rem; color: var(--text-color);">ضع الهاتف بشكل مسطح للحصول على أدق نتيجة</p>
             <div class="compass-circle" id="compass-circle">
                 <div class="qibla-pointer" id="qibla-pointer">🕋</div>
             </div>
-            <p id="qibla-status" style="margin-top: 30px; font-weight: bold; color: var(--accent-color);">جاري تحديد الاتجاه...</p>
+            <p id="qibla-status" style="margin-top:20px;">جاري التحديد...</p>
+            <button class="btn" style="width:auto; padding:10px 20px;" onclick="requestLocationPermission()">تحسين الدقة 📍</button>
         </div>
     </div>
 
-    <div id="quran-index-screen" class="screen hidden">
+    <div id="quranIndex-screen" class="screen hidden">
         <div class="header-wrapper">
-            <div class="top-bar">
-                <button class="back-btn" onclick="navigateTo('home')">🔙 رجوع</button>
-                <span class="progress-text">فهرس المصحف</span>
-            </div>
+            <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
+            <span class="screen-title">فهرس المصحف</span>
         </div>
         <div class="surah-grid-container"><div id="surah-list" class="surah-grid"></div></div>
     </div>
 
-    <div id="quran-reader-screen" class="screen hidden">
+    <div id="quranReader-screen" class="screen hidden">
         <div class="header-wrapper">
-            <div class="top-bar">
-                <button class="back-btn" onclick="navigateTo('quranIndex')">🔙 الفهرس</button>
-                <span id="current-surah-name" class="progress-text">سورة</span>
-            </div>
+            <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 الفهرس</button></div>
+            <span id="current-surah-name" class="screen-title">سورة</span>
         </div>
         <div class="paper-card quran-paper">
-            <div id="quran-text" class="quran-text-container">جاري تحميل السورة...</div>
+            <div id="quran-text" class="quran-text-container">جاري التحميل...</div>
         </div>
     </div>
 
-    <div id="audio-menu-screen" class="screen hidden">
+    <div id="audioMenu-screen" class="screen hidden">
         <div class="header-wrapper">
-            <div class="top-bar">
-                <button class="back-btn" onclick="navigateTo('home')">🔙 رجوع</button>
-                <span class="progress-text">المكتبة الصوتية</span>
-            </div>
-            <div class="audio-player-container" style="width: 90%; max-width: 600px; margin-top: 10px;">
+            <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
+            <div class="audio-player-container">
                 <input type="text" id="reciter-search" placeholder="🔍 ابحث عن قارئ..." onkeyup="filterReciters()">
                 <select id="reciter-select" onchange="updateReciter()">
-                    <option value="">جاري تحميل القراء...</option>
+                    <option value="">جاري التحميل...</option>
                 </select>
                 <select id="surah-select-audio" onchange="updateAudioSurah()">
                     <option value="">اختر السورة...</option>
                 </select>
-                <audio id="global-quran-audio" controls controlsList="nodownload" style="width: 100%; margin-top: 15px; border-radius: 10px;"></audio>
+                <audio id="global-quran-audio" controls style="width:100%; margin-top:10px;"></audio>
             </div>
         </div>
-        <div class="paper-card" style="justify-content: center; min-height: 40vh;">
-            <div style="font-size: 5rem; text-align: center;">🎧</div>
-            <h2 id="now-playing-title" style="margin-top: 20px; font-family: 'Amiri'; color: var(--accent-color);">الرجاء اختيار القارئ والسورة</h2>
-            <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.7;">تعمل في الخلفية لتتمكن من استخدام التطبيق أو الهاتف أثناء الاستماع</p>
+        <div class="paper-card" style="min-height:30vh; justify-content:center;">
+            <div id="now-playing-title" style="font-family:'Amiri'; color:var(--accent-color); font-size:1.5rem;">🎧 اختر قارئ وسورة للاستماع</div>
         </div>
     </div>
 
-    <div id="toast-msg" style="position:fixed; bottom:-100px; left:50%; transform:translateX(-50%); background:var(--accent-color); color:#fff; padding:15px 20px; border-radius:10px; z-index:1000; transition:bottom 0.4s; font-family:'Tajawal'; font-weight:bold; min-width:280px; text-align:center;">
-        رسالة
+    <div id="prayerTimes-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
+        </div>
+        <div class="paper-card">
+            <h2 style="font-family:'Amiri'; color:var(--accent-color);">مواقيت الصلاة اليوم</h2>
+            <div id="prayer-times-list" style="width:100%; margin-top:20px;"></div>
+        </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
-        const firebaseConfig = { apiKey: "AIzaSyApCrVYHJHiPIUCTHW6ChYyXOmRpUCnYwM", authDomain: "azkar-app-9219d.firebaseapp.com", projectId: "azkar-app-9219d", storageBucket: "azkar-app-9219d.firebasestorage.app", messagingSenderId: "208264212055", appId: "1:208264212055:web:6486a7fd5f37f6ba057d12", measurementId: "G-7NBS95TZ1Q" };
-        const app = initializeApp(firebaseConfig); const analytics = getAnalytics(app);
-    </script>
-    <script> if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); }); } </script>
+    <div id="toast-msg">رسالة</div>
+
     <script src="script.js"></script>
 </body>
 </html>
