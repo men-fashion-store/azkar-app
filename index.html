@@ -4,10 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أذكار المسلم</title>
+    
+    <meta property="og:title" content="أذكار المسلم">
+    <meta property="og:description" content="تطبيق لقراءة أذكار الصباح والمساء الموثقة، صُنِعَ لِوَجْهِ الله.">
+    <meta property="og:type" content="website">
+    
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
+
+    <div class="settings-bar">
+        <button class="settings-btn" onclick="toggleTheme()" title="الوضع الليلي">🌙</button>
+        <button class="settings-btn" onclick="changeFontSize(1)" title="تكبير الخط">A+</button>
+        <button class="settings-btn" onclick="changeFontSize(-1)" title="تصغير الخط">A-</button>
+    </div>
 
     <div id="home-screen" class="screen active">
         <div class="content">
@@ -56,9 +67,18 @@
             appId: "1:208264212055:web:6486a7fd5f37f6ba057d12",
             measurementId: "G-7NBS95TZ1Q"
         };
-
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
+    </script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Service Worker Registered!'))
+                .catch(err => console.error('Service Worker Registration Failed!', err));
+            });
+        }
     </script>
 
     <script src="script.js"></script>
