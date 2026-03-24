@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أذكار المسلم</title>
-    
-    <meta property="og:title" content="أذكار المسلم">
-    <meta property="og:description" content="تطبيق لقراءة أذكار الصباح والمساء الموثقة، صُنِعَ لِوَجْهِ الله.">
+    <title>أذكار ومصحف المسلم</title>
+    <meta property="og:title" content="أذكار ومصحف المسلم">
+    <meta property="og:description" content="تطبيق لقراءة القرآن والأذكار الموثقة، صُنِعَ لِوَجْهِ الله.">
     <meta property="og:type" content="website">
-    
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
@@ -20,24 +18,35 @@
         <button class="settings-btn" onclick="changeFontSize(-1)" title="تصغير الخط">A-</button>
     </div>
 
-    <div id="home-screen" class="screen active">
+    <div id="splash-screen" class="screen active splash-bg">
+        <div class="splash-content">
+            <h2 class="splash-title">حديث اليوم</h2>
+            <p id="splash-hadith" class="splash-text">جاري التحميل...</p>
+            <p id="splash-proof" class="proof-text"></p>
+            <button class="btn quran-main-btn" style="margin-top: 25px; width: 100%;" onclick="hideSplash()">الدخول للتطبيق</button>
+        </div>
+    </div>
+
+    <div id="home-screen" class="screen hidden">
         <div class="home-content">
-            <h1 class="title">أذكار المسلم</h1>
+            <h1 class="title">أذكار ومصحف المسلم</h1>
             <p class="subtitle">صُنِعَ لِوَجْهِ الله</p>
             
             <div class="buttons-container">
                 <button class="btn" onclick="startAzkar('morning')">أذكار الصباح</button>
                 <button class="btn" onclick="startAzkar('evening')">أذكار المساء</button>
+                <button class="btn" onclick="startAzkar('sleep')">أذكار النوم</button>
+                <button class="btn" onclick="startAzkar('prayer')">أذكار الصلاة</button>
+                <button class="btn quran-main-btn" onclick="openQuranIndex()">المصحف الشريف</button>
             </div>
         </div>
     </div>
 
     <div id="azkar-screen" class="screen hidden">
-        
         <div class="header-wrapper">
             <div class="top-bar">
                 <button class="back-btn" onclick="goHome()">✖ إنهاء</button>
-                <span id="progress-text" class="progress-text">١ / ٢٠</span>
+                <span id="progress-text" class="progress-text">١ من ٢٠</span>
             </div>
             <div class="progress-container">
                 <div id="progress-bar" class="progress-bar"></div>
@@ -55,10 +64,40 @@
         </div>
     </div>
 
+    <div id="quran-index-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <span class="progress-text">فهرس السور</span>
+            </div>
+        </div>
+        <div class="surah-grid-container">
+            <div id="surah-list" class="surah-grid"></div>
+        </div>
+    </div>
+
+    <div id="quran-reader-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goBackToQuranIndex()">✖ الفهرس</button>
+                <span id="current-surah-name" class="progress-text">سورة</span>
+            </div>
+            <div class="audio-player-container">
+                <select id="reciter-select" onchange="changeReciter()">
+                    <option value="">جاري تحميل جميع القراء...</option>
+                </select>
+                <audio id="quran-audio" controls controlsList="nodownload"></audio>
+            </div>
+        </div>
+        
+        <div class="paper-card quran-paper">
+            <div id="quran-text" class="quran-text-container">جاري تحميل السورة...</div>
+        </div>
+    </div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
-
         const firebaseConfig = {
             apiKey: "AIzaSyApCrVYHJHiPIUCTHW6ChYyXOmRpUCnYwM",
             authDomain: "azkar-app-9219d.firebaseapp.com",
@@ -71,17 +110,14 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
     </script>
-
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('Service Worker Registered!'))
-                .catch(err => console.error('Service Worker Registration Failed!', err));
-            });
+            window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); });
         }
     </script>
-
+    <script src="script.js"></script>
+</body>
+</html>
     <script src="script.js"></script>
 </body>
 </html>
