@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أذكار ومصحف المسلم</title>
-    <meta property="og:title" content="أذكار ومصحف المسلم">
-    <meta property="og:description" content="تطبيق لقراءة القرآن والأذكار الموثقة، صُنِعَ لِوَجْهِ الله.">
+    <title>موسوعة المسلم</title>
+    <meta property="og:title" content="موسوعة المسلم الشاملة">
+    <meta property="og:description" content="قرآن، أذكار، مواقيت صلاة، سبحة، وقبلة. صُنِعَ لِوَجْهِ الله.">
     <meta property="og:type" content="website">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
@@ -16,6 +16,7 @@
         <button class="settings-btn" onclick="toggleTheme()" title="الوضع الليلي">🌙</button>
         <button class="settings-btn" onclick="changeFontSize(1)" title="تكبير الخط">A+</button>
         <button class="settings-btn" onclick="changeFontSize(-1)" title="تصغير الخط">A-</button>
+        <button class="settings-btn" onclick="requestNotificationPermission()" title="تفعيل الإشعارات">🔔</button>
     </div>
 
     <div id="splash-screen" class="screen active splash-bg">
@@ -23,44 +24,106 @@
             <h2 class="splash-title">حديث اليوم</h2>
             <p id="splash-hadith" class="splash-text">جاري التحميل...</p>
             <p id="splash-proof" class="proof-text"></p>
-            <button class="btn quran-main-btn" style="margin-top: 25px; width: 100%;" onclick="hideSplash()">الدخول للتطبيق</button>
+            <button class="btn quran-main-btn" style="margin-top: 25px; width: 100%;" onclick="hideSplash()">الدخول للموسوعة</button>
         </div>
     </div>
 
     <div id="home-screen" class="screen hidden">
         <div class="home-content">
-            <h1 class="title">أذكار ومصحف المسلم</h1>
-            <p class="subtitle">صُنِعَ لِوَجْهِ الله</p>
             
-            <div class="buttons-container">
-                <button class="btn" onclick="startAzkar('morning')">أذكار الصباح</button>
-                <button class="btn" onclick="startAzkar('evening')">أذكار المساء</button>
-                <button class="btn" onclick="startAzkar('sleep')">أذكار النوم</button>
-                <button class="btn" onclick="startAzkar('prayer')">أذكار الصلاة</button>
-                <button class="btn quran-main-btn" onclick="openQuranIndex()">المصحف الشريف</button>
+            <div class="prayer-widget" onclick="openPrayerTimes()">
+                <div class="prayer-info">
+                    <span id="next-prayer-name">جاري حساب الصلاة...</span>
+                    <span id="prayer-countdown">00:00:00</span>
+                </div>
+                <div class="prayer-location" id="prayer-location">📍 جاري تحديد الموقع...</div>
             </div>
+
+            <h1 class="title" style="font-size: 2.8rem; margin-top: 15px;">موسوعة المسلم</h1>
+            <p class="subtitle" style="margin-bottom: 25px;">صُنِعَ لِوَجْهِ الله</p>
+            
+            <div class="main-grid">
+                <button class="grid-btn" onclick="openQuranIndex()">📖<br>المصحف</button>
+                <button class="grid-btn" onclick="openAzkarMenu()">📿<br>الأذكار</button>
+                <button class="grid-btn" onclick="openMasbaha()">👆<br>السبحة</button>
+                <button class="grid-btn" onclick="openPrayerTimes()">🕌<br>المواقيت</button>
+                <button class="grid-btn" onclick="openQibla()" style="grid-column: 1 / -1;">🕋 تحديد القبلة</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="azkar-categories-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <span class="progress-text">حصن المسلم</span>
+            </div>
+        </div>
+        <div class="buttons-container" style="margin-top: 30px;">
+            <button class="btn" onclick="startAzkar('morning')">☀️ أذكار الصباح</button>
+            <button class="btn" onclick="startAzkar('evening')">🌙 أذكار المساء</button>
+            <button class="btn" onclick="startAzkar('sleep')">💤 أذكار النوم</button>
+            <button class="btn" onclick="startAzkar('prayer')">🕌 أذكار بعد الصلاة</button>
+            <button class="btn" onclick="startAzkar('ruqyah')">🛡️ الرقية الشرعية</button>
         </div>
     </div>
 
     <div id="azkar-screen" class="screen hidden">
         <div class="header-wrapper">
             <div class="top-bar">
-                <button class="back-btn" onclick="goHome()">✖ إنهاء</button>
+                <button class="back-btn" onclick="openAzkarMenu()">✖ رجوع</button>
                 <span id="progress-text" class="progress-text">١ من ٢٠</span>
             </div>
-            <div class="progress-container">
-                <div id="progress-bar" class="progress-bar"></div>
-            </div>
+            <div class="progress-container"><div id="progress-bar" class="progress-bar"></div></div>
         </div>
-        
         <div id="zikr-card" class="paper-card">
             <div id="zikr-text">جاري التحميل...</div>
             <p id="zikr-proof" class="proof-text"></p>
-            
-            <button id="counter-btn" class="counter-circle">
-                <span id="zikr-count">١</span>
-            </button>
+            <button id="counter-btn" class="counter-circle"><span id="zikr-count">١</span></button>
             <p class="instructions">اضغط على الدائرة للعد، أو اسحب للتخطي</p>
+        </div>
+    </div>
+
+    <div id="masbaha-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <span class="progress-text">السبحة الإلكترونية</span>
+            </div>
+        </div>
+        <div class="paper-card" style="justify-content: center; min-height: 60vh;">
+            <div class="masbaha-display" id="masbaha-count">0</div>
+            <button class="masbaha-btn" onclick="incrementMasbaha()">سبّح</button>
+            <button class="reset-btn" onclick="resetMasbaha()">🔄 تصفير العداد</button>
+        </div>
+    </div>
+
+    <div id="prayer-times-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <span class="progress-text">مواقيت الصلاة</span>
+            </div>
+        </div>
+        <div class="paper-card" style="padding: 20px;">
+            <h2 style="color: var(--accent-color); margin-bottom: 20px; font-family: 'Amiri';">مواقيت اليوم</h2>
+            <div id="prayer-times-list" style="width: 100%;">جاري تحميل المواقيت...</div>
+        </div>
+    </div>
+
+    <div id="qibla-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <span class="progress-text">اتجاه القبلة</span>
+            </div>
+        </div>
+        <div class="paper-card" style="justify-content: center; min-height: 60vh;">
+            <p style="margin-bottom: 30px; font-size: 1rem; color: var(--text-color);">ضع الهاتف بشكل مسطح للحصول على أدق نتيجة</p>
+            <div class="compass-circle" id="compass-circle">
+                <div class="qibla-pointer" id="qibla-pointer">🕋</div>
+            </div>
+            <p id="qibla-status" style="margin-top: 30px; font-weight: bold; color: var(--accent-color);">جاري تحديد الاتجاه...</p>
         </div>
     </div>
 
@@ -71,9 +134,7 @@
                 <span class="progress-text">فهرس السور</span>
             </div>
         </div>
-        <div class="surah-grid-container">
-            <div id="surah-list" class="surah-grid"></div>
-        </div>
+        <div class="surah-grid-container"><div id="surah-list" class="surah-grid"></div></div>
     </div>
 
     <div id="quran-reader-screen" class="screen hidden">
@@ -83,13 +144,14 @@
                 <span id="current-surah-name" class="progress-text">سورة</span>
             </div>
             <div class="audio-player-container">
-                <select id="reciter-select" onchange="changeReciter()">
-                    <option value="">جاري تحميل جميع القراء...</option>
-                </select>
-                <audio id="quran-audio" controls controlsList="nodownload"></audio>
+                <input type="text" id="reciter-search" placeholder="🔍 ابحث عن قارئ (مثال: المنشاوي، عبد الباسط)" onkeyup="filterReciters()">
+                <select id="reciter-select" onchange="changeReciterAndPlay()"><option value="">جاري التحميل...</option></select>
+                <div class="audio-controls-custom">
+                    <button class="play-btn" id="play-pause-btn" onclick="togglePlayPause()">▶ تشغيل التلاوة</button>
+                </div>
+                <audio id="quran-audio" style="display:none;"></audio>
             </div>
         </div>
-        
         <div class="paper-card quran-paper">
             <div id="quran-text" class="quran-text-container">جاري تحميل السورة...</div>
         </div>
@@ -98,26 +160,10 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
-        const firebaseConfig = {
-            apiKey: "AIzaSyApCrVYHJHiPIUCTHW6ChYyXOmRpUCnYwM",
-            authDomain: "azkar-app-9219d.firebaseapp.com",
-            projectId: "azkar-app-9219d",
-            storageBucket: "azkar-app-9219d.firebasestorage.app",
-            messagingSenderId: "208264212055",
-            appId: "1:208264212055:web:6486a7fd5f37f6ba057d12",
-            measurementId: "G-7NBS95TZ1Q"
-        };
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
+        const firebaseConfig = { apiKey: "AIzaSyApCrVYHJHiPIUCTHW6ChYyXOmRpUCnYwM", authDomain: "azkar-app-9219d.firebaseapp.com", projectId: "azkar-app-9219d", storageBucket: "azkar-app-9219d.firebasestorage.app", messagingSenderId: "208264212055", appId: "1:208264212055:web:6486a7fd5f37f6ba057d12", measurementId: "G-7NBS95TZ1Q" };
+        const app = initializeApp(firebaseConfig); const analytics = getAnalytics(app);
     </script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); });
-        }
-    </script>
-    <script src="script.js"></script>
-</body>
-</html>
+    <script> if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); }); } </script>
     <script src="script.js"></script>
 </body>
 </html>
