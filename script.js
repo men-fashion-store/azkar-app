@@ -124,11 +124,13 @@ function loadZikr() {
     
     const progressPercentage = ((currentIndex + 1) / currentCategory.length) * 100;
     progressBar.style.width = `${progressPercentage}%`;
-    
-    // تم ضبط العداد ليقرأ (1 من 24) عشان يليق مع العربي
     progressText.innerText = `${currentIndex + 1} من ${currentCategory.length}`;
     
     zikrCard.className = "paper-card swipe-in";
+    
+    // الحل السحري: الرجوع لأعلى الصفحة مع كل ذكر جديد
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
     setTimeout(() => zikrCard.classList.remove('swipe-in'), 300);
 }
 
