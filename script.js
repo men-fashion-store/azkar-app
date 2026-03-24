@@ -344,4 +344,256 @@ async function calculatePrayerTimes() {
             document.getElementById('prayer-location').innerText = "يرجى تفعيل الموقع (GPS) لحساب المواقيت.";
         });
     }
+    // --- 6. نظام بوصلة القبلة الذكية ---
+const KAABA_LAT = 21.422487;
+const KAABA_LNG = 39.826206;
+let compassWatchId = null;
+
+window.openQibla = function() {
+    goHome(); homeScreen.classList.remove('active'); homeScreen.classList.add('hidden');
+    qiblaScreen.classList.remove('hidden'); qiblaScreen.classList.add('active');
+    initQibla();
+};
+
+function initQibla() {
+    const statusText = document.getElementById('qibla-status');
+    const pointer = document.getElementById('qibla-pointer');
+    
+    if (location.protocol !== 'https:') {
+        statusText.innerText = "البوصلة تعمل فقط على الروابط الآمنة (HTTPS).";
+        return;
+    }
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const userLat = position.coords.latitude;
+            const userLng = position.coords.longitude;
+            const qiblaAngle = calculateQiblaAngle(userLat, userLng);
+            
+            // طلب إذن البوصلة (خاص بأجهزة آيفون)
+            if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            startCompass(qiblaAngle, statusText, pointer);
+                        } else {
+                            statusText.innerText = "تم رفض صلاحية البوصلة من إعدادات الهاتف.";
+                        }
+                    })
+                    .catch(console.error);
+            } else {
+                // أندرويد والأجهزة الأخرى
+                startCompass(qiblaAngle, statusText, pointer);
+            }
+        }, () => {
+            statusText.innerText = "يرجى تفعيل الموقع (GPS) لتحديد القبلة.";
+        });
+    }
+}
+
+function calculateQiblaAngle(lat, lng) {
+    const phiK = KAABA_LAT * Math.PI / 180.0;
+    const lambdaK = KAABA_LNG * Math.PI / 180.0;
+    const phi = lat * Math.PI / 180.0;
+    const lambda = lng * Math.PI / 180.0;
+    const y = Math.sin(lambdaK - lambda);
+    const x = Math.cos(phi) * Math.tan(phiK) - Math.sin(phi) * Math.cos(lambdaK - lambda);
+    let qibla = Math.atan2(y, x) * 180.0 / Math.PI;
+    return (qibla + 360.0) % 360.0;
+}
+
+function startCompass(qiblaAngle, statusText, pointer) {
+    window.addEventListener('deviceorientationabsolute', handler, true);
+    // Fallback لو الموبايل مش بيدعم absolute
+    window.addEventListener('deviceorientation', handler, true);
+
+    function handler(event) {
+        let compass = event.webkitCompassHeading || Math.abs(event.alpha - 360);
+        if (compass) {
+            let finalAngle = qiblaAngle - compass;
+            pointer.style.transform = `translateY(-70px) rotate(${finalAngle}deg)`;
+            
+            // لو الموبايل موجه للقبلة بدقة (هامش 5 درجات)
+            if(Math.abs(finalAngle) < 5 || Math.abs(finalAngle) > 355) {
+                statusText.innerText = "أنت الآن في اتجاه القبلة 🕋";
+                statusText.style.color = "#4CAF50";
+                if(navigator.vibrate) navigator.vibrate(50); // اهتزاز خفيف لتأكيد القبلة
+            } else {
+                statusText.innerText = "قم بلف الهاتف حتى يثبت المؤشر للأعلى";
+                statusText.style.color = "var(--accent-color)";
+            }
+        }
+    }
+}
+
+// --- 7. نظام القرآن المتزامن مع الصوت (الآية بالآية) ---
+let surahListCached = [];
+let currentSurahNumber = null;
+let currentAyahsAudioUrls = [];
+let currentPlayingAyahIndex = -1;
+let isPlayingQuran = false;
+const quranAudio = document.getElementById('quran-audio');
+const playPauseBtn = document.getElementById('play-pause-btn');
+
+window.openQuranIndex = async function() {
+    goHome(); homeScreen.classList.remove('active'); homeScreen.classList.add('hidden');
+    quranIndexScreen.classList.remove('hidden'); quranIndexScreen.classList.add('active');
+    
+    const listDiv = document.getElementById('surah-list');
+    if (surahListCached.length === 0) {
+        listDiv.innerHTML = '<p style="text-align:center; width:100%; grid-column: 1 / -1;">جاري تحميل الفهرس...</p>';
+        try {
+            const res = await fetch('https://api.alquran.cloud/v1/surah');
+            const data = await res.json();
+            surahListCached = data.data; 
+            renderSurahList();
+        } catch(e) { 
+            listDiv.innerHTML = '<p style="text-align:center; width:100%; grid-column: 1 / -1;">يرجى الاتصال بالإنترنت لجلب سور القرآن.</p>'; 
+        }
+    } else { renderSurahList(); }
+};
+
+function renderSurahList() {
+    const listDiv = document.getElementById('surah-list'); 
+    listDiv.innerHTML = '';
+    surahListCached.forEach(surah => {
+        const btn = document.createElement('button'); 
+        btn.className = 'surah-card-btn';
+        btn.innerHTML = `<span class="surah-number">${surah.number}</span> <span>${surah.name}</span>`;
+        btn.onclick = () => loadSurah(surah.number, surah.name);
+        listDiv.appendChild(btn);
+    });
+}
+
+window.loadSurah = async function(number, name) {
+    quranIndexScreen.classList.remove('active'); quranIndexScreen.classList.add('hidden');
+    quranReaderScreen.classList.remove('hidden'); quranReaderScreen.classList.add('active');
+    
+    document.getElementById('current-surah-name').innerText = name; 
+    currentSurahNumber = number;
+    currentPlayingAyahIndex = -1;
+    isPlayingQuran = false;
+    stopAudio();
+    
+    const textDiv = document.getElementById('quran-text');
+    textDiv.innerHTML = '<div style="text-align:center;">جاري تحميل السورة والتلاوات...</div>';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const reciterId = document.getElementById('reciter-select').value;
+
+    try {
+        // بنجيب نسختين مع بعض في طلب واحد: (نص المصحف العثماني + الصوت الخاص بالشيخ المحدد)
+        const res = await fetch(`https://api.alquran.cloud/v1/surah/${number}/editions/quran-uthmani,${reciterId}`);
+        const data = await res.json();
+        
+        const textData = data.data[0]; // النص
+        const audioData = data.data[1]; // الصوتيات
+        
+        currentAyahsAudioUrls = audioData.ayahs.map(a => a.audio);
+        
+        let ayahsHtml = '';
+        if (number !== 1 && number !== 9) ayahsHtml += `<div class="basmalah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>`;
+        
+        textData.ayahs.forEach((ayah, index) => {
+            let text = ayah.text;
+            if (number !== 1 && number !== 9 && ayah.numberInSurah === 1) {
+                text = text.replace('بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ', '');
+            }
+            // كل آية بتتحط في span منفصل عشان تتظلل وتتسمع لوحدها
+            ayahsHtml += `<span class="ayah-span" id="ayah-${index}" onclick="playAyah(${index})">${text} <span class="ayah-symbol">﴿${ayah.numberInSurah}﴾</span></span> `;
+        });
+        
+        textDiv.innerHTML = ayahsHtml;
+    } catch(e) { 
+        textDiv.innerHTML = '<div style="text-align:center;">حدث خطأ. تأكد من اتصالك بالإنترنت.</div>'; 
+    }
+};
+
+// تشغيل آية معينة والتظليل عليها
+window.playAyah = function(index) {
+    if(index >= currentAyahsAudioUrls.length) {
+        stopAudio();
+        return;
+    }
+
+    // إزالة التظليل من الآية السابقة
+    if(currentPlayingAyahIndex !== -1 && document.getElementById(`ayah-${currentPlayingAyahIndex}`)) {
+        document.getElementById(`ayah-${currentPlayingAyahIndex}`).classList.remove('ayah-active');
+    }
+
+    currentPlayingAyahIndex = index;
+    const currentSpan = document.getElementById(`ayah-${index}`);
+    
+    // إضافة التظليل للآية الحالية وعمل سكرول أوتوماتيك إليها
+    if (currentSpan) {
+        currentSpan.classList.add('ayah-active');
+        currentSpan.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    quranAudio.src = currentAyahsAudioUrls[index];
+    quranAudio.play();
+    isPlayingQuran = true;
+    playPauseBtn.innerText = "⏸ إيقاف مؤقت";
+};
+
+// لما الآية تخلص، شغل اللي بعدها أوتوماتيك
+quranAudio.onended = function() {
+    playAyah(currentPlayingAyahIndex + 1);
+};
+
+// زرار التشغيل والإيقاف الرئيسي
+window.togglePlayPause = function() {
+    if(currentAyahsAudioUrls.length === 0) return;
+    
+    if (isPlayingQuran) {
+        quranAudio.pause();
+        isPlayingQuran = false;
+        playPauseBtn.innerText = "▶ إكمال التلاوة";
+    } else {
+        if(currentPlayingAyahIndex === -1) {
+            playAyah(0); // لو مش شغال خالص ابدأ من أول السورة
+        } else {
+            quranAudio.play();
+            isPlayingQuran = true;
+            playPauseBtn.innerText = "⏸ إيقاف مؤقت";
+        }
+    }
+};
+
+window.stopAudio = function() {
+    quranAudio.pause();
+    quranAudio.currentTime = 0;
+    isPlayingQuran = false;
+    playPauseBtn.innerText = "▶ تشغيل التلاوة";
+    if(currentPlayingAyahIndex !== -1 && document.getElementById(`ayah-${currentPlayingAyahIndex}`)) {
+        document.getElementById(`ayah-${currentPlayingAyahIndex}`).classList.remove('ayah-active');
+    }
+    currentPlayingAyahIndex = -1;
+};
+
+// تغيير الشيخ أثناء القراءة بيغير ملفات الصوت ويحتفظ برقم الآية
+window.changeReciterAndPlay = async function() {
+    if(!currentSurahNumber) return;
+    const reciterId = document.getElementById('reciter-select').value;
+    const wasPlaying = isPlayingQuran;
+    stopAudio();
+    
+    try {
+        const res = await fetch(`https://api.alquran.cloud/v1/surah/${currentSurahNumber}/${reciterId}`);
+        const data = await res.json();
+        currentAyahsAudioUrls = data.data.ayahs.map(a => a.audio);
+        
+        if (wasPlaying && currentPlayingAyahIndex !== -1) {
+            playAyah(currentPlayingAyahIndex);
+        }
+    } catch(e) {
+        alert('حدث خطأ في جلب صوت القارئ الجديد.');
+    }
+};
+
+window.goBackToQuranIndex = function() {
+    stopAudio();
+    quranReaderScreen.classList.remove('active'); quranReaderScreen.classList.add('hidden');
+    quranIndexScreen.classList.remove('hidden'); quranIndexScreen.classList.add('active');
+};
 }
