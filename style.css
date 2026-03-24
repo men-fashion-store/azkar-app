@@ -1,105 +1,169 @@
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;700&display=swap');
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موسوعة المسلم</title>
+    <meta property="og:title" content="موسوعة المسلم الشاملة">
+    <meta property="og:description" content="قرآن، أذكار، مواقيت صلاة، سبحة، وقبلة. صُنِعَ لِوَجْهِ الله.">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
 
-:root {
-    --bg-color: #FDFBF7;
-    --card-bg: #F4EFE6;
-    --text-color: #4A3B32;
-    --accent-color: #8B5A2B;
-    --progress-bg: #E0D8C8;
-    --zikr-font-size: 1.6rem; 
-}
+    <div class="settings-bar">
+        <button class="settings-btn" onclick="toggleTheme()" title="الوضع الليلي">🌙</button>
+        <button class="settings-btn" onclick="changeFontSize(1)" title="تكبير الخط">A+</button>
+        <button class="settings-btn" onclick="changeFontSize(-1)" title="تصغير الخط">A-</button>
+        <button class="settings-btn" onclick="requestNotificationPermission()" title="تفعيل الإشعارات">🔔</button>
+    </div>
 
-body.dark-theme {
-    --bg-color: #121212; --card-bg: #1E1E1E;
-    --text-color: #E0E0E0; --accent-color: #BCAAA4;
-    --progress-bg: #333333;
-}
+    <div id="splash-screen" class="screen active splash-bg">
+        <div class="splash-content">
+            <h2 class="splash-title">حديث اليوم</h2>
+            <p id="splash-hadith" class="splash-text">جاري التحميل...</p>
+            <p id="splash-proof" class="proof-text"></p>
+            <button class="btn quran-main-btn" style="margin-top: 25px; width: 100%;" onclick="hideSplash()">الدخول للموسوعة</button>
+        </div>
+    </div>
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+    <div id="home-screen" class="screen hidden">
+        <div class="home-content">
+            
+            <div class="prayer-widget" onclick="openPrayerTimes()">
+                <div class="prayer-info">
+                    <span id="next-prayer-name">جاري حساب الصلاة...</span>
+                    <span id="prayer-countdown">00:00:00</span>
+                </div>
+                <div class="prayer-location" id="prayer-location">📍 جاري تحديد الموقع...</div>
+            </div>
 
-body {
-    font-family: 'Tajawal', sans-serif; background-color: var(--bg-color);
-    color: var(--text-color); min-height: 100vh; overflow-x: hidden; user-select: none;
-    transition: background-color 0.3s, color 0.3s;
-}
+            <h1 class="title" style="font-size: 2.8rem; margin-top: 15px;">موسوعة المسلم</h1>
+            <p class="subtitle" style="margin-bottom: 25px;">صُنِعَ لِوَجْهِ الله</p>
+            
+            <div class="main-grid">
+                <button class="grid-btn" onclick="openQuranIndex()">📖<br>المصحف</button>
+                <button class="grid-btn" onclick="openAzkarMenu()">📿<br>الأذكار</button>
+                <button class="grid-btn" onclick="openMasbaha()">👆<br>السبحة</button>
+                <button class="grid-btn" onclick="openPrayerTimes()">🕌<br>المواقيت</button>
+                <button class="grid-btn" onclick="openQibla()" style="grid-column: 1 / -1;">🕋 تحديد القبلة</button>
+            </div>
+        </div>
+    </div>
 
-.settings-bar { position: fixed; top: 15px; left: 15px; z-index: 100; display: flex; gap: 8px; }
-.settings-btn {
-    background: var(--card-bg); border: 1px solid var(--accent-color);
-    color: var(--text-color); border-radius: 50%; width: 42px; height: 42px;
-    font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: 0.2s; font-family: 'Tajawal', sans-serif; font-size: 1rem;
-}
-.settings-btn:active { transform: scale(0.9); }
+    <div id="azkar-categories-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <span class="progress-text">حصن المسلم</span>
+            </div>
+        </div>
+        <div class="buttons-container" style="margin-top: 30px;">
+            <button class="btn" onclick="startAzkar('morning')">☀️ أذكار الصباح</button>
+            <button class="btn" onclick="startAzkar('evening')">🌙 أذكار المساء</button>
+            <button class="btn" onclick="startAzkar('sleep')">💤 أذكار النوم</button>
+            <button class="btn" onclick="startAzkar('prayer')">🕌 أذكار بعد الصلاة</button>
+            <button class="btn" onclick="startAzkar('ruqyah')">🛡️ الرقية الشرعية</button>
+        </div>
+    </div>
 
-.screen { width: 100%; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding-bottom: 40px; }
-.hidden { display: none !important; }
-.active { display: flex; animation: fadeIn 0.4s ease; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    <div id="azkar-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="openAzkarMenu()">✖ رجوع</button>
+                <span id="progress-text" class="progress-text">١ من ٢٠</span>
+            </div>
+            <div class="progress-container"><div id="progress-bar" class="progress-bar"></div></div>
+        </div>
+        <div id="zikr-card" class="paper-card">
+            <div id="zikr-text">جاري التحميل...</div>
+            <p id="zikr-proof" class="proof-text"></p>
+            <button id="counter-btn" class="counter-circle"><span id="zikr-count">١</span></button>
+            <p class="instructions">اضغط على الدائرة للعد، أو اسحب للتخطي</p>
+        </div>
+    </div>
 
-.splash-bg { background-color: var(--bg-color); justify-content: center;}
-.splash-content {
-    text-align: center; width: 90%; max-width: 500px; padding: 40px 20px; border-radius: 20px;
-    background-color: var(--card-bg); box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid rgba(139, 90, 43, 0.1);
-}
-.splash-title { color: var(--accent-color); font-family: 'Amiri', serif; font-size: 2.5rem; margin-bottom: 20px; }
-.splash-text { font-family: 'Amiri', serif; font-size: var(--zikr-font-size); line-height: 1.8; color: var(--text-color); margin-bottom: 10px; }
+    <div id="masbaha-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <span class="progress-text">السبحة الإلكترونية</span>
+            </div>
+        </div>
+        <div class="paper-card" style="justify-content: center; min-height: 60vh;">
+            <div class="masbaha-display" id="masbaha-count">0</div>
+            <button class="masbaha-btn" onclick="incrementMasbaha()">سبّح</button>
+            <button class="reset-btn" onclick="resetMasbaha()">🔄 تصفير العداد</button>
+        </div>
+    </div>
 
-.home-content { margin-top: 15vh; display: flex; flex-direction: column; align-items: center; width: 100%; padding-bottom: 30px;}
-.title { font-size: 3.5rem; font-family: 'Amiri', serif; margin-bottom: 5px; color: var(--accent-color); text-align: center;}
-.subtitle { font-size: 1.2rem; text-align: center; margin-bottom: 40px; color: var(--text-color); opacity: 0.8;}
+    <div id="prayer-times-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <span class="progress-text">مواقيت الصلاة</span>
+            </div>
+        </div>
+        <div class="paper-card" style="padding: 20px;">
+            <h2 style="color: var(--accent-color); margin-bottom: 20px; font-family: 'Amiri';">مواقيت اليوم</h2>
+            <div id="prayer-times-list" style="width: 100%;">جاري تحميل المواقيت...</div>
+        </div>
+    </div>
 
-.buttons-container { display: flex; flex-direction: column; gap: 15px; width: 85%; max-width: 320px; }
-.btn {
-    background-color: var(--card-bg); color: var(--accent-color); border: 2px solid var(--accent-color);
-    padding: 16px; font-size: 1.3rem; font-weight: bold; font-family: 'Tajawal', sans-serif;
-    border-radius: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.2s;
-}
-.btn:active { transform: scale(0.96); background-color: var(--accent-color); color: var(--bg-color); }
-.quran-main-btn { background-color: var(--accent-color); color: var(--bg-color); margin-top: 10px;}
+    <div id="qibla-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <span class="progress-text">اتجاه القبلة</span>
+            </div>
+        </div>
+        <div class="paper-card" style="justify-content: center; min-height: 60vh;">
+            <p style="margin-bottom: 30px; font-size: 1rem; color: var(--text-color);">ضع الهاتف بشكل مسطح للحصول على أدق نتيجة</p>
+            <div class="compass-circle" id="compass-circle">
+                <div class="qibla-pointer" id="qibla-pointer">🕋</div>
+            </div>
+            <p id="qibla-status" style="margin-top: 30px; font-weight: bold; color: var(--accent-color);">جاري تحديد الاتجاه...</p>
+        </div>
+    </div>
 
-.header-wrapper {
-    position: sticky; top: 0; width: 100%; background-color: var(--bg-color);
-    padding: 20px 0 10px 0; z-index: 50; display: flex; flex-direction: column; align-items: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.03); transition: background-color 0.3s;
-}
-.top-bar { 
-    position: relative; width: 90%; max-width: 600px; 
-    display: flex; justify-content: flex-end; align-items: center; margin-bottom: 20px; min-height: 35px;
-}
-.back-btn { background: none; border: none; color: var(--text-color); font-size: 1.1rem; font-weight: bold; cursor: pointer; }
-.progress-text { position: absolute; left: 0; bottom: -20px; font-weight: bold; color: var(--accent-color); direction: rtl; font-size: 1.05rem; }
-.progress-container { width: 90%; max-width: 600px; height: 6px; background-color: var(--progress-bg); border-radius: 10px; overflow: hidden; }
-.progress-bar { height: 100%; background-color: var(--accent-color); width: 0%; transition: width 0.3s ease; }
+    <div id="quran-index-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">✖ رجوع</button>
+                <span class="progress-text">فهرس السور</span>
+            </div>
+        </div>
+        <div class="surah-grid-container"><div id="surah-list" class="surah-grid"></div></div>
+    </div>
 
-.audio-player-container { width: 90%; max-width: 600px; margin-top: 15px; display: flex; flex-direction: column; gap: 10px;}
-#reciter-select { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--accent-color); background-color: var(--card-bg); color: var(--text-color); font-family: 'Tajawal', sans-serif; font-size: 1rem; outline: none; font-weight: bold;}
-#quran-audio { width: 100%; height: 40px; border-radius: 10px; outline: none; }
+    <div id="quran-reader-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goBackToQuranIndex()">✖ الفهرس</button>
+                <span id="current-surah-name" class="progress-text">سورة</span>
+            </div>
+            <div class="audio-player-container">
+                <input type="text" id="reciter-search" placeholder="🔍 ابحث عن قارئ (مثال: المنشاوي، عبد الباسط)" onkeyup="filterReciters()">
+                <select id="reciter-select" onchange="changeReciterAndPlay()"><option value="">جاري التحميل...</option></select>
+                <div class="audio-controls-custom">
+                    <button class="play-btn" id="play-pause-btn" onclick="togglePlayPause()">▶ تشغيل التلاوة</button>
+                </div>
+                <audio id="quran-audio" style="display:none;"></audio>
+            </div>
+        </div>
+        <div class="paper-card quran-paper">
+            <div id="quran-text" class="quran-text-container">جاري تحميل السورة...</div>
+        </div>
+    </div>
 
-.paper-card {
-    background-color: var(--card-bg); width: 95%; max-width: 650px; height: auto; min-height: 50vh; 
-    padding: 30px 20px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 15px;
-}
-.quran-paper { padding: 30px 15px; }
-
-#zikr-text { font-family: 'Amiri', serif; font-size: var(--zikr-font-size); line-height: 2.0; margin-bottom: 25px; width: 100%; display: block; transition: font-size 0.3s ease; white-space: pre-line; color: var(--text-color);}
-.proof-text { font-size: 0.95rem; color: #798777; margin-top: 10px; padding-top: 15px; border-top: 1px dashed var(--accent-color); font-family: 'Tajawal', sans-serif; line-height: 1.5; width: 100%; opacity: 0.8;}
-
-.counter-circle { width: 80px; height: 80px; border-radius: 50%; background-color: var(--accent-color); color: var(--bg-color); border: none; font-size: 2rem; font-weight: bold; font-family: 'Tajawal', sans-serif; flex-shrink: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.1s; margin-top: 25px;}
-.counter-circle:active { transform: scale(0.9); }
-.instructions { margin-top: 15px; font-size: 0.85rem; color: var(--text-color); opacity: 0.6; }
-
-.surah-grid-container { width: 95%; max-width: 700px; margin-top: 20px; padding-bottom: 30px;}
-.surah-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; width: 100%; }
-.surah-card-btn { background-color: var(--card-bg); border: 1px solid var(--progress-bg); color: var(--text-color); padding: 15px 10px; border-radius: 12px; cursor: pointer; font-family: 'Amiri', serif; font-size: 1.3rem; font-weight: bold; transition: 0.2s; display: flex; align-items: center; justify-content: flex-start; gap: 10px;}
-.surah-card-btn:active { transform: scale(0.95); background-color: var(--accent-color); color: var(--bg-color); }
-.surah-number { font-family: 'Tajawal', sans-serif; font-size: 0.9rem; background: var(--progress-bg); color: var(--accent-color); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center;}
-
-.quran-text-container { font-family: 'Amiri', serif; font-size: var(--zikr-font-size); line-height: 2.3; text-align: justify; direction: rtl; width: 100%; transition: font-size 0.3s; color: var(--text-color);}
-.basmalah { text-align: center; font-size: calc(var(--zikr-font-size) + 0.4rem); color: var(--accent-color); margin-bottom: 25px; border-bottom: 1px dashed var(--accent-color); padding-bottom: 15px; width: 100%;}
-.ayah-symbol { color: var(--accent-color); font-size: 0.9em; margin: 0 5px; }
-
-.swipe-out-right { transform: translateX(100vw) rotate(15deg); opacity: 0; }
-.swipe-out-left { transform: translateX(-100vw) rotate(-15deg); opacity: 0; }
-.swipe-in { animation: slideIn 0.3s forwards; }
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+        const firebaseConfig = { apiKey: "AIzaSyApCrVYHJHiPIUCTHW6ChYyXOmRpUCnYwM", authDomain: "azkar-app-9219d.firebaseapp.com", projectId: "azkar-app-9219d", storageBucket: "azkar-app-9219d.firebasestorage.app", messagingSenderId: "208264212055", appId: "1:208264212055:web:6486a7fd5f37f6ba057d12", measurementId: "G-7NBS95TZ1Q" };
+        const app = initializeApp(firebaseConfig); const analytics = getAnalytics(app);
+    </script>
+    <script> if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); }); } </script>
+    <script src="script.js"></script>
+</body>
+</html>
