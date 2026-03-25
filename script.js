@@ -662,8 +662,8 @@ async function loadQuranIndex() {
         const audioSel = document.getElementById('surah-select-audio');
         if (audioSel) audioSel.innerHTML = '<option value="">اختر السورة...</option>';
         surahListCached.forEach((s) => {
-            const nameJson = JSON.stringify(s.name);
-            list.innerHTML += `<button type="button" class="surah-card-btn" onclick="navigateTo('quranReader'); loadSurahContent(${s.number}, ${nameJson})"><span class="surah-number">${s.number}</span> <span>${escapeHtml(s.name)}</span></button>`;
+            /* لا نمرّر الاسم في onclick — JSON.stringify يكسر خاصية HTML بسبب علامات التنصيص */
+            list.innerHTML += `<button type="button" class="surah-card-btn" onclick="navigateTo('quranReader'); loadSurahContent(${s.number})"><span class="surah-number">${s.number}</span> <span>${escapeHtml(s.name)}</span></button>`;
             if (audioSel) audioSel.innerHTML += `<option value="${s.number}">${escapeHtml(s.name)}</option>`;
         });
     } catch (e) {
@@ -674,14 +674,24 @@ async function loadQuranIndex() {
 
 window.loadSurahContent = async (num, name, scrollToAyah = null) => {
     currentSurahNumber = num;
-    currentSurahDisplayName = name;
     ayahTextCache = {};
     ayahGlobalNumberCache = {};
-    document.getElementById('current-surah-name').innerText = name;
+    let resolvedName = name;
+    if (resolvedName == null || resolvedName === '') {
+        const found = surahListCached.find((x) => x.number === num);
+        if (found) resolvedName = found.name;
+    }
+    currentSurahDisplayName = resolvedName || '';
+    document.getElementById('current-surah-name').innerText = currentSurahDisplayName || '…';
     document.getElementById('quran-text').innerHTML = '<p class="quran-loading">جاري التحميل...</p>';
     try {
         const res = await fetch(`https://api.alquran.cloud/v1/surah/${num}/quran-uthmani`);
         const data = await res.json();
+        const apiName = data.data && data.data.name;
+        if (apiName) {
+            currentSurahDisplayName = apiName;
+            document.getElementById('current-surah-name').innerText = apiName;
+        }
         let html = (num !== 1 && num !== 9) ? '<div class="basmalah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>' : '';
 
         data.data.ayahs.forEach((a) => {
