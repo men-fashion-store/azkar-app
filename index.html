@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>موسوعة المسلم</title>
     <meta property="og:title" content="موسوعة المسلم الشاملة">
-    <meta property="og:description" content="قرآن، أذكار، مواقيت صلاة، سبحة، وقبلة. صُنِعَ لِوَجْهِ الله.">
-    <meta property="og:type" content="website">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
@@ -98,8 +96,8 @@
             <div class="compass-circle" id="compass-circle">
                 <div class="qibla-pointer" id="qibla-pointer">🕋</div>
             </div>
-            <p id="qibla-status" style="margin-top:20px;">جاري التحديد...</p>
-            <button class="btn" style="width:auto; padding:10px 20px; margin-top: 15px;" onclick="requestLocationPermission()">تحسين الدقة 📍</button>
+            <p id="qibla-status" style="margin-top:20px; color: var(--accent-color); font-weight: bold;">جاري التحديد...</p>
+            <button class="btn" style="width:auto; padding:10px 20px; margin-top: 15px;" onclick="initQibla()">تفعيل البوصلة 🧭</button>
         </div>
     </div>
 
@@ -115,6 +113,11 @@
         <div class="header-wrapper">
             <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 الفهرس</button></div>
             <span id="current-surah-name" class="screen-title">سورة</span>
+            
+            <div style="display: flex; gap: 15px; margin-top: 15px; width: 90%; max-width: 500px; justify-content: center;">
+                <button class="btn" style="padding: 8px 15px; font-size: 1rem; width: 45%;" onclick="navigateSurah(1)">السورة التالية ⏪</button>
+                <button class="btn" style="padding: 8px 15px; font-size: 1rem; width: 45%;" onclick="navigateSurah(-1)">⏩ السابقة</button>
+            </div>
         </div>
         <div class="paper-card quran-paper">
             <div id="quran-text" class="quran-text-container">جاري التحميل...</div>
