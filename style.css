@@ -1,108 +1,197 @@
-/* استيراد الخطوط الاحترافية */
-@import url('https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:wght@400;700&family=Tajawal:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;700&display=swap');
 
 :root {
-    --bg: #FDFBF7; --card: #F4EFE6; --text: #4A3B32; --accent: #8B5A2B;
-    --zikr-size: 1.6rem;
-    --grad: linear-gradient(135deg, #8B5A2B, #A06D3A);
+    --bg-color: #FDFBF7;
+    --card-bg: #F4EFE6;
+    --text-color: #4A3B32; 
+    --accent-color: #8B5A2B; 
+    --progress-bg: #E0D8C8; 
+    --zikr-font-size: 1.6rem; 
+    --widget-bg: linear-gradient(135deg, #8B5A2B, #A06D3A);
+    --shadow: 0 4px 15px rgba(139, 90, 43, 0.1);
 }
 
 body.dark-theme {
-    --bg: #000; --card: #121212; --text: #FFF; --accent: #DDA77B;
-    --grad: linear-gradient(135deg, #1A1A1A, #333);
+    --bg-color: #050505; 
+    --card-bg: #121212; 
+    --text-color: #E0E0E0; 
+    --accent-color: #DDA77B; 
+    --progress-bg: #1A1A1A; 
+    --widget-bg: linear-gradient(135deg, #1A1009, #331E12);
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 body { 
-    font-family: 'Tajawal', sans-serif; background-color: var(--bg); color: var(--text); 
-    direction: rtl; transition: 0.3s; overflow-x: hidden; min-height: 100vh;
+    font-family: 'Tajawal', sans-serif; 
+    background-color: var(--bg-color); 
+    color: var(--text-color); 
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+    transition: background-color 0.3s ease;
 }
 
-/* الهيدر العلوي */
-.top-header {
-    position: fixed; top: 0; width: 100%; height: 50px; background: var(--card);
-    z-index: 100; display: flex; align-items: center; justify-content: space-between;
-    padding: 0 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-.top-header.hidden { display: none !important; }
-.menu-trigger { background: none; border: none; font-size: 1.5rem; color: var(--accent); cursor: pointer; }
-
-/* القائمة الجانبية */
-.sidebar {
-    position: fixed; top: 0; right: -280px; width: 260px; height: 100%;
-    background: var(--card); z-index: 1001; transition: 0.3s; padding: 20px;
-    display: flex; flex-direction: column; overflow-y: auto;
-}
-.sidebar.open { right: 0; }
-.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; }
-.overlay.show { display: block; }
-.side-head { display: flex; justify-content: space-between; border-bottom: 1px solid var(--accent); padding-bottom: 10px; margin-bottom: 15px; }
-.side-btn { width: 100%; padding: 10px; margin: 5px 0; border: 1px solid var(--accent); border-radius: 8px; background: none; color: var(--text); font-weight: bold; }
-
-/* ويدجت الصلاة (HH:MM:SS) */
-.prayer-box {
-    background: var(--grad); color: #fff; width: 92%; padding: 15px;
-    border-radius: 18px; text-align: center; margin-top: 15px; margin-bottom: 15px;
-    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-}
-.timer-text { font-size: 2.5rem; font-weight: bold; margin: 5px 0; font-family: monospace; letter-spacing: 2px; }
-.location-tag { font-size: 0.8rem; opacity: 0.8; }
-
-/* شبكة الأيقونات الملمومة */
-.app-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 92%; max-width: 450px;
-}
-.app-card {
-    position: relative; height: 100px; border-radius: 15px; overflow: hidden;
-    background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.1);
-}
-.app-card::after {
-    content: ''; position: absolute; top:0; left:0; width:100%; height:100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-}
-.app-card span {
-    position: absolute; bottom: 8px; width: 100%; text-align: center;
-    color: #fff; font-weight: bold; font-size: 1rem; z-index: 2; font-family: 'Amiri', serif;
-}
-
-/* خلفيات الأيقونات */
-.q-bg { background-image: url('https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=200'); }
-.a-bg { background-image: url('https://images.unsplash.com/photo-1598048145816-4d76465494f1?w=200'); }
-.m-bg { background-image: url('https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=200'); }
-.p-bg { background-image: url('https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=200'); }
-.qib-bg { background-image: url('https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=200'); }
-.aud-bg { background-image: url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=200'); }
-
-/* المصحف (تقليب جانبي) */
-.quran-reader-wrap { width: 100%; height: 80vh; overflow-x: auto; overflow-y: hidden; white-space: nowrap; scroll-snap-type: x mandatory; }
-#quran-text { 
-    display: inline-block; width: 100%; height: 100%; white-space: normal; 
-    font-family: 'Amiri Quran', serif; font-size: var(--zikr-size); 
-    line-height: 2.4; text-align: justify; padding: 20px; scroll-snap-align: start;
-}
-.ayah-span { cursor: pointer; padding: 0 2px; transition: 0.2s; border-radius: 5px; }
-.selected-ayah { background: rgba(221, 167, 123, 0.4); border-bottom: 2px solid var(--accent); }
-
-/* الزر العائم */
-.floating-plus {
-    position: fixed; bottom: 25px; left: 20px; width: 55px; height: 55px;
-    border-radius: 50%; background: rgba(30, 30, 30, 0.4); border: 1px solid rgba(255,255,255,0.2);
-    color: var(--accent); font-size: 2rem; z-index: 100; backdrop-filter: blur(8px);
-}
-.fab-menu { position: fixed; bottom: 90px; left: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 99; }
-.fab-menu button { background: rgba(30, 30, 30, 0.8); color: #fff; border: 1px solid var(--accent); padding: 10px 20px; border-radius: 12px; font-weight: bold; }
-
-/* المودالات */
-.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; display: flex; justify-content: center; align-items: center; }
-.modal-body { background: var(--card); width: 90%; max-height: 70vh; padding: 20px; border-radius: 18px; overflow-y: auto; text-align: right; border: 1px solid var(--accent); }
-
-/* شاشة الترحيب */
-.splash-bg { background-color: #000; position: relative; justify-content: center; }
-.splash-inner { position: relative; z-index: 2; text-align: center; color: #fff; width: 85%; }
-.h-box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; margin: 20px 0; border: 1px solid var(--accent); }
-
-/* عام */
-.screen { width: 100%; min-height: 100vh; padding: 50px 0; display: flex; flex-direction: column; align-items: center; }
 .hidden { display: none !important; }
-#toast-msg { position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #000; padding: 10px 20px; border-radius: 20px; font-weight: bold; transition: 0.4s; z-index: 3000; }
+
+/* الهيدر والبار العلوي */
+.settings-bar {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 60px; display: flex; justify-content: space-between;
+    padding: 0 15px; align-items: center; z-index: 1000;
+    background: var(--bg-color);
+}
+
+.settings-btn {
+    background: var(--card-bg); border: none;
+    width: 40px; height: 40px; border-radius: 10px;
+    font-size: 1.2rem; cursor: pointer; color: var(--text-color);
+    box-shadow: var(--shadow);
+}
+
+/* شاشة القرآن (المصحف) */
+.quran-paper {
+    width: 95%; max-width: 800px; margin: 20px auto;
+    padding: 25px 20px; border-radius: 15px;
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow);
+    min-height: 70vh;
+    position: relative;
+    border: 1px solid rgba(139, 90, 43, 0.1);
+}
+
+.quran-text-container {
+    font-family: 'Amiri', serif;
+    font-size: var(--zikr-font-size);
+    text-align: justify;
+    direction: rtl;
+    line-height: 2.2;
+    word-spacing: 4px;
+}
+
+.ayah-span {
+    display: inline;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0 2px;
+}
+
+.ayah-symbol {
+    font-family: 'Amiri', serif;
+    color: var(--accent-color);
+    font-weight: bold;
+    margin: 0 4px;
+    font-size: 0.9em;
+}
+
+.bookmarked-ayah {
+    border-bottom: 2px dashed var(--accent-color);
+    background: rgba(139, 90, 43, 0.05);
+}
+
+.ayah-highlight {
+    background-color: rgba(221, 167, 123, 0.3) !important;
+    border-radius: 5px;
+}
+
+/* ويدجت الصلاة */
+.prayer-widget {
+    background: var(--widget-bg);
+    color: white; padding: 20px; border-radius: 20px;
+    margin: 15px; text-align: center; box-shadow: 0 8px 25px rgba(139, 90, 43, 0.3);
+}
+
+.prayer-info { font-size: 1.4rem; font-weight: bold; margin-bottom: 5px; display: block; }
+#prayer-countdown { font-size: 2rem; font-family: monospace; display: block; margin: 10px 0; }
+
+/* الشبكة الرئيسية */
+.main-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 15px; padding: 15px; margin-bottom: 100px;
+}
+
+.grid-btn {
+    background: var(--card-bg); border: none; padding: 20px;
+    border-radius: 20px; font-family: 'Tajawal'; font-size: 1.1rem;
+    color: var(--text-color); font-weight: bold; cursor: pointer;
+    box-shadow: var(--shadow); transition: transform 0.2s;
+}
+
+.grid-btn:active { transform: scale(0.95); }
+
+/* الأزرار العامة */
+.btn {
+    width: 100%; padding: 15px; border-radius: 12px;
+    border: none; background: var(--accent-color); color: white;
+    font-family: 'Tajawal'; font-size: 1.1rem; font-weight: bold;
+    cursor: pointer; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn-secondary { background: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-color); }
+
+/* الفواصل والشاشات */
+.screen { padding-top: 70px; padding-bottom: 40px; animation: fadeIn 0.4s ease; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* تصميم الفهرس والبحث */
+.surah-card-btn {
+    width: 100%; display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 20px; background: var(--card-bg); border: none;
+    border-radius: 12px; margin-bottom: 10px; color: var(--text-color);
+    font-family: 'Amiri', serif; font-size: 1.3rem; cursor: pointer;
+    box-shadow: var(--shadow);
+}
+
+.surah-number {
+    width: 35px; height: 35px; background: var(--accent-color);
+    color: white; border-radius: 50%; display: flex;
+    justify-content: center; align-items: center; font-size: 1rem;
+}
+
+/* تصميم حصن المسلم */
+.zikr-card {
+    padding: 30px 20px; text-align: center; min-height: 250px;
+    display: flex; flex-direction: column; justify-content: center;
+}
+
+.counter-circle {
+    width: 100px; height: 100px; border-radius: 50%;
+    background: var(--accent-color); color: white;
+    border: 8px solid var(--progress-bg); margin: 20px auto;
+    font-size: 2rem; font-weight: bold; cursor: pointer;
+}
+
+/* الأكشن شيت (النافذة السفلية) */
+.ayah-action-sheet {
+    position: fixed; bottom: -100%; left: 0; right: 0;
+    background: var(--bg-color); padding: 20px;
+    border-radius: 25px 25px 0 0; z-index: 2000;
+    transition: bottom 0.3s ease; box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
+}
+
+.sheet-open { bottom: 0 !important; }
+
+.sheet-backdrop {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); z-index: 1999; opacity: 0;
+    transition: opacity 0.3s ease; pointer-events: none;
+}
+
+.sheet-backdrop.sheet-open { opacity: 1; pointer-events: auto; }
+
+/* التنبيهات (Toast) */
+.toast {
+    position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
+    background: rgba(0,0,0,0.8); color: white; padding: 12px 25px;
+    border-radius: 30px; z-index: 3000; transition: bottom 0.4s;
+    white-space: nowrap; font-size: 0.9rem;
+}
+
+/* شريط التقدم */
+.progress-container { width: 90%; height: 6px; background: var(--progress-bg); border-radius: 3px; margin: 10px auto; overflow: hidden; }
+.progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: width 0.3s; }
