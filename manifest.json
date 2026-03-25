@@ -1,6 +1,7 @@
 {
-  "name": "أذكار المسلم",
-  "short_name": "أذكار",
+  "name": "موسوعة المسلم",
+  "short_name": "موسوعة المسلم",
+  "description": "مصحف، أذكار، مواقيت، قبلة، سبحة، وصوتيات قرآن",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#FDFBF7",
@@ -10,12 +11,14 @@
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }

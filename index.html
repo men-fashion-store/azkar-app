@@ -2,19 +2,29 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="موسوعة المسلم: مصحف، أذكار، مواقيت صلاة، قبلة، سبحة، وصوتيات قرآن — تطبيق ويب سريع يعمل بدون تثبيت.">
+    <meta name="theme-color" content="#8B5A2B">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>موسوعة المسلم</title>
     <meta property="og:title" content="موسوعة المسلم الشاملة">
+    <meta property="og:description" content="قرآن، أذكار، مواقيت، قبلة، وسبحة في مكان واحد.">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
-    <div class="settings-bar">
-        <button class="settings-btn" onclick="toggleTheme()" title="الوضع الليلي">🌙</button>
-        <button class="settings-btn" onclick="changeFontSize(1)" title="تكبير الخط">A+</button>
-        <button class="settings-btn" onclick="changeFontSize(-1)" title="تصغير الخط">A-</button>
-        <button class="settings-btn" onclick="requestLocationPermission()" title="تحديث الموقع بالـ GPS">📍</button>
+    <div id="offline-banner" class="offline-banner hidden" role="status" aria-live="polite">لا يوجد اتصال بالإنترنت — سيتم التحديث عند العودة</div>
+
+    <div class="settings-bar" role="toolbar" aria-label="إعدادات سريعة">
+        <button type="button" class="settings-btn" onclick="navigateTo('settings')" title="الإعدادات" aria-label="فتح الإعدادات">⚙️</button>
+        <button type="button" class="settings-btn" onclick="toggleTheme()" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
+        <button type="button" class="settings-btn" onclick="changeFontSize(1)" title="تكبير الخط" aria-label="تكبير خط النصوص">A+</button>
+        <button type="button" class="settings-btn" onclick="changeFontSize(-1)" title="تصغير الخط" aria-label="تصغير خط النصوص">A-</button>
+        <button type="button" class="settings-btn" onclick="requestLocationPermission()" title="تحديث الموقع بالـ GPS" aria-label="تحديث الموقع عبر GPS">📍</button>
     </div>
 
     <div id="splash-screen" class="screen active splash-bg">
@@ -61,7 +71,45 @@
                 <button class="grid-btn" onclick="navigateTo('masbaha')">👆<br>السبحة</button>
                 <button class="grid-btn" onclick="navigateTo('prayerTimes')">🕌<br>المواقيت</button>
                 <button class="grid-btn" onclick="navigateTo('qibla')">🕋<br>القبلة</button>
+                <button type="button" class="grid-btn" onclick="navigateTo('settings')" style="grid-column: 1 / -1;">⚙️<br>الإعدادات</button>
             </div>
+        </div>
+    </div>
+
+    <div id="settings-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar"><button type="button" class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
+            <span class="screen-title">إعدادات التطبيق</span>
+        </div>
+        <div class="paper-card settings-card">
+            <p class="settings-note">المواقيت من <strong>Aladhan API</strong>؛ التفسير الميسر يُعرض من واجهة <strong>api.alquran.cloud</strong> (مجمع الملك فهد).</p>
+
+            <label class="settings-label" for="prayer-method-select">طريقة حساب المواقيت</label>
+            <select id="prayer-method-select" class="settings-select">
+                <option value="5">هيئة المساحة المصرية (5)</option>
+                <option value="2">الجمعية الإسلامية بأمريكا الشمالية (2)</option>
+                <option value="3">رابطة العالم الإسلامي (3)</option>
+                <option value="4">أم القرى (مكة) (4)</option>
+                <option value="8">جامعة العلوم الإسلامية بكراتشي (8)</option>
+                <option value="12">وزارة الأوقاف الجزائر (12)</option>
+            </select>
+
+            <div class="settings-row">
+                <input type="checkbox" id="notify-prayer-check" class="settings-check">
+                <label for="notify-prayer-check">تنبيهات أوقات الصلاة (إشعار المتصفح)</label>
+            </div>
+            <p class="settings-hint" id="notify-permission-hint">يُفضّل السماح بالإشعارات، وتثبيت التطبيق كـPWA. التنبيه يُجدول من الجهاز عند فتح التطبيق.</p>
+
+            <label class="settings-label" for="notify-before-select">التنبيه قبل الأذان بـ</label>
+            <select id="notify-before-select" class="settings-select">
+                <option value="0">عند دخول الوقت</option>
+                <option value="5">5 دقائق</option>
+                <option value="10">10 دقائق</option>
+                <option value="15">15 دقيقة</option>
+            </select>
+
+            <button type="button" class="btn settings-save-btn" onclick="saveAppSettings()">💾 حفظ الإعدادات</button>
+            <button type="button" class="btn btn-secondary" onclick="requestNotificationPermissionFromSettings()">🔔 طلب إذن الإشعارات</button>
         </div>
     </div>
 
@@ -76,6 +124,10 @@
             <button class="btn" onclick="startAzkar('sleep')">💤 أذكار النوم</button>
             <button class="btn" onclick="startAzkar('prayer')">🕌 أذكار بعد الصلاة</button>
             <button class="btn" onclick="startAzkar('ruqyah')">🛡️ الرقية الشرعية</button>
+            <button type="button" class="btn" onclick="startAzkar('food')">🍽️ الطعام والشراب</button>
+            <button type="button" class="btn" onclick="startAzkar('masjid')">🕌 المسجد</button>
+            <button type="button" class="btn" onclick="startAzkar('travel')">🧳 السفر</button>
+            <button type="button" class="btn" onclick="startAzkar('home')">🏠 المنزل</button>
         </div>
     </div>
 
@@ -97,7 +149,7 @@
             <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
         </div>
         <div class="paper-card" style="justify-content: center; min-height: 60vh;">
-            <div class="masbaha-display" id="masbaha-count">0</div>
+            <div class="masbaha-display" id="masbaha-count" dir="ltr">٠</div>
             <button class="masbaha-btn" onclick="incrementMasbaha()">سبّح</button>
             <button class="reset-btn" onclick="resetMasbaha()">🔄 تصفير العداد</button>
         </div>
@@ -151,7 +203,8 @@
             <span class="screen-title">فهرس المصحف</span>
         </div>
         <div class="surah-grid-container">
-            <button class="btn" style="width: 100%; margin-bottom: 20px; background-color: var(--accent-color); color: var(--bg-color);" onclick="navigateTo('bookmarks')">🔖 علاماتي المرجعية</button>
+            <button type="button" id="resume-reading-btn" class="btn resume-reading-btn hidden" aria-live="polite">▶ متابعة القراءة</button>
+            <button type="button" class="btn" style="width: 100%; margin-bottom: 20px; background-color: var(--accent-color); color: var(--bg-color);" onclick="navigateTo('bookmarks')">🔖 علاماتي المرجعية</button>
             <div id="surah-list" class="surah-grid"></div>
         </div>
     </div>
@@ -176,16 +229,39 @@
                 <button class="btn" style="padding: 8px 15px; font-size: 1rem; width: 45%;" onclick="navigateSurah(-1)">⏩ السابقة</button>
                 <button class="btn" style="padding: 8px 15px; font-size: 1rem; width: 45%;" onclick="navigateSurah(1)">التالية ⏪</button>
             </div>
-            <p style="font-size: 0.8rem; color: var(--accent-color); margin-top: 10px;">💡 اضغط على أي آية لحفظها كعلامة مرجعية</p>
+            <p style="font-size: 0.8rem; color: var(--accent-color); margin-top: 10px;">💡 ضغطة سريعة: علامة مرجعية — ضغطة مطوّلة: تفسير أو استماع</p>
         </div>
         <div class="paper-card quran-paper">
             <div id="quran-text" class="quran-text-container">جاري التحميل...</div>
         </div>
+        <audio id="ayah-audio" preload="none" class="ayah-audio-el"></audio>
     </div>
 
-    <div id="toast-msg">رسالة</div>
+    <div id="ayah-sheet-backdrop" class="sheet-backdrop hidden" aria-hidden="true"></div>
+    <div id="ayah-action-sheet" class="ayah-action-sheet hidden" role="dialog" aria-modal="true" aria-labelledby="ayah-sheet-title">
+        <div class="sheet-handle"></div>
+        <h3 id="ayah-sheet-title" class="sheet-title">آية</h3>
+        <div id="ayah-sheet-actions" class="sheet-actions">
+            <button type="button" class="sheet-btn" id="ayah-btn-tafsir">📖 تفسير الميسر</button>
+            <button type="button" class="sheet-btn" id="ayah-btn-audio">▶️ استماع الآية</button>
+            <button type="button" class="sheet-btn sheet-btn-muted" id="ayah-btn-close">إغلاق</button>
+        </div>
+        <div id="ayah-tafsir-panel" class="ayah-tafsir-panel hidden">
+            <button type="button" class="back-btn sheet-back" id="ayah-tafsir-back">🔙 رجوع</button>
+            <p class="tafsir-source">المصدر: تفسير الميسر — مجمع الملك فهد (via alquran.cloud)</p>
+            <div id="ayah-tafsir-text" class="ayah-tafsir-text">جاري التحميل...</div>
+        </div>
+    </div>
 
-    <script> if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); }); } </script>
+    <div id="toast-msg" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(() => {});
+            });
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
