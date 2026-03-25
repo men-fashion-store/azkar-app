@@ -13,16 +13,16 @@ class MuslimApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'موسوعة المسلم',
       theme: ThemeData(
-        // لون أساسي للتطبيق يتماشى مع الطابع الإسلامي
-        primarySwatch: Colors.teal, 
+        primarySwatch: Colors.teal,
+        fontFamily: 'Tahoma', // يمكنك تغييره لاحقاً لخط عربي زي Cairo
       ),
       home: HomeScreen(),
     );
   }
 }
 
+// ================== الشاشة الرئيسية ==================
 class HomeScreen extends StatelessWidget {
-  // قائمة بيانات الأقسام (الاسم + رابط صورة خلفية معبرة)
   final List<Map<String, String>> categories = [
     {'title': 'المصحف', 'image': 'https://images.unsplash.com/photo-1601142634808-38923eb7c560?auto=format&fit=crop&w=500&q=60'},
     {'title': 'الأذكار', 'image': 'https://images.unsplash.com/photo-1590076215667-875d4ef2d790?auto=format&fit=crop&w=500&q=60'},
@@ -38,18 +38,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'موسوعة المسلم',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: const Text('موسوعة المسلم', style: TextStyle(fontWeight: FontWeight.bold)),
         centerTitle: true,
-        // الإعدادات فوق على الجنب زي ما معتز طلب
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              print('فتح الإعدادات');
-              // TODO: حط هنا كود الانتقال لصفحة الإعدادات
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
             },
           )
         ],
@@ -59,21 +54,20 @@ class HomeScreen extends StatelessWidget {
         child: GridView.builder(
           itemCount: categories.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // عرض قسمين في كل صف
-            crossAxisSpacing: 12, // المسافة الأفقية
-            mainAxisSpacing: 12, // المسافة الرأسية
-            childAspectRatio: 0.85, // نسبة الطول للعرض
+            crossAxisCount: 2,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 0.85,
           ),
           itemBuilder: (context, index) {
-            return _buildCategoryCard(categories[index]);
+            return _buildCategoryCard(context, categories[index]);
           },
         ),
       ),
     );
   }
 
-  // دالة بناء الكارت المكون من (صورة + تظليل + نص)
-  Widget _buildCategoryCard(Map<String, String> category) {
+  Widget _buildCategoryCard(BuildContext context, Map<String, String> category) {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -82,16 +76,14 @@ class HomeScreen extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // 1. الصورة
             Image.network(
               category['image']!,
               fit: BoxFit.cover,
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) return child;
-                return const Center(child: CircularProgressIndicator()); // مؤشر تحميل للصورة
+                return const Center(child: CircularProgressIndicator());
               },
             ),
-            // 2. التظليل عشان الكلام الأبيض يبان بوضوح على أي صورة
             Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -102,29 +94,46 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // 3. اسم القسم
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
                   category['title']!,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
               ),
             ),
-            // 4. تأثير الضغط عشان ينقلك للصفحة التانية
             Material(
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  print('تم الضغط على: ${category['title']}');
-                  // TODO: حط هنا كود الانتقال لصفحة القسم
+                  // نظام التوجيه بناءً على اسم القسم
+                  Widget nextScreen;
+                  switch (category['title']) {
+                    case 'السبحة الإلكترونية':
+                      nextScreen = const SebhaScreen();
+                      break;
+                    case 'المصحف':
+                      nextScreen = const QuranScreen();
+                      break;
+                    case 'الأذكار':
+                      nextScreen = const AzkarScreen();
+                      break;
+                    case 'مواقيت الصلاة':
+                      nextScreen = const PrayerTimesScreen();
+                      break;
+                    case 'البوصلة':
+                      nextScreen = const CompassScreen();
+                      break;
+                    case 'أحاديث':
+                      nextScreen = const HadithScreen();
+                      break;
+                    default:
+                      nextScreen = const SettingsScreen();
+                  }
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => nextScreen));
                 },
               ),
             ),
@@ -132,5 +141,122 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+// ================== شاشة السبحة الإلكترونية (مكتملة) ==================
+class SebhaScreen extends StatefulWidget {
+  const SebhaScreen({Key? key}) : super(key: key);
+
+  @override
+  _SebhaScreenState createState() => _SebhaScreenState();
+}
+
+class _SebhaScreenState extends State<SebhaScreen> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  void _resetCounter() {
+    setState(() {
+      _counter = 0;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('السبحة الإلكترونية')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('عدد التسبيحات', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+              decoration: BoxDecoration(
+                color: Colors.teal.shade50,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.teal, width: 2),
+              ),
+              child: Text(
+                '$_counter',
+                style: const TextStyle(fontSize: 60, fontWeight: FontWeight.bold, color: Colors.teal),
+              ),
+            ),
+            const SizedBox(height: 40),
+            ElevatedButton(
+              onPressed: _incrementCounter,
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(60),
+                backgroundColor: Colors.teal,
+              ),
+              child: const Text('سبّح', style: TextStyle(fontSize: 30, color: Colors.white)),
+            ),
+            const SizedBox(height: 30),
+            TextButton.icon(
+              onPressed: _resetCounter,
+              icon: const Icon(Icons.refresh, color: Colors.red),
+              label: const Text('تصفير العداد', style: TextStyle(color: Colors.red, fontSize: 18)),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ================== شاشات مؤقتة (Placeholders) لباقي الأقسام ==================
+class QuranScreen extends StatelessWidget {
+  const QuranScreen({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(title: const Text('المصحف')), body: const Center(child: Text('جاري العمل على شاشة المصحف...', style: TextStyle(fontSize: 20))));
+  }
+}
+
+class AzkarScreen extends StatelessWidget {
+  const AzkarScreen({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(title: const Text('الأذكار')), body: const Center(child: Text('جاري العمل على شاشة الأذكار...', style: TextStyle(fontSize: 20))));
+  }
+}
+
+class PrayerTimesScreen extends StatelessWidget {
+  const PrayerTimesScreen({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(title: const Text('مواقيت الصلاة')), body: const Center(child: Text('جاري العمل على شاشة مواقيت الصلاة...', style: TextStyle(fontSize: 20))));
+  }
+}
+
+class CompassScreen extends StatelessWidget {
+  const CompassScreen({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(title: const Text('البوصلة')), body: const Center(child: Text('جاري العمل على شاشة البوصلة...', style: TextStyle(fontSize: 20))));
+  }
+}
+
+class HadithScreen extends StatelessWidget {
+  const HadithScreen({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(title: const Text('أحاديث')), body: const Center(child: Text('جاري العمل على شاشة الأحاديث...', style: TextStyle(fontSize: 20))));
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(appBar: AppBar(title: const Text('الإعدادات')), body: const Center(child: Text('شاشة الإعدادات', style: TextStyle(fontSize: 20))));
   }
 }
