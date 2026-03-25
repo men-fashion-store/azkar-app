@@ -17,18 +17,23 @@
 
     <div id="sidebar-overlay" class="overlay" onclick="toggleSidebar()"></div>
     <div id="sidebar" class="sidebar">
-        <div class="side-head"><h3>الإعدادات</h3><button onclick="toggleSidebar()">إغلاق</button></div>
+        <div class="side-head">
+            <h3>الإعدادات</h3>
+            <button onclick="toggleSidebar()">إغلاق</button>
+        </div>
         <div class="side-content">
             <button class="side-btn" onclick="toggleTheme()">الوضع الليلي / النهاري</button>
             <div class="font-tool">
                 <label>حجم الخط</label>
-                <input type="range" min="1.2" max="3" step="0.1" oninput="changeFontSizeSlider(this.value)">
+                <input type="range" id="font-slider" min="1.2" max="3" step="0.1" oninput="changeFontSizeSlider(this.value)">
             </div>
-            <button class="side-btn" onclick="requestLocationPermission()">تفعيل الـ GPS الآن</button>
+            <button class="side-btn" onclick="requestLocationPermission()">تحديث الـ GPS الآن</button>
             <select id="manual-city-select" onchange="setManualLocation()" class="side-select">
                 <option value="">تحديد الموقع يدوياً</option>
                 <option value="30.8521,32.3167,القنطرة غرب">القنطرة غرب</option>
                 <option value="30.5833,32.2667,الإسماعيلية">الإسماعيلية</option>
+                <option value="31.2565,32.2841,بورسعيد">بورسعيد</option>
+                <option value="29.9668,32.5498,السويس">السويس</option>
                 <option value="30.0444,31.2357,القاهرة">القاهرة</option>
                 <option value="31.2001,29.9187,الإسكندرية">الإسكندرية</option>
             </select>
@@ -50,9 +55,10 @@
     <div id="home-screen" class="screen hidden">
         <div class="home-container">
             <div class="prayer-box" onclick="navigateTo('prayerTimes')">
-                <span id="next-prayer-name">...</span>
+                <button class="home-menu-btn" onclick="event.stopPropagation(); toggleSidebar();">☰</button>
+                <span id="next-prayer-name">جاري الحساب...</span>
                 <div id="prayer-countdown" class="timer-text">00:00:00</div>
-                <span id="prayer-location" class="location-tag">جاري التحديد...</span>
+                <span id="prayer-location" class="location-tag">تحديد الموقع...</span>
             </div>
 
             <div class="app-grid">
@@ -68,22 +74,34 @@
 
     <div id="quranIndex-screen" class="screen hidden">
         <div class="page-content">
-            <button class="nav-btn-full" onclick="navigateTo('bookmarks')">🔖 المحفوظات</button>
+            <button class="nav-btn-full" onclick="navigateTo('bookmarks')">🔖 الآيات المحفوظة</button>
             <div id="surah-list" class="list-container"></div>
         </div>
     </div>
 
     <div id="quranReader-screen" class="screen hidden">
         <div class="quran-reader-wrap">
-            <h2 id="current-surah-name"></h2>
+            <h2 id="current-surah-name" class="fixed-surah-title"></h2>
             <div id="quran-text" class="quran-content"></div>
         </div>
         <button class="floating-plus" onclick="toggleQuranMenu()">+</button>
         <div id="quran-fab-menu" class="fab-menu hidden">
-            <button onclick="playSelectedAyah()">استماع</button>
-            <button onclick="showTafsir()">تفسير</button>
-            <button onclick="toggleBookmarkBtn()">حفظ</button>
-            <button onclick="goBack()">الفهرس</button>
+            <button onclick="playSelectedAyah()">استماع للآية</button>
+            <button onclick="showTafsir()">تفسير الآية</button>
+            <button onclick="toggleBookmarkBtn()">حفظ مرجع</button>
+            <button onclick="goBack()">رجوع للفهرس</button>
+        </div>
+    </div>
+
+    <div id="audioMenu-screen" class="screen hidden">
+        <div class="page-content">
+            <div class="audio-box">
+                <input type="text" id="reciter-search" placeholder="ابحث عن قارئ..." onkeyup="filterReciters()">
+                <select id="reciter-select" onchange="updateReciter()"><option value="">اختر القارئ</option></select>
+                <select id="surah-select-audio" onchange="updateAudioSurah()"><option value="">اختر السورة</option></select>
+                <audio id="global-quran-audio" controls style="width:100%; margin-top:15px;"></audio>
+            </div>
+            <div id="now-playing-title" class="playing-info">اختر القارئ والسورة للاستماع</div>
         </div>
     </div>
 
@@ -96,29 +114,35 @@
         </div>
     </div>
 
-    <div id="masbaha-screen" class="screen hidden">
-        <div class="sebha-area">
-            <div id="masbaha-count">0</div>
-            <button class="sebha-btn" onclick="incrementMasbaha()">تسبيح</button>
-            <button class="reset-sebha" onclick="resetMasbaha()">تصفير</button>
+    <div id="azkarReader-screen" class="screen hidden">
+        <div class="zikr-progress"><div id="progress-bar" class="progress-fill"></div></div>
+        <div class="zikr-card">
+            <div id="zikr-text"></div>
+            <p id="zikr-proof"></p>
+            <button id="counter-btn" class="zikr-btn">0</button>
         </div>
     </div>
 
-    <div id="prayerTimes-screen" class="screen hidden">
-        <div class="page-content"><div id="prayer-times-list" class="p-list"></div></div>
+    <div id="masbaha-screen" class="screen hidden">
+        <div class="sebha-wrap">
+            <div id="masbaha-count">0</div>
+            <button class="sebha-btn" onclick="incrementMasbaha()">تسبيح</button>
+            <button class="sebha-reset" onclick="resetMasbaha()">تصفير</button>
+        </div>
     </div>
 
     <div id="tafsir-modal" class="modal hidden">
         <div class="modal-body">
+            <h3>التفسير الميسر</h3>
             <div id="tafsir-text"></div>
-            <button onclick="closeTafsirModal()">إغلاق</button>
+            <button onclick="closeTafsirModal()" class="close-btn">إغلاق</button>
         </div>
     </div>
 
     <div id="exit-modal" class="modal hidden">
         <div class="modal-body exit-card">
-            <p>هل تريد الخروج؟</p>
-            <div class="btn-group">
+            <p>هل تريد الخروج من التطبيق؟</p>
+            <div class="group-btns">
                 <button onclick="confirmExit()">نعم</button>
                 <button onclick="closeExitModal()">لا</button>
             </div>
@@ -126,7 +150,7 @@
     </div>
 
     <div id="toast-msg"></div>
-    <audio id="ayah-audio-player"></audio>
+    <audio id="ayah-audio-player" style="display:none;"></audio>
     <script src="script.js"></script>
 </body>
 </html>
