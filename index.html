@@ -22,8 +22,6 @@
     <div class="settings-bar" role="toolbar" aria-label="إعدادات سريعة">
         <button type="button" class="settings-btn" onclick="navigateTo('settings')" title="الإعدادات" aria-label="فتح الإعدادات">⚙️</button>
         <button type="button" class="settings-btn" onclick="toggleTheme()" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
-        <button type="button" class="settings-btn" onclick="changeFontSize(1)" title="تكبير الخط" aria-label="تكبير خط النصوص">A+</button>
-        <button type="button" class="settings-btn" onclick="changeFontSize(-1)" title="تصغير الخط" aria-label="تصغير خط النصوص">A-</button>
         <button type="button" class="settings-btn" onclick="requestLocationPermission()" title="تحديث الموقع بالـ GPS" aria-label="تحديث الموقع عبر GPS">📍</button>
     </div>
 
@@ -118,6 +116,15 @@
                 <option value="10">10 دقائق</option>
                 <option value="15">15 دقيقة</option>
             </select>
+
+            <label class="settings-label">التحكم في حجم الخط</label>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; width: 100%;">
+                <button type="button" class="btn" onclick="changeFontSize(1)" style="width: 48%; padding: 10px;">تكبير A+</button>
+                <button type="button" class="btn" onclick="changeFontSize(-1)" style="width: 48%; padding: 10px;">تصغير A-</button>
+            </div>
+
+            <label class="settings-label">تحديث التطبيق</label>
+            <button type="button" class="btn btn-secondary" onclick="checkForUpdates()" style="margin-bottom: 20px;">🔄 البحث عن تحديثات وتطبيقها</button>
 
             <button type="button" class="btn settings-save-btn" onclick="saveAppSettings()">💾 حفظ الإعدادات</button>
             <button type="button" class="btn btn-secondary" onclick="requestNotificationPermissionFromSettings()">🔔 طلب إذن الإشعارات</button>
