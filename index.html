@@ -14,7 +14,7 @@
         <button class="settings-btn" onclick="toggleTheme()" title="الوضع الليلي">🌙</button>
         <button class="settings-btn" onclick="changeFontSize(1)" title="تكبير الخط">A+</button>
         <button class="settings-btn" onclick="changeFontSize(-1)" title="تصغير الخط">A-</button>
-        <button class="settings-btn" onclick="requestLocationPermission()" title="تحديث الموقع بدقة للقبلة والمواقيت">📍</button>
+        <button class="settings-btn" onclick="requestLocationPermission()" title="تحديث الموقع بالـ GPS">📍</button>
     </div>
 
     <div id="splash-screen" class="screen active splash-bg">
@@ -33,7 +33,22 @@
                     <span id="next-prayer-name">جاري الحساب...</span>
                     <span id="prayer-countdown">00:00:00</span>
                 </div>
-                <div class="prayer-location" id="prayer-location">📍 جاري استرجاع الموقع...</div>
+                <div class="prayer-location" id="prayer-location" style="margin-bottom: 10px;">📍 جاري استرجاع الموقع...</div>
+                
+                <div style="margin-top: 10px;" onclick="event.stopPropagation();">
+                    <select id="manual-city-select" onchange="setManualLocation()" style="background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.5); padding: 8px 10px; border-radius: 10px; font-family: 'Tajawal'; outline: none; width: 90%; font-size: 0.9rem;">
+                        <option value="" style="color: #000;">أو اختر مدينتك يدوياً 🌍</option>
+                        <option value="30.8521,32.3167,القنطرة غرب" style="color: #000;">القنطرة غرب</option>
+                        <option value="30.5833,32.2667,الإسماعيلية" style="color: #000;">الإسماعيلية</option>
+                        <option value="31.2565,32.2841,بورسعيد" style="color: #000;">بورسعيد</option>
+                        <option value="29.9668,32.5498,السويس" style="color: #000;">السويس</option>
+                        <option value="30.0444,31.2357,القاهرة" style="color: #000;">القاهرة</option>
+                        <option value="31.2001,29.9187,الإسكندرية" style="color: #000;">الإسكندرية</option>
+                        <option value="31.0379,31.3815,المنصورة" style="color: #000;">المنصورة</option>
+                        <option value="30.7865,31.0004,طنطا" style="color: #000;">طنطا</option>
+                        <option value="30.5877,31.5020,الزقازيق" style="color: #000;">الزقازيق</option>
+                    </select>
+                </div>
             </div>
 
             <h1 class="title">موسوعة المسلم</h1>
