@@ -84,7 +84,7 @@ window.showToast = (msg) => {
     t.innerText = msg; t.style.bottom = '20px'; setTimeout(() => { t.style.bottom = '-100px'; }, 3000);
 };
 
-// --- 2. نظام الملاحة والريفريش (Hash Routing) ---
+// --- 2. الملاحة (Hash Routing) ---
 window.navigateTo = function(targetScreen) { window.location.hash = targetScreen; };
 window.goBack = function() { window.history.back(); };
 window.addEventListener('hashchange', handleRoute);
@@ -96,7 +96,7 @@ function handleRoute() {
     if(target) { target.classList.replace('hidden', 'active'); window.scrollTo(0, 0); }
 }
 
-// --- 3. الموقع والمواقيت (الذاكرة + التحديث) ---
+// --- 3. الموقع والمواقيت والتحميل اليدوي (الحل الجذري) ---
 let userLat = parseFloat(localStorage.getItem('savedLat')) || 30.0444;
 let userLng = parseFloat(localStorage.getItem('savedLng')) || 31.2357;
 let userCity = localStorage.getItem('savedCity') || "القاهرة (افتراضي)";
@@ -120,6 +120,18 @@ document.addEventListener("DOMContentLoaded", () => {
     renderBookmarks(); 
 });
 
+window.setManualLocation = function() {
+    let val = document.getElementById('manual-city-select').value;
+    if(!val) return; 
+    let [lat, lng, cityName] = val.split(',');
+    userLat = parseFloat(lat); userLng = parseFloat(lng); userCity = cityName;
+    localStorage.setItem('savedLat', userLat); localStorage.setItem('savedLng', userLng); localStorage.setItem('savedCity', userCity);
+    document.getElementById('prayer-location').innerText = `📍 ${userCity} (ضبط يدوي)`;
+    fetchPrayers(userLat, userLng);
+    showToast(`✅ تم ضبط الموقع على ${userCity} بنجاح`);
+    document.getElementById('manual-city-select').value = "";
+};
+
 async function initLocationAndPrayers() {
     document.getElementById('prayer-location').innerText = `📍 ${userCity}`;
     fetchPrayers(userLat, userLng);
@@ -127,7 +139,7 @@ async function initLocationAndPrayers() {
     try {
         let res = await fetch('http://ip-api.com/json/?lang=ar');
         let data = await res.json();
-        if(data.status === "success") {
+        if(data.status === "success" && !document.getElementById('prayer-location').innerText.includes("يدوي")) {
             userLat = data.lat; userLng = data.lon; userCity = data.city;
             localStorage.setItem('savedLat', userLat); localStorage.setItem('savedLng', userLng); localStorage.setItem('savedCity', userCity);
             document.getElementById('prayer-location').innerText = `📍 ${userCity}`;
