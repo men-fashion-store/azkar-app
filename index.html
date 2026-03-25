@@ -68,8 +68,7 @@
                 <button class="grid-btn" onclick="navigateTo('azkarMenu')">📿<br>الأذكار</button>
                 <button class="grid-btn" onclick="navigateTo('masbaha')">👆<br>السبحة</button>
                 <button class="grid-btn" onclick="navigateTo('prayerTimes')">🕌<br>المواقيت</button>
-                <button class="grid-btn" onclick="navigateTo('qibla')">🕋<br>القبلة</button>
-                <button type="button" class="grid-btn" onclick="navigateTo('settings')" style="grid-column: 1 / -1;">⚙️<br>الإعدادات</button>
+                <button type="button" class="grid-btn" onclick="navigateTo('settings')">⚙️<br>الإعدادات</button>
             </div>
         </div>
     </div>
@@ -170,19 +169,6 @@
             <div class="masbaha-display" id="masbaha-count" dir="ltr">٠</div>
             <button class="masbaha-btn" onclick="incrementMasbaha()">سبّح</button>
             <button class="reset-btn" onclick="resetMasbaha()">🔄 تصفير العداد</button>
-        </div>
-    </div>
-
-    <div id="qibla-screen" class="screen hidden">
-        <div class="header-wrapper">
-            <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
-        </div>
-        <div class="paper-card" style="justify-content: center; min-height: 60vh;">
-            <div class="compass-circle" id="compass-circle">
-                <div class="qibla-pointer" id="qibla-pointer">🕋</div>
-            </div>
-            <p id="qibla-status" style="margin-top:20px; color: var(--accent-color); font-weight: bold;">جاري التحديد...</p>
-            <button class="btn" style="width:auto; padding:10px 20px; margin-top: 15px;" onclick="initQibla()">تفعيل البوصلة 🧭</button>
         </div>
     </div>
 
