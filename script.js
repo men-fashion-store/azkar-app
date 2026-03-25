@@ -18,6 +18,21 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
+/** قارئ استماع الآية: معرف alquran.cloud / islamic.network + مجلد everyayah.com */
+const AYAH_RECITER_PRESETS = [
+    { id: 'alafasy', label: 'مشاري العفاسي', cdn: 'ar.alafasy', everyayah: 'Alafasy_128kbps' },
+    { id: 'husary', label: 'محمود خليل الحصري', cdn: 'ar.husary', everyayah: 'Husary_128kbps' },
+    { id: 'abdulbasit', label: 'عبد الباسط عبد الصمد', cdn: 'ar.abdulbasitmurattal', everyayah: 'Abdul_Basit_Murattal_192kbps' },
+    { id: 'minshawi', label: 'محمد صديق المنشاوي', cdn: 'ar.minshawi', everyayah: 'Minshawy_Murattal_128kbps' },
+    { id: 'ghamadi', label: 'سعد الغامدي', cdn: 'ar.saadalghamidi', everyayah: 'Ghamadi_40kbps' },
+    { id: 'shatri', label: 'أبو بكر الشاطري', cdn: 'ar.shaatree', everyayah: 'Abu_Bakr_Ash-Shaatree_128kbps' }
+];
+
+function getAyahReciterPreset() {
+    const id = localStorage.getItem('ayahReciterId') || 'alafasy';
+    return AYAH_RECITER_PRESETS.find((p) => p.id === id) || AYAH_RECITER_PRESETS[0];
+}
+
 let toastTimer;
 window.showToast = (msg) => {
     const t = document.getElementById('toast-msg');
@@ -357,6 +372,28 @@ function clearPrayerNotificationTimeouts() {
     prayerNotifyTimeouts = [];
 }
 
+function showPrayerNotificationNow(body) {
+    const title = 'موسوعة المسلم';
+    const opts = {
+        body,
+        icon: './icon-192.png',
+        badge: './icon-192.png',
+        tag: 'prayer-adhan',
+        renotify: true,
+        requireInteraction: false
+    };
+    if ('vibrate' in navigator) opts.vibrate = [120, 80, 120];
+    try {
+        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ type: 'SHOW_NOTIFICATION', title, options: opts });
+        } else {
+            new Notification(title, opts);
+        }
+    } catch (err) {
+        try { new Notification(title, opts); } catch (e2) { /* ignore */ }
+    }
+}
+
 function scheduleNextPrayerNotification(nextT, prayerNameAr) {
     clearPrayerNotificationTimeouts();
     if (localStorage.getItem('notifyPrayer') !== '1') return;
@@ -366,13 +403,11 @@ function scheduleNextPrayerNotification(nextT, prayerNameAr) {
     const fireAt = new Date(nextT.getTime() - beforeMin * 60000);
     const delay = fireAt.getTime() - Date.now();
     if (delay < 1500) return;
+    const body = beforeMin > 0
+        ? `تذكير: صلاة ${prayerNameAr} بعد نحو ${beforeMin} دقيقة`
+        : `حان وقت صلاة ${prayerNameAr}`;
     const id = setTimeout(() => {
-        const body = beforeMin > 0
-            ? `تذكير: صلاة ${prayerNameAr} بعد نحو ${beforeMin} دقيقة`
-            : `حان وقت صلاة ${prayerNameAr}`;
-        try {
-            new Notification('🕌 موسوعة المسلم', { body, icon: './icon-192.png', tag: 'prayer-adhan', requireInteraction: false });
-        } catch (err) { /* ignore */ }
+        showPrayerNotificationNow(body);
         fetchPrayers(userLat, userLng);
     }, delay);
     prayerNotifyTimeouts.push(id);
@@ -440,9 +475,14 @@ function initSettingsScreen() {
     const m = document.getElementById('prayer-method-select');
     const n = document.getElementById('notify-prayer-check');
     const b = document.getElementById('notify-before-select');
+    const ayahSel = document.getElementById('ayah-reciter-select');
     if (m) m.value = getPrayerMethod();
     if (n) n.checked = localStorage.getItem('notifyPrayer') === '1';
     if (b) b.value = localStorage.getItem('notifyBeforeMin') || '0';
+    if (ayahSel) {
+        const saved = localStorage.getItem('ayahReciterId') || 'alafasy';
+        ayahSel.value = AYAH_RECITER_PRESETS.some((p) => p.id === saved) ? saved : 'alafasy';
+    }
     updateNotifyPermissionHint();
 }
 
@@ -461,9 +501,13 @@ window.saveAppSettings = function () {
     const m = document.getElementById('prayer-method-select');
     const n = document.getElementById('notify-prayer-check');
     const b = document.getElementById('notify-before-select');
+    const ayahSel = document.getElementById('ayah-reciter-select');
     if (m) localStorage.setItem('prayerMethod', m.value);
     if (n) localStorage.setItem('notifyPrayer', n.checked ? '1' : '0');
     if (b) localStorage.setItem('notifyBeforeMin', b.value);
+    if (ayahSel && AYAH_RECITER_PRESETS.some((p) => p.id === ayahSel.value)) {
+        localStorage.setItem('ayahReciterId', ayahSel.value);
+    }
     if (n && n.checked && 'Notification' in window && Notification.permission === 'default') {
         Notification.requestPermission().then(() => {
             updateNotifyPermissionHint();
@@ -553,9 +597,10 @@ function buildAyahMp3Urls(surahNum, ayahInSurah) {
     const g = ayahGlobalNumberCache[ayahInSurah];
     const s = String(surahNum).padStart(3, '0');
     const a = String(ayahInSurah).padStart(3, '0');
+    const p = getAyahReciterPreset();
     const list = [];
-    if (g) list.push(`https://cdn.islamic.network/quran/audio/128/ar.alafasy/${g}.mp3`);
-    list.push(`https://everyayah.com/data/Alafasy_128kbps/${s}${a}.mp3`);
+    if (g && p.cdn) list.push(`https://cdn.islamic.network/quran/audio/128/${p.cdn}/${g}.mp3`);
+    if (p.everyayah) list.push(`https://everyayah.com/data/${p.everyayah}/${s}${a}.mp3`);
     return list;
 }
 
@@ -588,7 +633,8 @@ function toggleAyahRecitation() {
 function updateAyahAudioButtonLabel(playing) {
     const b = document.getElementById('ayah-btn-audio');
     if (!b) return;
-    b.textContent = playing ? '⏹ إيقاف الاستماع' : '▶️ استماع الآية (مشاري العفاسي)';
+    const lab = getAyahReciterPreset().label;
+    b.textContent = playing ? '⏹ إيقاف الاستماع' : `▶️ استماع الآية (${lab})`;
 }
 
 // --- 4. البوصلة ---
@@ -840,11 +886,30 @@ window.resetMasbaha = () => {
 // --- 7. الصوتيات ---
 let allAudioReciters = [];
 
+function prependPinnedSurahReciters(sel) {
+    /** رواية ورش كسور كاملة: مسار موثوق للحصري؛ «ورش» كامل للمنشاوي غير متوفر في API الشائع. */
+    const pinned = [
+        {
+            n: 'محمود خليل الحصري — رواية ورش (عن نافع)',
+            s: 'https://server13.mp3quran.net/husr/Rewayat-Warsh-A-n-Nafi/'
+        },
+        {
+            n: 'محمد صديق المنشاوي — مرتل (حفص عن عاصم)',
+            s: 'https://server10.mp3quran.net/minsh/'
+        }
+    ];
+    pinned.forEach((p) => {
+        if (allAudioReciters.some((x) => (x.s || '').replace(/\/$/, '') === p.s.replace(/\/$/, ''))) return;
+        allAudioReciters.unshift(p);
+        if (sel) sel.innerHTML = `<option value="${escapeHtml(p.s)}">${escapeHtml(p.n)}</option>` + sel.innerHTML;
+    });
+}
+
 async function loadAudioReciters() {
+    const sel = document.getElementById('reciter-select');
     try {
         const res = await fetch('https://mp3quran.net/api/v3/reciters?language=ar');
         const data = await res.json();
-        const sel = document.getElementById('reciter-select');
         if (!sel) return;
         data.reciters.forEach((r) => {
             if (r.moshaf) {
@@ -855,8 +920,8 @@ async function loadAudioReciters() {
                 });
             }
         });
+        prependPinnedSurahReciters(sel);
     } catch (e) {
-        const sel = document.getElementById('reciter-select');
         if (sel) sel.innerHTML = '<option value="">تعذر تحميل القراء</option>';
     }
     loadQuranIndex();

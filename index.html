@@ -84,6 +84,17 @@
         <div class="paper-card settings-card">
             <p class="settings-note">المواقيت من <strong>Aladhan API</strong>؛ التفسير الميسر يُعرض من واجهة <strong>api.alquran.cloud</strong> (مجمع الملك فهد).</p>
 
+            <label class="settings-label" for="ayah-reciter-select">قارئ استماع الآية (من المصحف — ضغطة مطوّلة)</label>
+            <select id="ayah-reciter-select" class="settings-select" aria-describedby="ayah-reciter-hint">
+                <option value="alafasy">مشاري العفاسي</option>
+                <option value="husary">محمود خليل الحصري</option>
+                <option value="abdulbasit">عبد الباسط عبد الصمد (مرتل)</option>
+                <option value="minshawi">محمد صديق المنشاوي (مرتل)</option>
+                <option value="ghamadi">سعد الغامدي</option>
+                <option value="shatri">أبو بكر الشاطري</option>
+            </select>
+            <p class="settings-hint" id="ayah-reciter-hint">يُستخدم عند الاستماع لآية واحدة من شاشة السورة.</p>
+
             <label class="settings-label" for="prayer-method-select">طريقة حساب المواقيت</label>
             <select id="prayer-method-select" class="settings-select">
                 <option value="5">هيئة المساحة المصرية (5)</option>

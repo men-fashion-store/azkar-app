@@ -1,4 +1,4 @@
-const CACHE_NAME = 'encyclopedia-v29';
+const CACHE_NAME = 'encyclopedia-v30';
 const urlsToCache = [
   './',
   './index.html',
@@ -68,4 +68,26 @@ self.addEventListener('activate', (event) => {
     )
   );
   self.clients.claim();
+});
+
+self.addEventListener('message', (event) => {
+  const d = event.data;
+  if (!d || d.type !== 'SHOW_NOTIFICATION') return;
+  if (!self.registration || !self.registration.showNotification) return;
+  event.waitUntil(
+    self.registration.showNotification(d.title || 'موسوعة المسلم', d.options || {})
+  );
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      for (let i = 0; i < clientList.length; i++) {
+        const c = clientList[i];
+        if (c.url && 'focus' in c) return c.focus();
+      }
+      if (clients.openWindow) return clients.openWindow('./index.html');
+    })
+  );
 });
