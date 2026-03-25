@@ -1,4 +1,4 @@
-const CACHE_NAME = 'encyclopedia-v29';
+const CACHE_NAME = 'encyclopedia-v30';
 const urlsToCache = [
   './',
   './index.html',
