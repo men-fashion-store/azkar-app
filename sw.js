@@ -40,19 +40,24 @@ self.addEventListener('fetch', (event) => {
   if (apiHosts.some((h) => url.origin === new URL(h).origin)) {
     event.respondWith(
       caches.match(req).then((cachedRes) => {
-        return (
-          cachedRes ||
-          fetch(req).then((fetchRes) => {
-            return caches.open('quran-api-cache').then((cache) => {
-              cache.put(req, fetchRes.clone());
-              return fetchRes;
-            });
-          })
-        );
+        const fetchPromise = fetch(req).then((networkRes) => {
+          caches.open('quran-api-cache').then((cache) => cache.put(req, networkRes.clone()));
+          return networkRes;
+        }).catch(() => null);
+        return cachedRes || fetchPromise;
       })
     );
   } else {
-    event.respondWith(caches.match(req).then((response) => response || fetch(req)));
+    event.respondWith(
+      caches.match(req).then((response) => {
+        return response || fetch(req).then((fetchRes) => {
+          return caches.open(CACHE_NAME).then((cache) => {
+            cache.put(req, fetchRes.clone());
+            return fetchRes;
+          });
+        });
+      })
+    );
   }
 });
 
