@@ -15,16 +15,13 @@
             <h3>الإعدادات</h3>
             <button onclick="toggleSidebar()" class="close-sidebar">إغلاق</button>
         </div>
-        
         <div class="sidebar-section">
             <button class="sidebar-btn" onclick="toggleTheme()">الوضع الليلي / النهاري</button>
             <label class="slider-label">حجم الخط</label>
-            <input type="range" id="font-slider" min="1.2" max="3.5" step="0.1" oninput="changeFontSizeSlider(this.value)">
+            <input type="range" id="font-slider" min="1.2" max="3" step="0.1" oninput="changeFontSizeSlider(this.value)">
         </div>
-
         <div class="sidebar-section">
-            <label class="section-title">الموقع الجغرافي</label>
-            <button class="sidebar-btn" onclick="requestLocationPermission()">تحديث تلقائي للموقع</button>
+            <button class="sidebar-btn" onclick="requestLocationPermission()">تحديث الموقع (GPS)</button>
             <select id="manual-city-select" onchange="setManualLocation()" class="sidebar-select">
                 <option value="">اختر مدينتك يدوياً</option>
                 <option value="30.8521,32.3167,القنطرة غرب">القنطرة غرب</option>
@@ -35,22 +32,17 @@
                 <option value="31.2001,29.9187,الإسكندرية">الإسكندرية</option>
             </select>
         </div>
-
         <div class="sidebar-section">
-            <button class="sidebar-btn" onclick="checkForUpdates()">التحديث لآخر إصدار</button>
-            <button class="sidebar-btn" onclick="shareApp()" style="background:var(--accent-color); color:#000;">مشاركة التطبيق</button>
+            <button class="sidebar-btn" onclick="shareApp()">مشاركة التطبيق</button>
             <p class="share-motto">الدال على الخير كفاعله</p>
         </div>
-
-        <div class="sidebar-item" style="margin-top: auto;">
-            <button class="sidebar-btn exit-btn" onclick="exitAppPrompt()">خروج من التطبيق</button>
-        </div>
+        <button class="exit-btn-sidebar" onclick="exitAppPrompt()">خروج من التطبيق</button>
     </div>
 
     <div id="main-header" class="top-header hidden">
         <button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
-        <span class="header-title">موسوعة المسلم</span>
-        <div style="width: 30px;"></div>
+        <span id="header-title" class="header-title">موسوعة المسلم</span>
+        <div style="width: 35px;"></div>
     </div>
 
     <div id="splash-screen" class="screen active splash-bg">
@@ -82,86 +74,109 @@
                 <div class="grid-card qibla-bg" onclick="navigateTo('qibla')"><span>البوصلة</span></div>
                 <div class="grid-card audio-bg" onclick="navigateTo('audioMenu')"><span>الصوتيات</span></div>
             </div>
-            <p class="footer-text">صُنِعَ لِوَجْهِ الله</p>
         </div>
     </div>
 
     <div id="quranIndex-screen" class="screen hidden">
-        <div class="surah-list-container">
-            <button class="bookmark-entry-btn" onclick="navigateTo('bookmarks')">العلامات المرجعية</button>
-            <div id="surah-list" class="surah-vertical-grid"></div>
+        <div class="content-area">
+            <button class="action-btn-full" onclick="navigateTo('bookmarks')">العلامات المرجعية</button>
+            <div id="surah-list" class="vertical-list"></div>
         </div>
     </div>
 
     <div id="quranReader-screen" class="screen hidden">
-        <div class="quran-reader-content">
-            <h2 id="current-surah-name" class="reader-surah-title"></h2>
-            <div id="quran-text" class="reader-text-container"></div>
+        <div class="quran-reader-page">
+            <h2 id="current-surah-name" class="surah-title-fixed"></h2>
+            <div id="quran-text" class="quran-text-flow"></div>
         </div>
-        <button id="quran-fab" class="fab-btn" onclick="toggleQuranMenu()">+</button>
-        <div id="quran-fab-menu" class="fab-options hidden">
+        <button id="quran-fab" class="fab-plus" onclick="toggleQuranMenu()">+</button>
+        <div id="quran-fab-menu" class="fab-options-list hidden">
             <button onclick="playSelectedAyah()">استماع</button>
             <button onclick="showTafsir()">تفسير</button>
             <button onclick="toggleBookmarkBtn()">حفظ مرجع</button>
             <button onclick="navigateSurah(1)">التالية</button>
             <button onclick="navigateSurah(-1)">السابقة</button>
-            <button onclick="goBack()">الفهرس</button>
+            <button onclick="goBack()">رجوع</button>
+        </div>
+    </div>
+
+    <div id="audioMenu-screen" class="screen hidden">
+        <div class="content-area">
+            <div class="audio-controls">
+                <input type="text" id="reciter-search" placeholder="ابحث عن قارئ..." onkeyup="filterReciters()">
+                <select id="reciter-select" onchange="updateReciter()"><option value="">اختر القارئ</option></select>
+                <select id="surah-select-audio" onchange="updateAudioSurah()"><option value="">اختر السورة</option></select>
+                <audio id="global-quran-audio" controls style="width:100%; margin-top:10px;"></audio>
+            </div>
+            <div id="now-playing-title" class="playing-info">اختر القارئ والسورة</div>
         </div>
     </div>
 
     <div id="azkarMenu-screen" class="screen hidden">
         <div class="menu-list">
-            <button class="menu-btn" onclick="startAzkar('morning')">أذكار الصباح</button>
-            <button class="menu-btn" onclick="startAzkar('evening')">أذكار المساء</button>
-            <button class="menu-btn" onclick="startAzkar('sleep')">أذكار النوم</button>
-            <button class="menu-btn" onclick="startAzkar('prayer')">أذكار بعد الصلاة</button>
-            <button class="menu-btn" onclick="startAzkar('ruqyah')">الرقية الشرعية</button>
+            <button class="menu-btn-item" onclick="startAzkar('morning')">أذكار الصباح</button>
+            <button class="menu-btn-item" onclick="startAzkar('evening')">أذكار المساء</button>
+            <button class="menu-btn-item" onclick="startAzkar('sleep')">أذكار النوم</button>
+            <button class="menu-btn-item" onclick="startAzkar('prayer')">أذكار بعد الصلاة</button>
+            <button class="menu-btn-item" onclick="startAzkar('ruqyah')">الرقية الشرعية</button>
         </div>
     </div>
 
     <div id="azkarReader-screen" class="screen hidden">
-        <div class="zikr-progress-bar"><div id="progress-bar" class="progress-fill"></div></div>
-        <div id="zikr-card" class="zikr-full-card">
+        <div class="progress-bar-container"><div id="progress-bar" class="progress-fill"></div></div>
+        <div id="zikr-card" class="zikr-card-full">
             <div id="zikr-text"></div>
-            <p id="zikr-proof" class="zikr-proof"></p>
-            <button id="counter-btn" class="zikr-counter">0</button>
+            <p id="zikr-proof" class="zikr-proof-text"></p>
+            <button id="counter-btn" class="zikr-round-btn">0</button>
         </div>
     </div>
 
     <div id="masbaha-screen" class="screen hidden">
-        <div class="masbaha-area">
-            <div id="masbaha-count" class="m-count">0</div>
-            <button class="m-main-btn" onclick="incrementMasbaha()">تسبيح</button>
-            <button class="m-reset" onclick="resetMasbaha()">تصفير</button>
+        <div class="masbaha-center">
+            <div id="masbaha-count" class="masbaha-num">0</div>
+            <button class="masbaha-main-btn" onclick="incrementMasbaha()">تسبيح</button>
+            <button class="btn-text-only" onclick="resetMasbaha()">تصفير العداد</button>
+        </div>
+    </div>
+
+    <div id="prayerTimes-screen" class="screen hidden">
+        <div class="content-area">
+            <div id="prayer-times-list" class="times-list"></div>
+        </div>
+    </div>
+
+    <div id="qibla-screen" class="screen hidden">
+        <div class="qibla-center">
+            <div class="compass-ring"><div id="qibla-pointer" class="qibla-hand">الكعبة</div></div>
+            <p id="qibla-status" class="qibla-msg">جاري التحديد...</p>
+            <button class="action-btn-round" onclick="initQibla()">تفعيل البوصلة</button>
         </div>
     </div>
 
     <div id="bookmarks-screen" class="screen hidden">
-        <div class="bookmarks-container">
-            <div id="bookmarks-list"></div>
-        </div>
+        <div class="content-area"><div id="bookmarks-list"></div></div>
     </div>
 
     <div id="tafsir-modal" class="modal hidden">
-        <div class="tafsir-card">
+        <div class="modal-card">
             <h3>التفسير</h3>
             <div id="tafsir-text"></div>
-            <button onclick="closeTafsirModal()" class="modal-close-btn">إغلاق</button>
+            <button onclick="closeTafsirModal()" class="modal-btn-close">إغلاق</button>
         </div>
     </div>
 
     <div id="exit-modal" class="modal hidden">
-        <div class="exit-card">
-            <p>هل تريد الخروج من التطبيق؟</p>
-            <div class="exit-actions">
-                <button onclick="confirmExit()" class="exit-yes">نعم</button>
-                <button onclick="closeExitModal()" class="exit-no">لا</button>
+        <div class="modal-card exit-card">
+            <p>هل تريد الخروج؟</p>
+            <div class="modal-actions">
+                <button onclick="confirmExit()" class="btn-yes">نعم</button>
+                <button onclick="closeExitModal()" class="btn-no">لا</button>
             </div>
         </div>
     </div>
 
     <div id="toast-msg"></div>
-    <audio id="ayah-audio-player"></audio>
+    <audio id="ayah-audio-player" style="display:none;"></audio>
     <script src="script.js"></script>
 </body>
 </html>
