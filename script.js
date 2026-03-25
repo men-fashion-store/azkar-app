@@ -222,13 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const mc = localStorage.getItem('masbahaCount');
     document.getElementById('masbaha-count').innerText = toArabicDigits(parseDisplayInt(mc));
 
-    if (!window.location.hash) {
-        window.location.hash = 'splash';
+    // تم تعديل هذا الجزء للدخول مباشرة بدون شاشة تحميل
+    if (!window.location.hash || window.location.hash === '#splash') {
+        window.location.hash = 'home';
         handleRoute();
-        setTimeout(() => { window.location.hash = 'home'; }, 2500);
-    } else if (window.location.hash === '#splash') {
-        handleRoute();
-        setTimeout(() => { window.location.hash = 'home'; }, 2500);
     } else {
         handleRoute();
     }
@@ -959,4 +956,34 @@ window.changeFontSize = (step) => {
     c = Math.max(1.2, Math.min(4.0, c + step * 0.25));
     document.documentElement.style.setProperty('--zikr-font-size', `${c}rem`);
     localStorage.setItem('fontSize', c);
+};
+
+// --- دالة التحديث الجديدة ---
+window.checkForUpdates = function () {
+    if (!navigator.onLine) {
+        showToast("لا يوجد اتصال بالإنترنت للتحديث.");
+        return;
+    }
+    showToast("جاري البحث عن تحديثات جديدة...");
+    
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for(let registration of registrations) {
+                registration.update(); // طلب التحديث من السيرفر
+            }
+            // مسح الـ Cache القديم لتحميل الملفات الجديدة
+            caches.keys().then((keyList) => {
+                return Promise.all(keyList.map((key) => {
+                    return caches.delete(key);
+                }));
+            }).then(() => {
+                showToast("تم التحديث! جاري إعادة التشغيل...");
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 1500);
+            });
+        });
+    } else {
+        window.location.reload(true);
+    }
 };
