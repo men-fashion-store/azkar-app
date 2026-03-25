@@ -222,7 +222,14 @@
         </div>
         <div class="surah-grid-container">
             <button type="button" id="resume-reading-btn" class="btn resume-reading-btn hidden" aria-live="polite">▶ متابعة القراءة</button>
-            <button type="button" class="btn" style="width: 100%; margin-bottom: 20px; background-color: var(--accent-color); color: var(--bg-color);" onclick="navigateTo('bookmarks')">🔖 علاماتي المرجعية</button>
+            <button type="button" class="btn" style="width: 100%; margin-bottom: 15px; background-color: var(--accent-color); color: var(--bg-color);" onclick="navigateTo('bookmarks')">🔖 علاماتي المرجعية</button>
+            
+            <div style="margin-bottom: 20px; width: 100%;">
+                <input type="text" id="quran-search" placeholder="🔍 ابحث عن اسم سورة أو كلمة في آية..." onkeyup="handleQuranSearch()" style="width: 100%; padding: 12px; border-radius: 10px; border: 2px solid var(--accent-color); font-family: 'Tajawal'; font-size: 1rem; outline: none; text-align: right; background: var(--bg-color); color: var(--text-color);">
+            </div>
+            
+            <div id="quran-search-results" style="display: none; text-align: right; margin-bottom: 20px; width: 100%;"></div>
+
             <div id="surah-list" class="surah-grid"></div>
         </div>
     </div>
