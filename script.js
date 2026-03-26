@@ -82,24 +82,25 @@ const hadithsList = [
 // --- بيانات مكتبة الحديث الشريف ---
 let currentHadithBookTitle = '';
 const libraryData = {
-    nawawi: [
-        {text: "إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى، فمن كانت هجرته إلى الله ورسوله، فهجرته إلى الله ورسوله، ومن كانت هجرته لدنيا يصيبها أو امرأة ينكحها، فهجرته إلى ما هاجر إليه.", narrator: "الحديث الأول - رواه البخاري ومسلم"},
-        {text: "بني الإسلام على خمس: شهادة أن لا إله إلا الله وأن محمداً رسول الله، وإقام الصلاة، وإيتاء الزكاة، وحج البيت، وصوم رمضان.", narrator: "الحديث الثالث - رواه البخاري ومسلم"},
-        {text: "من أحدث في أمرنا هذا ما ليس منه فهو رد.", narrator: "الحديث الخامس - رواه البخاري ومسلم"},
-        {text: "الدين النصيحة. قلنا: لمن؟ قال: لله ولكتابه ولرسوله ولأئمة المسلمين وعامتهم.", narrator: "الحديث السابع - رواه مسلم"},
-        {text: "من حسن إسلام المرء تركه ما لا يعنيه.", narrator: "الحديث الثاني عشر - رواه الترمذي وغيره"}
-    ],
     bukhari: [
         {text: "كلمتان خفيفتان على اللسان، ثقيلتان في الميزان، حبيبتان إلى الرحمن: سبحان الله وبحمده، سبحان الله العظيم.", narrator: "صحيح البخاري"},
         {text: "لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه.", narrator: "صحيح البخاري"},
         {text: "من كان يؤمن بالله واليوم الآخر فليقل خيراً أو ليصمت.", narrator: "صحيح البخاري"},
-        {text: "المسلم من سلم المسلمون من لسانه ويده، والمهاجر من هجر ما نهى الله عنه.", narrator: "صحيح البخاري"}
+        {text: "المسلم من سلم المسلمون من لسانه ويده، والمهاجر من هجر ما نهى الله عنه.", narrator: "صحيح البخاري"},
+        {text: "إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى.", narrator: "صحيح البخاري"},
+        {text: "خيركم من تعلم القرآن وعلمه.", narrator: "صحيح البخاري"}
     ],
     muslim: [
         {text: "الطهور شطر الإيمان، والحمد لله تمْلأ الميزان، وسبحان الله والحمد لله تمْلآن ما بين السماوات والأرض.", narrator: "صحيح مسلم"},
         {text: "من سلك طريقاً يلتمس فيه علماً سهّل الله له به طريقاً إلى الجنة.", narrator: "صحيح مسلم"},
         {text: "عجباً لأمر المؤمن إن أمره كله خير، وليس ذاك لأحد إلا للمؤمن، إن أصابته سراء شكر فكان خيراً له، وإن أصابته ضراء صبر فكان خيراً له.", narrator: "صحيح مسلم"},
-        {text: "أقرب ما يكون العبد من ربه وهو ساجد، فأكثروا الدعاء.", narrator: "صحيح مسلم"}
+        {text: "أقرب ما يكون العبد من ربه وهو ساجد، فأكثروا الدعاء.", narrator: "صحيح مسلم"},
+        {text: "الصلوات الخمس، والجمعة إلى الجمعة، ورمضان إلى رمضان، مكفرات ما بينهن إذا اجتنب الكبائر.", narrator: "صحيح مسلم"}
+    ],
+    abudawud: [
+        {text: "ما من مسلم يدعو بدعوة ليس فيها إثم ولا قطيعة رحم إلا أعطاه الله بها إحدى ثلاث: إما أن تعجل له دعوته، وإما أن يدخرها له في الآخرة، وإما أن يصرف عنه من السوء مثلها.", narrator: "سنن أبي داود"},
+        {text: "دعوة المظلوم مستجابة وإن كان فاجراً ففجوره على نفسه.", narrator: "سنن أبي داود"},
+        {text: "الرجل على دين خليله فلينظر أحدكم من يخالل.", narrator: "سنن أبي داود"}
     ]
 };
 
@@ -158,6 +159,10 @@ function handleRoute() {
         if(window.handleTopSearch) window.handleTopSearch(); 
     } else if(hash === 'quranReader') {
         searchIcon.classList.remove('hidden');
+        // في حالة العودة للمصحف، نقوم بتحميل آخر صفحة لو كان النص فارغ
+        if(!document.getElementById('quran-text').innerHTML.includes('ayah-span')) {
+            loadQuranPage(quranCurrentPage);
+        }
     } else {
         searchIcon.classList.add('hidden');
         subtitle.classList.add('hidden');
@@ -187,7 +192,7 @@ window.toggleTopSearch = function() {
         input.focus();
     } else {
         input.value = '';
-        handleTopSearch(); // مسح الفلتر
+        handleTopSearch(); 
     }
 };
 
@@ -390,11 +395,11 @@ async function fetchPrayers(lat, lng) {
 
 // --- 7. عرض مكتبة الحديث الشريف ---
 window.openHadithBook = function(bookId) {
-    const titles = { 'nawawi': 'الأربعون النووية', 'bukhari': 'صحيح البخاري', 'muslim': 'صحيح مسلم' };
+    const titles = { 'bukhari': 'صحيح البخاري', 'muslim': 'صحيح مسلم', 'abudawud': 'سنن أبي داود' };
     currentHadithBookTitle = titles[bookId] || 'الحديث';
     
     let container = document.getElementById('hadith-list-container');
-    container.innerHTML = ''; // مسح المحتوى القديم
+    container.innerHTML = ''; 
     
     let bookData = libraryData[bookId];
     if(bookData) {
@@ -410,10 +415,10 @@ window.openHadithBook = function(bookId) {
     navigateTo('hadithReader');
 };
 
-// --- 8. القرآن والآيات المرجعية ---
+// --- 8. القرآن (نظام الصفحات الفعلي) والآيات المرجعية ---
 let surahListCached = [];
-let currentSurahNumber = 1;
 let quranBookmarks = JSON.parse(localStorage.getItem('quranBookmarks')) || [];
+let quranCurrentPage = parseInt(localStorage.getItem('quranCurrentPage')) || 1;
 
 async function loadQuranIndex() {
     if(surahListCached.length>0) return;
@@ -422,72 +427,105 @@ async function loadQuranIndex() {
         const list = document.getElementById('surah-list'); list.innerHTML='';
         const audioSel = document.getElementById('surah-select-audio'); if(audioSel) audioSel.innerHTML='<option value="">اختر السورة...</option>';
         surahListCached.forEach(s => {
-            list.innerHTML += `<button class="surah-card-btn" onclick="navigateTo('quranReader'); loadSurahContent(${s.number}, '${s.name}')"><span class="surah-number">${s.number}</span> <span>${s.name}</span></button>`;
+            // الآن نمرر رقم السورة لدالة القفز للآية الأولى لمعرفة الصفحة
+            list.innerHTML += `<button class="surah-card-btn" onclick="jumpToAyah(${s.number}, 1)"><span class="surah-number">${s.number}</span> <span>${s.name}</span></button>`;
             if(audioSel) audioSel.innerHTML += `<option value="${s.number}">${s.name}</option>`;
         });
     } catch(e) {}
 }
 
-window.loadSurahContent = async (num, name, scrollToAyah = null) => {
-    currentSurahNumber = num;
-    let titleEl = document.getElementById('header-title');
-    if(titleEl) titleEl.innerText = 'سورة ' + name;
-    
+window.jumpToAyah = async (sNum, aNum) => {
     document.getElementById('quran-text').innerHTML="جاري التحميل...";
-    let fabMenu = document.getElementById('quran-fab-menu');
-    if(fabMenu) fabMenu.classList.add('hidden'); 
-
+    navigateTo('quranReader');
     try {
-        let res = await fetch(`https://api.alquran.cloud/v1/surah/${num}/quran-uthmani`); 
+        // نسأل الـ API: الآية دي في صفحة كام؟
+        let res = await fetch(`https://api.alquran.cloud/v1/ayah/${sNum}:${aNum}/quran-uthmani`);
         let data = await res.json();
-        
-        let juzNum = data.data.ayahs[0].juz;
-        let subtitleEl = document.getElementById('header-subtitle');
-        if(subtitleEl) {
-            subtitleEl.innerText = `الجزء ${juzNum}`;
-            subtitleEl.classList.remove('hidden');
-        }
-
-        let html = (num!=1&&num!=9)?'<div class="basmalah" style="text-align:center; font-size:1.5rem; margin-bottom:15px;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>':'';
-        
-        data.data.ayahs.forEach(a => {
-            let text = (num!=1&&num!=9&&a.numberInSurah==1)?a.text.replace("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ",""):a.text;
-            let isMarked = quranBookmarks.some(b => b.surah === num && b.ayah === a.numberInSurah);
-            let markClass = isMarked ? "bookmarked-ayah" : "";
-            html += `<span class="ayah-span ${markClass}" id="ayah-${a.numberInSurah}" onclick="toggleBookmark(${num}, '${name}', ${a.numberInSurah}, '${text}')">${text} <span class="ayah-symbol">﴿${a.numberInSurah}﴾</span></span> `;
-        });
-        
-        document.getElementById('quran-text').innerHTML = html;
-        if(window.handleTopSearch) window.handleTopSearch();
-
-        if(scrollToAyah) {
-            setTimeout(() => {
-                let el = document.getElementById(`ayah-${scrollToAyah}`);
-                if(el) { el.scrollIntoView({behavior: "smooth", block: "center"}); el.style.backgroundColor = "rgba(221, 167, 123, 0.4)"; }
-            }, 500);
-        } else { window.scrollTo(0,0); }
+        let page = data.data.page;
+        loadQuranPage(page, `${sNum}-${aNum}`); // تمرير ID مميز للآية
     } catch(e) { document.getElementById('quran-text').innerHTML = "تحقق من اتصالك بالإنترنت"; }
 };
 
-window.navigateSurah = function(step) {
+window.loadQuranPage = async (pageNum, scrollToAyahId = null) => {
+    if(pageNum < 1) pageNum = 1;
+    if(pageNum > 604) pageNum = 604;
+    
+    quranCurrentPage = pageNum;
+    localStorage.setItem('quranCurrentPage', quranCurrentPage); // حفظ آخر صفحة
+
+    document.getElementById('quran-text').innerHTML="جاري التحميل...";
     let fabMenu = document.getElementById('quran-fab-menu');
     if(fabMenu) fabMenu.classList.add('hidden');
-    let newNum = currentSurahNumber + step;
-    if(newNum >= 1 && newNum <= 114) {
-        let newSurah = surahListCached.find(s => s.number === newNum);
-        if(newSurah) loadSurahContent(newNum, newSurah.name);
-    } else { showToast("لا يوجد سور أخرى"); }
+
+    try {
+        let res = await fetch(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
+        let data = await res.json();
+        let ayahs = data.data.ayahs;
+        
+        let juzNum = ayahs[0].juz;
+        let surahsOnPage = [...new Set(ayahs.map(a => a.surah.name))];
+        
+        let titleEl = document.getElementById('header-title');
+        if(titleEl) titleEl.innerText = "سورة " + surahsOnPage.join(' و ');
+        
+        let subtitleEl = document.getElementById('header-subtitle');
+        if(subtitleEl) {
+            subtitleEl.innerText = `الجزء ${juzNum} - صفحة ${pageNum}`;
+            subtitleEl.classList.remove('hidden');
+        }
+
+        let html = '';
+        ayahs.forEach(a => {
+            let sName = a.surah.name;
+            let sNum = a.surah.number;
+            
+            // إضافة فاصل لو دي أول آية في السورة
+            if(a.numberInSurah === 1) {
+                html += `<div class="surah-divider">${sName}</div>`;
+                if(sNum !== 1 && sNum !== 9) {
+                    html += `<div class="bismillah-divider">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>`;
+                }
+            }
+            
+            let text = (sNum != 1 && sNum != 9 && a.numberInSurah == 1) ? a.text.replace("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ","") : a.text;
+            let isMarked = quranBookmarks.some(b => b.surah === sNum && b.ayah === a.numberInSurah);
+            let markClass = isMarked ? "bookmarked-ayah" : "";
+            let ayahUniqueId = `ayah-${sNum}-${a.numberInSurah}`; // ID فريد يجمع بين السورة والآية
+            
+            html += `<span class="ayah-span ${markClass}" id="${ayahUniqueId}" onclick="toggleBookmark(${sNum}, '${sName}', ${a.numberInSurah}, '${text}')">${text} <span class="ayah-symbol">﴿${a.numberInSurah}﴾</span></span> `;
+        });
+        
+        html += `<div class="page-number-footer">${pageNum}</div>`;
+        document.getElementById('quran-text').innerHTML = html;
+        
+        if(window.handleTopSearch) window.handleTopSearch();
+
+        if(scrollToAyahId) {
+            setTimeout(() => {
+                let el = document.getElementById(`ayah-${scrollToAyahId}`);
+                if(el) { el.scrollIntoView({behavior: "smooth", block: "center"}); el.style.backgroundColor = "rgba(221, 167, 123, 0.4)"; }
+            }, 500);
+        } else { window.scrollTo(0,0); }
+        
+    } catch(e) { document.getElementById('quran-text').innerHTML = "تحقق من اتصالك بالإنترنت"; }
+};
+
+window.navigatePage = function(step) {
+    let fabMenu = document.getElementById('quran-fab-menu');
+    if(fabMenu) fabMenu.classList.add('hidden');
+    loadQuranPage(quranCurrentPage + step);
 };
 
 window.toggleBookmark = function(sNum, sName, aNum, text) {
     let index = quranBookmarks.findIndex(b => b.surah === sNum && b.ayah === aNum);
+    let ayahUniqueId = `ayah-${sNum}-${aNum}`;
     if(index > -1) {
         quranBookmarks.splice(index, 1);
-        document.getElementById(`ayah-${aNum}`).classList.remove('bookmarked-ayah');
+        document.getElementById(ayahUniqueId).classList.remove('bookmarked-ayah');
         showToast("❌ تم إزالة العلامة المرجعية");
     } else {
         quranBookmarks.push({surah: sNum, surahName: sName, ayah: aNum, text: text});
-        document.getElementById(`ayah-${aNum}`).classList.add('bookmarked-ayah');
+        document.getElementById(ayahUniqueId).classList.add('bookmarked-ayah');
         showToast("🔖 تم حفظ الآية");
     }
     localStorage.setItem('quranBookmarks', JSON.stringify(quranBookmarks));
@@ -504,7 +542,7 @@ window.renderBookmarks = function() {
             <h3>سورة ${b.surahName} - آية ${b.ayah}</h3>
             <p>${b.text} ﴿${b.ayah}﴾</p>
             <div class="actions">
-                <button class="btn" style="padding: 8px 15px; font-size: 1rem; flex: 1;" onclick="navigateTo('quranReader'); loadSurahContent(${b.surah}, '${b.surahName}', ${b.ayah})">📖 الذهاب</button>
+                <button class="btn" style="padding: 8px 15px; font-size: 1rem; flex: 1;" onclick="jumpToAyah(${b.surah}, ${b.ayah})">📖 الذهاب</button>
                 <button class="btn" style="padding: 8px 15px; font-size: 1rem; width: auto; background: transparent; color: #ff4d4d; border-color: #ff4d4d;" onclick="toggleBookmark(${b.surah}, '${b.surahName}', ${b.ayah}, '')">❌ حذف</button>
             </div>
         </div>`;
