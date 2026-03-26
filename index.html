@@ -20,19 +20,35 @@
     <div id="offline-banner" class="offline-banner hidden" role="status" aria-live="polite">لا يوجد اتصال بالإنترنت — سيتم التحديث عند العودة</div>
 
     <div class="settings-bar" role="toolbar" aria-label="إعدادات سريعة">
-        <button type="button" class="settings-btn" onclick="navigateTo('settings')" title="الإعدادات" aria-label="فتح الإعدادات">⚙️</button>
-        <button type="button" class="settings-btn" onclick="toggleTheme()" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
-        <button type="button" class="settings-btn" onclick="changeFontSize(1)" title="تكبير الخط" aria-label="تكبير خط النصوص">A+</button>
-        <button type="button" class="settings-btn" onclick="changeFontSize(-1)" title="تصغير الخط" aria-label="تصغير خط النصوص">A-</button>
-        <button type="button" class="settings-btn" onclick="requestLocationPermission()" title="تحديث الموقع بالـ GPS" aria-label="تحديث الموقع عبر GPS">📍</button>
+        <button type="button" class="settings-btn" onclick="toggleSettingsSidebar()" title="الإعدادات" aria-label="فتح الإعدادات">☰</button>
+    </div>
+
+    <div id="quran-loading-screen" class="screen hidden">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2 class="loading-title">جاري تحميل المصحف</h2>
+            <p class="loading-text">يتم تحميل بيانات المصحف للاستخدام بدون إنترنت...</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="quran-progress"></div>
+            </div>
+            <p class="loading-status" id="loading-status">جاري الإعداد...</p>
+        </div>
     </div>
 
     <div id="splash-screen" class="screen active splash-bg">
         <div class="splash-content">
-            <h2 class="splash-title">حديث اليوم</h2>
-            <p id="splash-hadith" class="splash-text">جاري التحميل...</p>
-            <p id="splash-proof" class="proof-text"></p>
-            <button class="btn quran-main-btn" style="margin-top: 25px;" onclick="navigateTo('home')">الدخول للموسوعة</button>
+            <div class="app-logo">
+                <div class="logo-icon">﷽</div>
+                <h1 class="app-name">موسوعة المسلم</h1>
+                <p class="app-tagline">تطبيق إسلامي شامل ومتكامل</p>
+            </div>
+            <div class="splash-divider"></div>
+            <div class="hadith-section">
+                <h2 class="hadith-title">حديث اليوم</h2>
+                <p id="splash-hadith" class="splash-text">جاري التحميل...</p>
+                <p id="splash-proof" class="proof-text"></p>
+            </div>
+            <button class="btn quran-main-btn" style="margin-top: 25px;" onclick="navigateTo('home')">ابدأ الاستخدام</button>
         </div>
     </div>
 
@@ -65,62 +81,212 @@
             <p class="subtitle">صُنِعَ لِوَجْهِ الله</p>
             
             <div class="main-grid">
-                <button class="grid-btn" onclick="navigateTo('quranIndex')">📖<br>المصحف</button>
-                <button class="grid-btn" onclick="navigateTo('audioMenu')">🎙️<br>الصوتيات</button>
-                <button class="grid-btn" onclick="navigateTo('azkarMenu')">📿<br>الأذكار</button>
-                <button class="grid-btn" onclick="navigateTo('masbaha')">👆<br>السبحة</button>
-                <button class="grid-btn" onclick="navigateTo('prayerTimes')">🕌<br>المواقيت</button>
-                <button class="grid-btn" onclick="navigateTo('qibla')">🕋<br>القبلة</button>
-                <button type="button" class="grid-btn" onclick="navigateTo('settings')" style="grid-column: 1 / -1;">⚙️<br>الإعدادات</button>
+                <button class="grid-btn" onclick="navigateTo('quranIndex')">
+                    <div class="btn-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7v10c0 5.55 3.84 10 9 11 5.16-1 9-5.45 9-11V7l-10-5z"/>
+                            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <span>المصحف</span>
+                </button>
+                <button class="grid-btn" onclick="navigateTo('azkarMenu')">
+                    <div class="btn-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <span>الأذكار</span>
+                </button>
+                <button class="grid-btn" onclick="navigateTo('masbaha')">
+                    <div class="btn-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="8"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </div>
+                    <span>السبحة الإلكترونية</span>
+                </button>
+                <button class="grid-btn" onclick="navigateTo('prayerTimes')">
+                    <div class="btn-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="12" y1="18" x2="12" y2="22"/>
+                        </svg>
+                    </div>
+                    <span>مواقيت الصلاة</span>
+                </button>
+                <button class="grid-btn" onclick="navigateTo('qibla')">
+                    <div class="btn-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 19 21 5 21"/>
+                            <line x1="12" y1="2" x2="12" y2="14"/>
+                            <circle cx="12" cy="14" r="2"/>
+                        </svg>
+                    </div>
+                    <span>البوصلة</span>
+                </button>
+                <button class="grid-btn" onclick="showNamesOfAllah()">
+                    <div class="btn-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 8v8M8 12h8"/>
+                        </svg>
+                    </div>
+                    <span>أسماء الله الحسنى</span>
+                </button>
+                <button class="grid-btn" onclick="showProphetsStories()">
+                    <div class="btn-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <path d="M14 2v6h6"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                        </svg>
+                    </div>
+                    <span>قصص الأنبياء</span>
+                </button>
+                <button class="grid-btn" onclick="navigateTo('zakat-screen')">
+                    <div class="btn-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="6" width="18" height="12" rx="2"/>
+                            <path d="M6 10h.01M6 14h.01"/>
+                        </svg>
+                    </div>
+                    <span>حاسبة الزكاة</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="hadithScreen-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar"><button type="button" class="back-btn" onclick="goBack()">رجوع</button></div>
+            <span class="screen-title">أحاديث نبوية</span>
+        </div>
+        <div class="paper-card">
+            <div id="hadith-content" class="hadith-content">
+                <div class="hadith-item">
+                    <p class="hadith-text">إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى...</p>
+                    <p class="hadith-source">رواه البخاري ومسلم</p>
+                </div>
+                <div class="hadith-item">
+                    <p class="hadith-text">من حسن إسلام المرء تركه ما لا يعنيه...</p>
+                    <p class="hadith-source">رواه الترمذي</p>
+                </div>
+                <div class="hadith-item">
+                    <p class="hadith-text">الدين النصيحة، قلنا: لمن؟ قال: لله، ولكتابه، ولرسوله، ولأئمة المسلمين وعامتهم...</p>
+                    <p class="hadith-source">رواه مسلم</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settings-sidebar" class="settings-sidebar hidden">
+        <div class="sidebar-header">
+            <h3>الإعدادات</h3>
+            <button type="button" class="sidebar-close" onclick="toggleSettingsSidebar()">×</button>
+        </div>
+        <div class="sidebar-content">
+            <div class="settings-group">
+                <h4>المظهر</h4>
+                <button type="button" class="sidebar-btn" onclick="toggleTheme()">الوضع الليلي</button>
+            </div>
+            <div class="settings-group">
+                <h4>الموقع</h4>
+                <button type="button" class="sidebar-btn" onclick="requestLocationPermission()">تحديث الموقع</button>
+            </div>
+            <div class="settings-group">
+                <h4>الصوتيات</h4>
+                <button type="button" class="sidebar-btn" onclick="navigateTo('audioMenu')">القارئ</button>
+                <button type="button" class="sidebar-btn" onclick="toggleNotificationSettings()">التنبيهات</button>
+            </div>
+            <div class="settings-group">
+                <h4>التطبيق</h4>
+                <button type="button" class="sidebar-btn" onclick="shareApp()">مشاركة التطبيق</button>
+                <button type="button" class="sidebar-btn" onclick="checkForUpdates()">التحديث لآخر إصدار</button>
+                <button type="button" class="sidebar-btn danger" onclick="exitApp()">الخروج من التطبيق</button>
             </div>
         </div>
     </div>
 
     <div id="settings-screen" class="screen hidden">
         <div class="header-wrapper">
-            <div class="top-bar"><button type="button" class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
+            <div class="top-bar"><button type="button" class="back-btn" onclick="goBack()">رجوع</button></div>
             <span class="screen-title">إعدادات التطبيق</span>
         </div>
         <div class="paper-card settings-card">
-            <p class="settings-note">المواقيت من <strong>Aladhan API</strong>؛ التفسير الميسر يُعرض من واجهة <strong>api.alquran.cloud</strong> (مجمع الملك فهد).</p>
-
-            <label class="settings-label" for="ayah-reciter-select">قارئ استماع الآية (من المصحف — ضغطة مطوّلة)</label>
-            <select id="ayah-reciter-select" class="settings-select" aria-describedby="ayah-reciter-hint">
-                <option value="alafasy">مشاري العفاسي</option>
-                <option value="husary">محمود خليل الحصري</option>
-                <option value="abdulbasit">عبد الباسط عبد الصمد (مرتل)</option>
-                <option value="minshawi">محمد صديق المنشاوي (مرتل)</option>
-                <option value="ghamadi">سعد الغامدي</option>
-                <option value="shatri">أبو بكر الشاطري</option>
-            </select>
-            <p class="settings-hint" id="ayah-reciter-hint">يُستخدم عند الاستماع لآية واحدة من شاشة السورة.</p>
-
-            <label class="settings-label" for="prayer-method-select">طريقة حساب المواقيت</label>
-            <select id="prayer-method-select" class="settings-select">
-                <option value="5">هيئة المساحة المصرية (5)</option>
-                <option value="2">الجمعية الإسلامية بأمريكا الشمالية (2)</option>
-                <option value="3">رابطة العالم الإسلامي (3)</option>
-                <option value="4">أم القرى (مكة) (4)</option>
-                <option value="8">جامعة العلوم الإسلامية بكراتشي (8)</option>
-                <option value="12">وزارة الأوقاف الجزائر (12)</option>
-            </select>
-
-            <div class="settings-row">
-                <input type="checkbox" id="notify-prayer-check" class="settings-check">
-                <label for="notify-prayer-check">تنبيهات أوقات الصلاة (إشعار المتصفح)</label>
+            <div class="settings-group">
+                <h4>المظهر</h4>
+                <button type="button" class="sidebar-btn" onclick="toggleTheme()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 0 11.21 3 9 9 0 0 1-9.79 3z"/>
+                        <path d="M12 2v10"/>
+                        <path d="M12 22v-6"/>
+                    </svg>
+                    <span id="theme-text">الوضع النهاري</span>
+                </button>
             </div>
-            <p class="settings-hint" id="notify-permission-hint">يُفضّل السماح بالإشعارات، وتثبيت التطبيق كـPWA. التنبيه يُجدول من الجهاز عند فتح التطبيق.</p>
-
-            <label class="settings-label" for="notify-before-select">التنبيه قبل الأذان بـ</label>
-            <select id="notify-before-select" class="settings-select">
-                <option value="0">عند دخول الوقت</option>
-                <option value="5">5 دقائق</option>
-                <option value="10">10 دقائق</option>
-                <option value="15">15 دقيقة</option>
-            </select>
-
-            <button type="button" class="btn settings-save-btn" onclick="saveAppSettings()">💾 حفظ الإعدادات</button>
-            <button type="button" class="btn btn-secondary" onclick="requestNotificationPermissionFromSettings()">🔔 طلب إذن الإشعارات</button>
+            
+            <div class="settings-group">
+                <h4>الصوتيات</h4>
+                <label class="settings-label" for="ayah-reciter-select">قارئ استماع الآية</label>
+                <select id="ayah-reciter-select" class="settings-select">
+                    <option value="alafasy">مشاري العفاسي</option>
+                    <option value="husary">محمود خليل الحصري</option>
+                    <option value="abdulbasit">عبد الباسط عبد الصمد (مرتل)</option>
+                    <option value="minshawi">محمد صديق المنشاوي (مرتل)</option>
+                    <option value="ghamadi">سعد الغامدي</option>
+                    <option value="shatri">أبو بكر الشاطري</option>
+                </select>
+            </div>
+            
+            <div class="settings-group">
+                <h4>الموقع</h4>
+                <label class="settings-label" for="prayer-method-select">طريقة حساب المواقيت</label>
+                <select id="prayer-method-select" class="settings-select">
+                    <option value="5">هيئة المساحة المصرية (5)</option>
+                    <option value="2">الجمعية الإسلامية بأمريكا الشمالية (2)</option>
+                    <option value="3">رابطة العالم الإسلامي (3)</option>
+                    <option value="4">أم القرى (مكة) (4)</option>
+                    <option value="8">جامعة العلوم الإسلامية بكراتشي (8)</option>
+                    <option value="12">وزارة الأوقاف الجزائر (12)</option>
+                </select>
+            </div>
+            
+            <div class="settings-group">
+                <h4>التطبيق</h4>
+                <button type="button" class="sidebar-btn" onclick="shareApp()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="18" cy="5" r="3"/>
+                        <circle cx="6" cy="12" r="3"/>
+                        <circle cx="18" cy="19" r="3"/>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                    </svg>
+                    <span>مشاركة التطبيق</span>
+                </button>
+                
+                <button type="button" class="sidebar-btn" onclick="checkForUpdates()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    <span>التحديث لآخر إصدار</span>
+                </button>
+                
+                <button type="button" class="sidebar-btn exit-btn" onclick="exitApp()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    <span>الخروج من التطبيق</span>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -210,13 +376,51 @@
 
     <div id="quranIndex-screen" class="screen hidden">
         <div class="header-wrapper">
-            <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 رجوع</button></div>
+            <div class="top-bar"><button type="button" class="back-btn" onclick="goBack()">رجوع</button></div>
             <span class="screen-title">فهرس المصحف</span>
         </div>
-        <div class="surah-grid-container">
-            <button type="button" id="resume-reading-btn" class="btn resume-reading-btn hidden" aria-live="polite">▶ متابعة القراءة</button>
-            <button type="button" class="btn" style="width: 100%; margin-bottom: 20px; background-color: var(--accent-color); color: var(--bg-color);" onclick="navigateTo('bookmarks')">🔖 علاماتي المرجعية</button>
-            <div id="surah-list" class="surah-grid"></div>
+        
+        <div class="quran-index-container">
+            <div class="search-container">
+                <div class="search-box">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input type="text" id="surah-search" placeholder="ابحث عن سورة..." class="search-input" onkeyup="filterSurahs()">
+                    <button type="button" class="search-clear" onclick="clearSearch()" id="search-clear-btn" style="display: none;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="surah-categories">
+                <button type="button" class="category-btn active" onclick="showAllSurahs()">الكل</button>
+                <button type="button" class="category-btn" onclick="showMakkiah()">مكية</button>
+                <button type="button" class="category-btn" onclick="showMadaniyah()">مدنية</button>
+            </div>
+            
+            <div class="action-buttons">
+                <button type="button" id="resume-reading-btn" class="action-btn hidden" onclick="resumeReading()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 12 5 3"/>
+                    </svg>
+                    متابعة القراءة
+                </button>
+                <button type="button" class="action-btn" onclick="navigateTo('bookmarks')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v16z"/>
+                    </svg>
+                    علاماتي المرجعية
+                </button>
+            </div>
+            
+            <div class="surah-list-container">
+                <div id="surah-list" class="surah-list"></div>
+            </div>
         </div>
     </div>
 
@@ -232,18 +436,100 @@
     </div>
 
     <div id="quranReader-screen" class="screen hidden">
-        <div class="header-wrapper">
-            <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 الفهرس</button></div>
-            <span id="current-surah-name" class="screen-title">سورة</span>
-            
-           <div style="display: flex; gap: 15px; margin-top: 15px; width: 90%; max-width: 500px; justify-content: center;">
-                <button class="btn" style="padding: 8px 15px; font-size: 1rem; width: 45%;" onclick="navigateSurah(-1)">⏩ السابقة</button>
-                <button class="btn" style="padding: 8px 15px; font-size: 1rem; width: 45%;" onclick="navigateSurah(1)">التالية ⏪</button>
+        <div class="quran-toolbar">
+            <div class="toolbar-left">
+                <button type="button" class="toolbar-btn" onclick="goBack()">رجوع</button>
+                <button type="button" class="toolbar-btn" onclick="openQuranSearch()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    بحث
+                </button>
             </div>
-            <p style="font-size: 0.8rem; color: var(--accent-color); margin-top: 10px;">💡 ضغطة سريعة: علامة مرجعية — ضغطة مطوّلة: تفسير أو استماع</p>
+            <span id="page-number-top" class="page-number-display">١</span>
+            <div class="toolbar-right">
+                <button type="button" class="toolbar-btn" onclick="navigatePage(-1)">السابق</button>
+                <button type="button" class="toolbar-btn" onclick="navigatePage(1)">التالي</button>
+            </div>
         </div>
-        <div class="paper-card quran-paper">
-            <div id="quran-text" class="quran-text-container">جاري التحميل...</div>
+        
+        <!-- نافذة البحث في المصحف -->
+        <div id="quran-search-modal" class="search-modal hidden">
+            <div class="search-modal-content">
+                <div class="search-modal-header">
+                    <h3>البحث في المصحف</h3>
+                    <button type="button" class="close-btn" onclick="closeQuranSearch()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="search-modal-body">
+                    <div class="search-input-container">
+                        <input type="text" id="quran-search-input" placeholder="اكتب كلمة للبحث..." onkeyup="searchInQuran(event)">
+                        <button type="button" onclick="searchInQuran()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="search-results" class="search-results"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- نافذة التفسير -->
+        <div id="tafsir-modal" class="tafsir-modal hidden">
+            <div class="tafsir-modal-content">
+                <div class="tafsir-modal-header">
+                    <h3 id="tafsir-title">التفسير</h3>
+                    <button type="button" class="close-btn" onclick="closeTafsir()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"/>
+                            <line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="tafsir-modal-body">
+                    <p id="tafsir-text">جاري تحميل التفسير...</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="quran-pages-container" id="quran-pages-container">
+            <div class="quran-page active" id="quran-page-1">
+                <div class="page-header">
+                    <div class="page-number-top" id="page-number-top">٢٥</div>
+                </div>
+                <div class="page-content" id="quran-page-content-1">
+                    جاري التحميل...
+                </div>
+                <div class="page-footer">
+                    <div class="surah-info">
+                        <span class="surah-name" id="page-surah-name">البقرة</span>
+                        <span class="juz-number" id="page-juz-number">الجزء الثاني</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="quran-floating-controls" id="quran-floating-controls">
+            <button type="button" class="floating-btn" onclick="toggleQuranActions()">+</button>
+            <div class="quran-actions-panel" id="quran-actions-panel">
+                <button type="button" class="action-btn" onclick="showAyahActions(currentSurahNumber, getCurrentAyah())">تفسير الآية</button>
+                <button type="button" class="action-btn" onclick="playAyahAudio(currentSurahNumber, getCurrentAyah())">استماع الآية</button>
+                <button type="button" class="action-btn" onclick="toggleBookmark(currentSurahNumber, getCurrentAyah())">حفظ الآية</button>
+            </div>
+        </div>
+        
+        <div class="zoom-control" id="zoom-control">
+            <div class="zoom-slider">
+                <input type="range" id="zoom-slider" min="0.8" max="2" step="0.1" value="1" onchange="updateZoom(this.value)">
+                <span class="zoom-label">حجم الخط</span>
+            </div>
         </div>
         <audio id="ayah-audio" preload="none" class="ayah-audio-el"></audio>
     </div>
@@ -262,6 +548,59 @@
             <p class="tafsir-source">المصدر: تفسير الميسر — مجمع الملك فهد (via alquran.cloud)</p>
             <div id="ayah-tafsir-text" class="ayah-tafsir-text">جاري التحميل...</div>
         </div>
+    </div>
+
+    <!-- شاشة أسماء الله الحسنى -->
+    <div id="namesOfAllah-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar"><button type="button" class="back-btn" onclick="goBack()">رجوع</button></div>
+            <span class="screen-title">أسماء الله الحسنى</span>
+        </div>
+        <div id="names-container" class="names-of-allah-container"></div>
+    </div>
+
+    <!-- شاشة قصص الأنبياء -->
+    <div id="prophets-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar"><button type="button" class="back-btn" onclick="goBack()">رجوع</button></div>
+            <span class="screen-title">قصص الأنبياء</span>
+        </div>
+        <div id="prophets-container" class="prophets-grid"></div>
+    </div>
+
+    <!-- شاشة حاسبة الزكاة -->
+    <div id="zakat-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar"><button type="button" class="back-btn" onclick="goBack()">رجوع</button></div>
+            <span class="screen-title">حاسبة الزكاة</span>
+        </div>
+        <div class="zakat-calculator">
+            <div class="zakat-input-group">
+                <label>المال النقدي (ريال)</label>
+                <input type="number" id="zakat-money" placeholder="0" oninput="calculateZakat()">
+            </div>
+            <div class="zakat-input-group">
+                <label>الذهب (جرام)</label>
+                <input type="number" id="zakat-gold" placeholder="0" oninput="calculateZakat()">
+            </div>
+            <div class="zakat-input-group">
+                <label>الفضة (جرام)</label>
+                <input type="number" id="zakat-silver" placeholder="0" oninput="calculateZakat()">
+            </div>
+            <div id="zakat-result" class="zakat-result">
+                <div class="result-label">مقدار الزكاة الواجبة</div>
+                <div class="result-value">0.00 ريال</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- شاشة التقويم الهجري -->
+    <div id="hijri-calendar-screen" class="screen hidden">
+        <div class="header-wrapper">
+            <div class="top-bar"><button type="button" class="back-btn" onclick="goBack()">رجوع</button></div>
+            <span class="screen-title">التقويم الهجري</span>
+        </div>
+        <div id="hijri-date-display" class="hijri-calendar"></div>
     </div>
 
     <div id="toast-msg" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
