@@ -19,7 +19,7 @@
         
         <div class="sidebar-section">
             <button class="sidebar-btn" onclick="toggleTheme()">🌙 الوضع الليلي / النهاري</button>
-            <label style="display:block; text-align:center; margin:15px 0 10px;">حجم الخط (للتطبيق والمصحف)</label>
+            <label style="display:block; text-align:center; margin:15px 0 10px;">حجم الخط (للتطبيق والأذكار)</label>
             <input type="range" id="font-slider" min="1.2" max="3.5" step="0.1" oninput="changeFontSizeSlider(this.value)" style="width: 100%;">
         </div>
 
@@ -199,16 +199,19 @@
     </div>
 
     <div id="quranReader-screen" class="screen hidden">
-        <div class="quran-paper" style="margin-top: 40px;"> 
-            <div id="quran-text" class="quran-text-container">جاري التحميل...</div>
-        </div>
-        
-        <button id="quran-fab" class="fab" onclick="toggleQuranMenu()">+</button>
-        
-        <div id="quran-fab-menu" class="fab-menu hidden">
-            <button class="fab-item" onclick="goBack()">🔙 الفهرس</button>
-            <button class="fab-item" onclick="navigatePage(-1)">➡️ الصفحة السابقة</button>
-            <button class="fab-item" onclick="navigatePage(1)">⬅️ الصفحة التالية</button>
+        <div class="mushaf-container">
+            <div id="mushaf-page" class="mushaf-page">
+                <div class="mushaf-header">
+                    <span id="mushaf-juz-name">الجزء</span>
+                    <span id="mushaf-surah-name">السورة</span>
+                </div>
+                
+                <div id="quran-text" class="quran-text-container">جاري التحميل...</div>
+                
+                <div class="mushaf-footer">
+                    <span id="mushaf-page-num" class="mushaf-page-num">١</span>
+                </div>
+            </div>
         </div>
     </div>
 
