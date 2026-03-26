@@ -2,61 +2,6 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المصحف الشريف - محاكاة الواقع</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
-</head>
-<body>
-
-    <div class="quran-container">
-        <div id="quran-book">
-            
-            <div class="page page-cover" data-density="hard">
-                <div class="page-content">
-                    <h1>القرآن الكريم</h1>
-                </div>
-            </div>
-
-            <div class="page">
-                <div class="page-content">
-                    <div class="page-header">
-                        <span class="surah-name">سورة الفاتحة</span>
-                        <span class="page-number">١</span>
-                    </div>
-                    <div class="ayahs">
-                        بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ (1) الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ (2) الرَّحْمَنِ الرَّحِيمِ (3) مَالِكِ يَوْمِ الدِّينِ (4) إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ (5) اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ (6) صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ (7)
-                    </div>
-                </div>
-            </div>
-
-            <div class="page">
-                <div class="page-content">
-                    <div class="page-header">
-                        <span class="surah-name">سورة البقرة</span>
-                        <span class="page-number">٢</span>
-                    </div>
-                    <div class="ayahs">
-                        الم (1) ذَلِكَ الْكِتَابُ لَا رَيْبَ فِيهِ هُدًى لِلْمُتَّقِينَ (2) الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنْفِقُونَ (3) وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنْزِلَ إِلَيْكَ وَمَا أُنْزِلَ مِنْ قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ (4) أُولَئِكَ عَلَى هُدًى مِنْ رَبِّهِمْ وَأُولَئِكَ هُمُ الْمُفْلِحُونَ (5)
-                    </div>
-                </div>
-            </div>
-
-            <div class="page page-cover" data-density="hard">
-                <div class="page-content"></div>
-            </div>
-
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="موسوعة المسلم: مصحف، أذكار، مواقيت صلاة، قبلة، سبحة، وصوتيات قرآن — تطبيق ويب سريع يعمل بدون تثبيت.">
     <meta name="theme-color" content="#8B5A2B">
@@ -77,8 +22,6 @@
     <div class="settings-bar" role="toolbar" aria-label="إعدادات سريعة">
         <button type="button" class="settings-btn" onclick="navigateTo('settings')" title="الإعدادات" aria-label="فتح الإعدادات">⚙️</button>
         <button type="button" class="settings-btn" onclick="toggleTheme()" title="الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
-        <button type="button" class="settings-btn" onclick="changeFontSize(1)" title="تكبير الخط" aria-label="تكبير خط النصوص">A+</button>
-        <button type="button" class="settings-btn" onclick="changeFontSize(-1)" title="تصغير الخط" aria-label="تصغير خط النصوص">A-</button>
         <button type="button" class="settings-btn" onclick="requestLocationPermission()" title="تحديث الموقع بالـ GPS" aria-label="تحديث الموقع عبر GPS">📍</button>
     </div>
 
@@ -126,7 +69,6 @@
                 <button class="grid-btn" onclick="navigateTo('masbaha')">👆<br>السبحة</button>
                 <button class="grid-btn" onclick="navigateTo('prayerTimes')">🕌<br>المواقيت</button>
                 <button class="grid-btn" onclick="navigateTo('qibla')">🕋<br>القبلة</button>
-                <button type="button" class="grid-btn" onclick="navigateTo('settings')" style="grid-column: 1 / -1;">⚙️<br>الإعدادات</button>
             </div>
         </div>
     </div>
@@ -138,6 +80,12 @@
         </div>
         <div class="paper-card settings-card">
             <p class="settings-note">المواقيت من <strong>Aladhan API</strong>؛ التفسير الميسر يُعرض من واجهة <strong>api.alquran.cloud</strong> (مجمع الملك فهد).</p>
+
+            <label class="settings-label">حجم خط النصوص والأذكار</label>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; width: 100%;">
+                <button type="button" class="btn" onclick="changeFontSize(1)" style="flex: 1; padding: 10px; font-size: 1.2rem;">تكبير A+</button>
+                <button type="button" class="btn" onclick="changeFontSize(-1)" style="flex: 1; padding: 10px; font-size: 1.2rem;">تصغير A-</button>
+            </div>
 
             <label class="settings-label" for="ayah-reciter-select">قارئ استماع الآية (من المصحف — ضغطة مطوّلة)</label>
             <select id="ayah-reciter-select" class="settings-select" aria-describedby="ayah-reciter-hint">
@@ -286,20 +234,20 @@
         </div>
     </div>
 
-    <div id="quranReader-screen" class="screen hidden">
+    <div id="quranReader-screen" class="screen hidden" style="position: relative;">
         <div class="header-wrapper">
             <div class="top-bar"><button class="back-btn" onclick="goBack()">🔙 الفهرس</button></div>
-            <span id="current-surah-name" class="screen-title">سورة</span>
-            
-           <div style="display: flex; gap: 15px; margin-top: 15px; width: 90%; max-width: 500px; justify-content: center;">
-                <button class="btn" style="padding: 8px 15px; font-size: 1rem; width: 45%;" onclick="navigateSurah(-1)">⏩ السابقة</button>
-                <button class="btn" style="padding: 8px 15px; font-size: 1rem; width: 45%;" onclick="navigateSurah(1)">التالية ⏪</button>
-            </div>
-            <p style="font-size: 0.8rem; color: var(--accent-color); margin-top: 10px;">💡 ضغطة سريعة: علامة مرجعية — ضغطة مطوّلة: تفسير أو استماع</p>
+            <span id="current-surah-name" class="screen-title">المصحف الشريف</span>
+            <p style="font-size: 0.8rem; color: var(--accent-color); margin-top: 5px;">اسحب بأصبعك لتقليب الصفحات 📖</p>
         </div>
-        <div class="paper-card quran-paper">
-            <div id="quran-text" class="quran-text-container">جاري التحميل...</div>
+        
+        <div id="quran-book-container" style="display: flex; justify-content: center; align-items: center; width: 100%; height: 75vh; margin-top: 10px; overflow: hidden; position: relative;">
+            <div id="quran-book">
+                </div>
         </div>
+
+        <button id="quran-options-btn" onclick="openQuranOptions()" title="خيارات الآية" style="position: absolute; bottom: 30px; left: 20px; width: 50px; height: 50px; border-radius: 50%; background: var(--accent-color); color: var(--bg-color); font-size: 28px; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; cursor: pointer; display: flex; justify-content: center; align-items: center;">+</button>
+
         <audio id="ayah-audio" preload="none" class="ayah-audio-el"></audio>
     </div>
 
@@ -321,11 +269,21 @@
 
     <div id="toast-msg" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').catch(() => {});
             });
+        }
+        
+        // دالة مبدئية لفتح التفسير من زر الـ (+)
+        function openQuranOptions() {
+            const sheet = document.getElementById('ayah-action-sheet');
+            const backdrop = document.getElementById('ayah-sheet-backdrop');
+            sheet.classList.remove('hidden');
+            backdrop.classList.remove('hidden');
         }
     </script>
     <script src="script.js"></script>
