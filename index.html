@@ -21,6 +21,11 @@
             <button class="sidebar-btn" onclick="toggleTheme()">🌙 الوضع الليلي / النهاري</button>
             <label style="display:block; text-align:center; margin:15px 0 10px;">حجم الخط (للتطبيق والأذكار)</label>
             <input type="range" id="font-slider" min="1.2" max="3.5" step="0.1" oninput="changeFontSizeSlider(this.value)" style="width: 100%;">
+            <label style="display:block; text-align:center; margin:15px 0 10px;">نمط نص المصحف</label>
+            <select id="quran-text-mode" onchange="updateQuranTextMode(this.value)" class="sidebar-select">
+                <option value="kfgqpc">مجمع الملك فهد (نصي - المفضل)</option>
+                <option value="classic">عثماني قياسي</option>
+            </select>
         </div>
 
         <div class="sidebar-section">
@@ -109,7 +114,7 @@
             </div>
 
             <div class="main-grid">
-                <button class="grid-btn" onclick="navigateTo('quranIndex')">📖<br>المصحف</button>
+                <button class="grid-btn quran-grid-btn" onclick="navigateTo('quranIndex')"><span class="quran-grid-icon">۞</span><br>المصحف</button>
                 <button class="grid-btn" onclick="navigateTo('audioMenu')">🎙️<br>الصوتيات</button>
                 <button class="grid-btn" onclick="navigateTo('azkarMenu')">📿<br>الأذكار</button>
                 <button class="grid-btn" onclick="navigateTo('masbaha')">👆<br>السبحة</button>
@@ -148,10 +153,8 @@
     </div>
 
     <div id="hadithMenu-screen" class="screen hidden">
-        <div class="buttons-container" style="margin-top: 60px;">
-            <button class="btn" onclick="openHadithBook('bukhari')">📘 صحيح البخاري</button>
-            <button class="btn" onclick="openHadithBook('muslim')">📗 صحيح مسلم</button>
-            <button class="btn" onclick="openHadithBook('abudawud')">📙 سنن أبي داود</button>
+        <div class="buttons-container hadith-library-container" style="margin-top: 60px;">
+            <div id="hadith-library-list"></div>
         </div>
     </div>
 
@@ -186,6 +189,7 @@
 
     <div id="quranIndex-screen" class="screen hidden">
         <div class="surah-grid-container" style="margin-top: 60px;">
+            <div class="index-summary-card" id="quran-index-summary">📚 فهرس المصحف</div>
             <button class="btn" style="width: 100%; margin-bottom: 20px; background-color: var(--accent-color); color: var(--bg-color);" onclick="navigateTo('bookmarks')">🔖 علاماتي المرجعية</button>
             <div id="surah-list" class="surah-grid"></div>
         </div>
@@ -214,6 +218,7 @@
                     <span id="mushaf-page-num" class="mushaf-page-num">١</span>
                 </div>
             </div>
+            <div id="swipe-hint" class="swipe-hint">⇠ اسحب ⇢</div>
 
             <button class="mushaf-nav-btn left-btn" onclick="navigatePage(1)">&#10094;</button>
         </div>
@@ -231,7 +236,25 @@
         </div>
     </div>
 
-    <button id="floating-back-btn" class="floating-back hidden" onclick="goBack()">🔙</button>
+    <div id="ayah-actions-modal" class="modal hidden">
+        <div class="modal-content" style="font-size: 1rem; max-width: 420px;">
+            <p id="ayah-actions-title" style="margin-bottom: 14px; color: var(--accent-color);">خيارات الآية</p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <button class="btn" onclick="openAyahTafsir()">تفسير</button>
+                <button class="btn" onclick="playAyahRecitation()">قراءة</button>
+                <button class="btn" onclick="toggleSelectedAyahBookmark()">علامة مرجعية</button>
+            </div>
+            <button class="btn" style="margin-top: 12px; background: transparent;" onclick="closeAyahActionsModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <div id="tafsir-modal" class="modal hidden">
+        <div class="modal-content" style="max-width: 560px; width: 92%; text-align: right;">
+            <p id="tafsir-modal-title" style="color: var(--accent-color); margin-bottom: 8px;">تفسير الآية</p>
+            <div id="tafsir-modal-text" style="font-size: 1.05rem; line-height: 1.9; max-height: 45vh; overflow-y: auto; white-space: pre-line;"></div>
+            <button class="btn" style="margin-top: 14px;" onclick="closeTafsirModal()">إغلاق</button>
+        </div>
+    </div>
 
     <script> if ('serviceWorker' in navigator) { window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js'); }); } </script>
     <script src="script.js"></script>

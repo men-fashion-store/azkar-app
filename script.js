@@ -74,28 +74,125 @@ const hadithsList = [
 ];
 
 let currentHadithBookTitle = '';
-const libraryData = {
-    bukhari: [
-        {text: "كلمتان خفيفتان على اللسان، ثقيلتان في الميزان، حبيبتان إلى الرحمن: سبحان الله وبحمده، سبحان الله العظيم.", narrator: "صحيح البخاري"},
+const hadithLibraries = {
+    bukhari: {
+        title: "صحيح البخاري",
+        icon: "BK",
+        description: "أحاديث جامعة في العقيدة والسلوك",
+        sourceLabel: "كتاب",
+        hadiths: [
+            {text: "إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى.", narrator: "صحيح البخاري"},
+            {text: "المسلم من سلم المسلمون من لسانه ويده.", narrator: "صحيح البخاري"},
         {text: "لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه.", narrator: "صحيح البخاري"},
-        {text: "من كان يؤمن بالله واليوم الآخر فليقل خيراً أو ليصمت.", narrator: "صحيح البخاري"},
-        {text: "المسلم من سلم المسلمون من لسانه ويده، والمهاجر من هجر ما نهى الله عنه.", narrator: "صحيح البخاري"},
-        {text: "إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى.", narrator: "صحيح البخاري"},
-        {text: "خيركم من تعلم القرآن وعلمه.", narrator: "صحيح البخاري"}
-    ],
-    muslim: [
-        {text: "الطهور شطر الإيمان، والحمد لله تمْلأ الميزان، وسبحان الله والحمد لله تمْلآن ما بين السماوات والأرض.", narrator: "صحيح مسلم"},
-        {text: "من سلك طريقاً يلتمس فيه علماً سهّل الله له به طريقاً إلى الجنة.", narrator: "صحيح مسلم"},
-        {text: "عجباً لأمر المؤمن إن أمره كله خير، وليس ذاك لأحد إلا للمؤمن، إن أصابته سراء شكر فكان خيراً له، وإن أصابته ضراء صبر فكان خيراً له.", narrator: "صحيح مسلم"},
-        {text: "أقرب ما يكون العبد من ربه وهو ساجد، فأكثروا الدعاء.", narrator: "صحيح مسلم"},
-        {text: "الصلوات الخمس، والجمعة إلى الجمعة، ورمضان إلى رمضان، مكفرات ما بينهن إذا اجتنب الكبائر.", narrator: "صحيح مسلم"}
-    ],
-    abudawud: [
-        {text: "ما من مسلم يدعو بدعوة ليس فيها إثم ولا قطيعة رحم إلا أعطاه الله بها إحدى ثلاث: إما أن تعجل له دعوته، وإما أن يدخرها له في الآخرة، وإما أن يصرف عنه من السوء مثلها.", narrator: "سنن أبي داود"},
-        {text: "دعوة المظلوم مستجابة وإن كان فاجراً ففجوره على نفسه.", narrator: "سنن أبي داود"},
-        {text: "الرجل على دين خليله فلينظر أحدكم من يخالل.", narrator: "سنن أبي داود"}
-    ]
+            {text: "من كان يؤمن بالله واليوم الآخر فليقل خيرا أو ليصمت.", narrator: "صحيح البخاري"},
+            {text: "خيركم من تعلم القرآن وعلمه.", narrator: "صحيح البخاري"},
+            {text: "من يرد الله به خيرا يفقهه في الدين.", narrator: "صحيح البخاري"},
+            {text: "الدين النصيحة.", narrator: "صحيح البخاري (بالمعنى)"},
+            {text: "كلكم راع وكلكم مسؤول عن رعيته.", narrator: "صحيح البخاري"},
+            {text: "يسروا ولا تعسروا، وبشروا ولا تنفروا.", narrator: "صحيح البخاري"},
+            {text: "كلمتان خفيفتان على اللسان... سبحان الله وبحمده، سبحان الله العظيم.", narrator: "صحيح البخاري"}
+        ]
+    },
+    muslim: {
+        title: "صحيح مسلم",
+        icon: "MS",
+        description: "أحاديث الإيمان والعبادات والآداب",
+        sourceLabel: "كتاب",
+        hadiths: [
+            {text: "الطهور شطر الإيمان، والحمد لله تملأ الميزان.", narrator: "صحيح مسلم"},
+            {text: "من سلك طريقا يلتمس فيه علما سهل الله له به طريقا إلى الجنة.", narrator: "صحيح مسلم"},
+            {text: "عجبا لأمر المؤمن إن أمره كله خير.", narrator: "صحيح مسلم"},
+            {text: "أقرب ما يكون العبد من ربه وهو ساجد فأكثروا الدعاء.", narrator: "صحيح مسلم"},
+            {text: "الصلوات الخمس والجمعة إلى الجمعة ورمضان إلى رمضان مكفرات لما بينهن إذا اجتنبت الكبائر.", narrator: "صحيح مسلم"},
+            {text: "من صلى علي واحدة صلى الله عليه بها عشرا.", narrator: "صحيح مسلم"},
+            {text: "من دل على خير فله مثل أجر فاعله.", narrator: "صحيح مسلم"},
+            {text: "لا يدخل الجنة من كان في قلبه مثقال ذرة من كبر.", narrator: "صحيح مسلم"},
+            {text: "المؤمن القوي خير وأحب إلى الله من المؤمن الضعيف.", narrator: "صحيح مسلم"},
+            {text: "إن الله لا ينظر إلى صوركم وأموالكم ولكن ينظر إلى قلوبكم وأعمالكم.", narrator: "صحيح مسلم"}
+        ]
+    },
+    abudawud: {
+        title: "سنن أبي داود",
+        icon: "AD",
+        description: "أحاديث الأحكام والسُّنن العملية",
+        sourceLabel: "كتاب",
+        hadiths: [
+            {text: "الرجل على دين خليله فلينظر أحدكم من يخالل.", narrator: "سنن أبي داود"},
+            {text: "من حسن إسلام المرء تركه ما لا يعنيه.", narrator: "سنن أبي داود (بالمعنى)"},
+            {text: "أفضل الدعاء دعاء يوم عرفة.", narrator: "سنن أبي داود (بالمعنى)"},
+            {text: "إن من إجلال الله إكرام ذي الشيبة المسلم.", narrator: "سنن أبي داود"},
+            {text: "ما من مسلم يدعو بدعوة ليس فيها إثم ولا قطيعة رحم إلا أعطاه الله بها إحدى ثلاث.", narrator: "سنن أبي داود"},
+            {text: "دعوة المظلوم مستجابة.", narrator: "سنن أبي داود"},
+            {text: "من سكت نجا.", narrator: "سنن أبي داود (بالمعنى)"},
+            {text: "لا ضرر ولا ضرار.", narrator: "سنن أبي داود (بالمعنى)"}
+        ]
+    },
+    tirmidhi: {
+        title: "سنن الترمذي",
+        icon: "TR",
+        description: "أحاديث الفضائل والآداب والرقائق",
+        sourceLabel: "كتاب",
+        hadiths: [
+            {text: "اتق الله حيثما كنت وأتبع السيئة الحسنة تمحها وخالق الناس بخلق حسن.", narrator: "سنن الترمذي"},
+            {text: "تبسمك في وجه أخيك صدقة.", narrator: "سنن الترمذي"},
+            {text: "إن الله رفيق يحب الرفق.", narrator: "سنن الترمذي (بالمعنى)"},
+            {text: "لا تغضب.", narrator: "سنن الترمذي (بالمعنى)"},
+            {text: "الدنيا سجن المؤمن وجنة الكافر.", narrator: "سنن الترمذي (بالمعنى)"},
+            {text: "احفظ الله يحفظك.", narrator: "سنن الترمذي"},
+            {text: "من حسن إسلام المرء تركه ما لا يعنيه.", narrator: "سنن الترمذي"},
+            {text: "الراحمون يرحمهم الرحمن.", narrator: "سنن الترمذي"}
+        ]
+    },
+    nasai: {
+        title: "سنن النسائي",
+        icon: "NS",
+        description: "أحاديث العبادات والأحكام",
+        sourceLabel: "كتاب",
+        hadiths: [
+            {text: "إنما الطاعة في المعروف.", narrator: "سنن النسائي"},
+            {text: "من صلى لله أربعين يوما في جماعة يدرك التكبيرة الأولى كتبت له براءتان.", narrator: "سنن النسائي (بالمعنى)"},
+            {text: "أفضل الصيام بعد رمضان شهر الله المحرم.", narrator: "سنن النسائي"},
+            {text: "أفضل الصلاة بعد الفريضة صلاة الليل.", narrator: "سنن النسائي"},
+            {text: "من توضأ فأحسن الوضوء خرجت خطاياه.", narrator: "سنن النسائي (بالمعنى)"},
+            {text: "من سن في الإسلام سنة حسنة فله أجرها وأجر من عمل بها.", narrator: "سنن النسائي (بالمعنى)"},
+            {text: "إن الصدق يهدي إلى البر.", narrator: "سنن النسائي (بالمعنى)"},
+            {text: "من صلى البردين دخل الجنة.", narrator: "سنن النسائي (بالمعنى)"}
+        ]
+    },
+    ibnmajah: {
+        title: "سنن ابن ماجه",
+        icon: "IM",
+        description: "مختارات نافعة في الزهد والسلوك",
+        sourceLabel: "كتاب",
+        hadiths: [
+            {text: "طلب العلم فريضة على كل مسلم.", narrator: "سنن ابن ماجه"},
+            {text: "رب أشعث أغبر لو أقسم على الله لأبره.", narrator: "سنن ابن ماجه (بالمعنى)"},
+            {text: "لا يدخل الجنة قاطع رحم.", narrator: "سنن ابن ماجه (بالمعنى)"},
+            {text: "خير الناس أنفعهم للناس.", narrator: "سنن ابن ماجه (بالمعنى)"},
+            {text: "إن من أحبكم إلي وأقربكم مني مجلسا يوم القيامة أحاسنكم أخلاقا.", narrator: "سنن ابن ماجه (بالمعنى)"},
+            {text: "اغتنم خمسا قبل خمس.", narrator: "سنن ابن ماجه (بالمعنى)"},
+            {text: "من لزم الاستغفار جعل الله له من كل هم فرجا.", narrator: "سنن ابن ماجه (بالمعنى)"},
+            {text: "نعم المال الصالح للرجل الصالح.", narrator: "سنن ابن ماجه (بالمعنى)"}
+        ]
+    },
+    malik: {
+        title: "الموطأ",
+        icon: "MK",
+        description: "مختارات من موطأ الإمام مالك",
+        sourceLabel: "كتاب",
+        hadiths: [
+            {text: "إنما بعثت لأتمم صالح الأخلاق.", narrator: "الموطأ (بالمعنى)"},
+            {text: "البيّعان بالخيار ما لم يتفرقا.", narrator: "الموطأ (بالمعنى)"},
+            {text: "ليس الشديد بالصرعة، إنما الشديد الذي يملك نفسه عند الغضب.", narrator: "الموطأ (بالمعنى)"},
+            {text: "من كان يؤمن بالله واليوم الآخر فليكرم ضيفه.", narrator: "الموطأ (بالمعنى)"},
+            {text: "إياكم والظن فإن الظن أكذب الحديث.", narrator: "الموطأ (بالمعنى)"},
+            {text: "الراحمون يرحمهم الله.", narrator: "الموطأ (بالمعنى)"},
+            {text: "صلة الرحم تزيد في العمر.", narrator: "الموطأ (بالمعنى)"},
+            {text: "من كان في حاجة أخيه كان الله في حاجته.", narrator: "الموطأ (بالمعنى)"}
+        ]
+    }
 };
+let hadithApiCategories = [];
 
 window.showToast = (msg) => {
     const t = document.getElementById('toast-msg'); if(!t) return;
@@ -105,6 +202,24 @@ window.showToast = (msg) => {
 // --- دالة تحويل الأرقام للإصدار العربي ---
 function toArabicNumerals(num) {
     return num.toString().replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+}
+
+async function fetchJsonWithRetry(url, options = {}, retries = 2, timeoutMs = 9000) {
+    for (let attempt = 0; attempt <= retries; attempt++) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+            const res = await fetch(url, { ...options, signal: controller.signal });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            clearTimeout(timeoutId);
+            return data;
+        } catch (error) {
+            clearTimeout(timeoutId);
+            if (attempt === retries) throw error;
+            await new Promise(resolve => setTimeout(resolve, 350 * (attempt + 1)));
+        }
+    }
 }
 
 // --- 2. إدارة الشاشات والملاحة ---
@@ -129,15 +244,6 @@ function handleRoute() {
     } else {
         mainHeader.classList.remove('hidden');
         if(homeMenuBtn) homeMenuBtn.classList.add('hidden');
-    }
-
-    let floatBack = document.getElementById('floating-back-btn');
-    if(floatBack) {
-        if(hash === 'home' || hash === 'splash') {
-            floatBack.classList.add('hidden');
-        } else {
-            floatBack.classList.remove('hidden');
-        }
     }
 
     if(searchInput) { searchInput.value = ''; searchInput.classList.add('hidden'); }
@@ -252,11 +358,20 @@ window.checkForUpdates = function() {
 
 let lastBackPress = 0;
 window.addEventListener('popstate', function(e) {
-    let hash = window.location.hash;
+    const hash = window.location.hash;
     if(hash === '' || hash === '#home') {
-        let now = new Date().getTime();
-        if(now - lastBackPress < 2000) { confirmExit(); } 
-        else { lastBackPress = now; showToast("اضغط رجوع مرة أخرى للخروج"); window.history.pushState(null, null, '#home'); }
+        const now = new Date().getTime();
+        if(now - lastBackPress < 2000) {
+            exitAppPrompt();
+        } else {
+            lastBackPress = now;
+            showToast("اضغط رجوع مرة أخرى لتأكيد الخروج");
+            if(window.location.hash !== '#home') {
+                window.location.hash = 'home';
+            } else {
+                window.history.pushState(null, null, '#home');
+            }
+        }
     }
 });
 
@@ -320,8 +435,8 @@ window.requestLocationPermission = function() {
 async function fetchPrayers(lat, lng) {
     let d = new Date();
     try {
-        let res = await fetch(`https://api.aladhan.com/v1/timings/${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}?latitude=${lat}&longitude=${lng}&method=5`);
-        let data = await res.json(); let t = data.data.timings;
+        let data = await fetchJsonWithRetry(`https://api.aladhan.com/v1/timings/${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}?latitude=${lat}&longitude=${lng}&method=5`);
+        let t = data.data.timings;
         const list = document.getElementById('prayer-times-list'); if(list) list.innerHTML='';
         let nextT=null, nextN='', now=new Date();
         
@@ -345,22 +460,103 @@ async function fetchPrayers(lat, lng) {
                 document.getElementById('prayer-countdown').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
             }
         }, 1000);
-    } catch(e) {}
+    } catch(e) {
+        showToast("تعذر تحميل مواقيت الصلاة حالياً");
+    }
 }
 
 // --- 7. عرض مكتبة الحديث ---
+function renderHadithLibraries() {
+    const list = document.getElementById('hadith-library-list');
+    if(!list) return;
+    list.innerHTML = '';
+    Object.entries(hadithLibraries).forEach(([bookId, book]) => {
+        const count = book.hadiths.length;
+        list.innerHTML += `
+        <button class="hadith-library-btn" onclick="openHadithBook('${bookId}')">
+            <div class="hadith-library-main">
+                <span class="hadith-library-title">[${book.icon}] ${book.title}</span>
+                <span class="hadith-library-sub">${book.description}</span>
+            </div>
+            <span class="hadith-library-count">${book.sourceLabel} • ${toArabicNumerals(count)} حديث</span>
+        </button>`;
+    });
+
+    hadithApiCategories.forEach(cat => {
+        list.innerHTML += `
+        <button class="hadith-library-btn" onclick="openHadithApiCategory('${cat.id}', '${cat.title.replace(/'/g, "\\'")}')">
+            <div class="hadith-library-main">
+                <span class="hadith-library-title">[API] ${cat.title}</span>
+                <span class="hadith-library-sub">منصة أحاديث موثقة (موسوعة الحديث)</span>
+            </div>
+            <span class="hadith-library-count">موثق • ${toArabicNumerals(cat.hadeeths_count)} حديث</span>
+        </button>`;
+    });
+}
+
 window.openHadithBook = function(bookId) {
-    const titles = { 'bukhari': 'صحيح البخاري', 'muslim': 'صحيح مسلم', 'abudawud': 'سنن أبي داود' };
-    currentHadithBookTitle = titles[bookId] || 'الحديث';
+    const library = hadithLibraries[bookId];
+    if(!library) return;
+    currentHadithBookTitle = library.title || 'الحديث';
     let container = document.getElementById('hadith-list-container');
     container.innerHTML = ''; 
-    let bookData = libraryData[bookId];
-    if(bookData) {
-        bookData.forEach(hadith => {
+    if(library.hadiths) {
+        library.hadiths.forEach(hadith => {
             container.innerHTML += `<div class="hadith-card"><p class="hadith-text">${hadith.text}</p><p class="hadith-narrator">${hadith.narrator}</p></div>`;
         });
     }
     navigateTo('hadithReader');
+};
+
+async function loadHadithApiCategories() {
+    try {
+        const data = await fetchJsonWithRetry('https://hadeethenc.com/api/v1/categories/list/?language=ar', {}, 1, 9000);
+        hadithApiCategories = (data || [])
+            .filter(cat => !cat.parent_id && parseInt(cat.hadeeths_count || '0', 10) > 0)
+            .slice(0, 8)
+            .map(cat => ({
+                id: cat.id,
+                title: cat.title,
+                hadeeths_count: cat.hadeeths_count
+            }));
+        renderHadithLibraries();
+    } catch (e) {
+        // نبقي على مكتبة الكتب المحلية لو فشل الإنترنت
+    }
+}
+
+window.openHadithApiCategory = async function(categoryId, categoryTitle) {
+    currentHadithBookTitle = categoryTitle || 'منصة الأحاديث';
+    const container = document.getElementById('hadith-list-container');
+    if(!container) return;
+    container.innerHTML = '<div class="hadith-card"><p class="hadith-text">جاري تحميل الأحاديث الموثقة...</p></div>';
+    navigateTo('hadithReader');
+
+    try {
+        const listData = await fetchJsonWithRetry(`https://hadeethenc.com/api/v1/hadeeths/list/?language=ar&category_id=${categoryId}&page=1&per_page=15`, {}, 1, 9000);
+        const items = (listData && listData.data) ? listData.data : [];
+        if(items.length === 0) {
+            container.innerHTML = '<div class="hadith-card"><p class="hadith-text">لا توجد أحاديث متاحة الآن في هذا التصنيف.</p></div>';
+            return;
+        }
+
+        const detailPromises = items.map(item =>
+            fetchJsonWithRetry(`https://hadeethenc.com/api/v1/hadeeths/one/?language=ar&id=${item.id}`, {}, 1, 9000)
+                .catch(() => null)
+        );
+        const details = await Promise.all(detailPromises);
+
+        container.innerHTML = '';
+        details.filter(Boolean).forEach(h => {
+            const narratorLine = [h.attribution, h.grade].filter(Boolean).join(' - ');
+            container.innerHTML += `<div class="hadith-card"><p class="hadith-text">${h.hadeeth || h.title || ''}</p><p class="hadith-narrator">${narratorLine || 'موسوعة الحديث النبوي'}</p></div>`;
+        });
+        if(container.innerHTML.trim() === '') {
+            container.innerHTML = '<div class="hadith-card"><p class="hadith-text">تعذر تحميل التفاصيل الآن.</p></div>';
+        }
+    } catch (e) {
+        container.innerHTML = '<div class="hadith-card"><p class="hadith-text">تعذر تحميل الأحاديث من المنصة الآن، جرّب لاحقًا.</p></div>';
+    }
 };
 
 // --- 8. المصحف (نظام الصفحات مع ذكاء اصطناعي لتظبيط الخط) ---
@@ -368,29 +564,92 @@ let surahListCached = [];
 let quranBookmarks = JSON.parse(localStorage.getItem('quranBookmarks')) || [];
 let quranCurrentPage = parseInt(localStorage.getItem('quranCurrentPage')) || 1;
 let quranPageCache = {}; 
+let quranTextMode = localStorage.getItem('quranTextMode') || 'kfgqpc';
+
+window.updateQuranTextMode = function(mode) {
+    quranTextMode = mode === 'classic' ? 'classic' : 'kfgqpc';
+    localStorage.setItem('quranTextMode', quranTextMode);
+    document.body.classList.toggle('quran-font-classic', quranTextMode === 'classic');
+    if(quranCurrentPage) {
+        quranPageCache = {};
+        loadQuranPage(quranCurrentPage);
+    }
+    showToast(quranTextMode === 'kfgqpc' ? "تم تفعيل نمط مجمع الملك فهد" : "تم تفعيل النمط العثماني القياسي");
+};
+
+function getSurahNameByNumber(surahNumber) {
+    const match = surahListCached.find(s => s.number === surahNumber);
+    return match ? match.name : `سورة ${toArabicNumerals(surahNumber)}`;
+}
+
+function mapQuranComPageDataToLegacyShape(verses) {
+    return {
+        ayahs: verses.map(v => {
+            const [surahNum, ayahNum] = v.verse_key.split(':').map(n => parseInt(n, 10));
+            return {
+                surah: { number: surahNum, name: getSurahNameByNumber(surahNum) },
+                numberInSurah: ayahNum,
+                text: (v.text_uthmani || '').trim(),
+                juz: v.juz_number
+            };
+        })
+    };
+}
+
+function normalizeSurahDisplayName(name) {
+    if (!name) return '';
+    return name.replace(/^سورة\s+/, '').trim();
+}
 
 async function loadQuranIndex() {
     if(surahListCached.length>0) return;
     try {
-        let res = await fetch('https://api.alquran.cloud/v1/surah'); let data = await res.json(); surahListCached = data.data;
+        let data = await fetchJsonWithRetry('https://api.alquran.cloud/v1/surah');
+        surahListCached = data.data;
         const list = document.getElementById('surah-list'); list.innerHTML='';
         const audioSel = document.getElementById('surah-select-audio'); if(audioSel) audioSel.innerHTML='<option value="">اختر السورة...</option>';
+        const summaryEl = document.getElementById('quran-index-summary');
+        if(summaryEl) {
+            summaryEl.innerText = `📚 فهرس المصحف - ${toArabicNumerals(data.data.length)} سورة`;
+        }
+
         surahListCached.forEach(s => {
             list.innerHTML += `<button class="surah-card-btn" onclick="jumpToAyah(${s.number}, 1)"><span class="surah-number">${toArabicNumerals(s.number)}</span> <span>${s.name}</span></button>`;
             if(audioSel) audioSel.innerHTML += `<option value="${s.number}">${s.name}</option>`;
         });
-    } catch(e) {}
+    } catch(e) {
+        const summaryEl = document.getElementById('quran-index-summary');
+        if(summaryEl) summaryEl.innerText = "⚠️ تعذر تحميل الفهرس الآن";
+    }
 }
 
 window.jumpToAyah = async (sNum, aNum) => {
     document.getElementById('quran-text').innerHTML="جاري التحميل...";
     navigateTo('quranReader');
+    const tryQuranComFirst = quranTextMode === 'kfgqpc';
     try {
-        let res = await fetch(`https://api.alquran.cloud/v1/ayah/${sNum}:${aNum}/quran-uthmani`);
-        let data = await res.json();
-        let page = data.data.page;
+        if(tryQuranComFirst) {
+            let data = await fetchJsonWithRetry(`https://api.quran.com/api/v4/verses/by_key/${sNum}:${aNum}?fields=page_number`);
+            let page = data.verse.page_number;
+            loadQuranPage(page, `${sNum}-${aNum}`);
+        } else {
+            let backup = await fetchJsonWithRetry(`https://api.alquran.cloud/v1/ayah/${sNum}:${aNum}/quran-uthmani`);
+            let page = backup.data.page;
         loadQuranPage(page, `${sNum}-${aNum}`);
-    } catch(e) { document.getElementById('quran-text').innerHTML = "خطأ في الاتصال"; }
+        }
+    } catch(e) {
+        try {
+            if(tryQuranComFirst) {
+                let backup = await fetchJsonWithRetry(`https://api.alquran.cloud/v1/ayah/${sNum}:${aNum}/quran-uthmani`);
+                loadQuranPage(backup.data.page, `${sNum}-${aNum}`);
+            } else {
+                let data = await fetchJsonWithRetry(`https://api.quran.com/api/v4/verses/by_key/${sNum}:${aNum}?fields=page_number`);
+                loadQuranPage(data.verse.page_number, `${sNum}-${aNum}`);
+            }
+        } catch(err) {
+            document.getElementById('quran-text').innerHTML = "خطأ في الاتصال";
+        }
+    }
 };
 
 window.loadQuranPage = async (pageNum, scrollToAyahId = null) => {
@@ -407,13 +666,36 @@ window.loadQuranPage = async (pageNum, scrollToAyahId = null) => {
     }
 
     document.getElementById('quran-text').innerHTML="جاري التحميل...";
+    const tryQuranComFirst = quranTextMode === 'kfgqpc';
     try {
-        let res = await fetch(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
-        let data = await res.json();
+        if(tryQuranComFirst) {
+            let quranComData = await fetchJsonWithRetry(`https://api.quran.com/api/v4/verses/by_page/${pageNum}?language=ar&words=false&fields=text_uthmani,verse_key,page_number,juz_number`);
+            let mapped = mapQuranComPageDataToLegacyShape(quranComData.verses || []);
+            quranPageCache[pageNum] = mapped;
+            renderPageData(mapped, pageNum, scrollToAyahId);
+        } else {
+            let data = await fetchJsonWithRetry(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
         quranPageCache[pageNum] = data.data; 
         renderPageData(data.data, pageNum, scrollToAyahId);
+        }
         preloadPages(pageNum); 
-    } catch(e) { document.getElementById('quran-text').innerHTML = "خطأ في الاتصال"; }
+    } catch(e) {
+        try {
+            if(tryQuranComFirst) {
+                let data = await fetchJsonWithRetry(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
+                quranPageCache[pageNum] = data.data;
+                renderPageData(data.data, pageNum, scrollToAyahId);
+            } else {
+                let quranComData = await fetchJsonWithRetry(`https://api.quran.com/api/v4/verses/by_page/${pageNum}?language=ar&words=false&fields=text_uthmani,verse_key,page_number,juz_number`);
+                let mapped = mapQuranComPageDataToLegacyShape(quranComData.verses || []);
+                quranPageCache[pageNum] = mapped;
+                renderPageData(mapped, pageNum, scrollToAyahId);
+            }
+            preloadPages(pageNum);
+        } catch(err) {
+            document.getElementById('quran-text').innerHTML = "خطأ في الاتصال";
+        }
+    }
 };
 
 // الدالة السحرية لتظبيط الخط أوتوماتيك لملء الشاشة بدون سكرول
@@ -437,20 +719,21 @@ function renderPageData(pageData, pageNum, scrollToAyahId) {
     let ayahs = pageData.ayahs;
     let juzNum = toArabicNumerals(ayahs[0].juz);
     let surahsOnPage = [...new Set(ayahs.map(a => a.surah.name))];
+    const primarySurahName = normalizeSurahDisplayName(surahsOnPage[0]);
     
     let titleEl = document.getElementById('header-title');
-    if(titleEl) titleEl.innerText = "سورة " + surahsOnPage[0];
+    if(titleEl) titleEl.innerText = "سورة " + primarySurahName;
     
     let mJuz = document.getElementById('mushaf-juz-name');
     let mSurah = document.getElementById('mushaf-surah-name');
     let mPageNum = document.getElementById('mushaf-page-num');
     if(mJuz) mJuz.innerText = `الجزء ${juzNum}`;
-    if(mSurah) mSurah.innerText = `سورة ${surahsOnPage[0]}`;
+    if(mSurah) mSurah.innerText = `سورة ${primarySurahName}`;
     if(mPageNum) mPageNum.innerText = toArabicNumerals(pageNum);
 
     let html = '';
     ayahs.forEach(a => {
-        let sName = a.surah.name;
+        let sName = normalizeSurahDisplayName(a.surah.name);
         let sNum = a.surah.number;
         
         if(a.numberInSurah === 1) {
@@ -484,11 +767,17 @@ function renderPageData(pageData, pageNum, scrollToAyahId) {
 
 async function preloadPages(currentPage) {
     let pagesToPreload = [currentPage + 1, currentPage + 2, currentPage - 1].filter(p => p >= 1 && p <= 604);
+    const tryQuranComFirst = quranTextMode === 'kfgqpc';
     for(let p of pagesToPreload) {
         if(!quranPageCache[p]) {
             try {
-                let res = await fetch(`https://api.alquran.cloud/v1/page/${p}/quran-uthmani`);
-                let data = await res.json(); quranPageCache[p] = data.data; 
+                if(tryQuranComFirst) {
+                    let quranComData = await fetchJsonWithRetry(`https://api.quran.com/api/v4/verses/by_page/${p}?language=ar&words=false&fields=text_uthmani,verse_key,page_number,juz_number`, {}, 1, 7000);
+                    quranPageCache[p] = mapQuranComPageDataToLegacyShape(quranComData.verses || []);
+                } else {
+                    let data = await fetchJsonWithRetry(`https://api.alquran.cloud/v1/page/${p}/quran-uthmani`, {}, 1, 7000);
+                    quranPageCache[p] = data.data;
+                }
             } catch(e) {} 
         }
     }
@@ -496,48 +785,69 @@ async function preloadPages(currentPage) {
 
 window.navigatePage = function(step) {
     // التقليب يمين وشمال (خطوة 1 للصفحة التالية، -1 للسابقة)
+    animatePageFlip(step);
+    hideSwipeHint();
     loadQuranPage(quranCurrentPage + step);
 };
 
 // --- السحب باللمس لتقليب الصفحات ---
 let touchstartX = 0;
 let touchendX = 0;
+let touchstartY = 0;
+let touchendY = 0;
+let swipeHintHidden = false;
+
+function hideSwipeHint() {
+    if (swipeHintHidden) return;
+    const hint = document.getElementById('swipe-hint');
+    if (hint) hint.style.display = 'none';
+    swipeHintHidden = true;
+}
+
+function animatePageFlip(step) {
+    const pageEl = document.getElementById('mushaf-page');
+    if (!pageEl) return;
+    pageEl.classList.remove('flip-next', 'flip-prev', 'flip-glow');
+    void pageEl.offsetWidth;
+    pageEl.classList.add(step > 0 ? 'flip-next' : 'flip-prev');
+    pageEl.classList.add('flip-glow');
+    setTimeout(() => pageEl.classList.remove('flip-glow'), 320);
+}
 
 function handleSwipe() {
-    let diff = touchendX - touchstartX;
-    // الحساسية مضبوطة على 40 بكسل
-    if (Math.abs(diff) > 40) { 
-        let pageEl = document.getElementById('mushaf-page');
-        if(!pageEl) return;
+    const diffX = touchendX - touchstartX;
+    const diffY = touchendY - touchstartY;
 
-        pageEl.style.opacity = '0';
+    // لو الحركة رأسية فسيبها سكرول طبيعي
+    if (Math.abs(diffY) > Math.abs(diffX)) return;
+
+    // الحساسية مضبوطة على 40 بكسل
+    if (Math.abs(diffX) > 40) {
         if (touchendX > touchstartX) {
-            // سحب لليمين يجيب الصفحة السابقة (-1)
-            pageEl.style.transform = 'translateX(30px)';
-            setTimeout(() => {
+            animatePageFlip(-1);
                 loadQuranPage(quranCurrentPage - 1);
-                pageEl.style.transform = 'translateX(0)';
-                pageEl.style.opacity = '1';
-            }, 150);
         } else {
-            // سحب لليسار يجيب الصفحة التالية (1)
-            pageEl.style.transform = 'translateX(-30px)';
-            setTimeout(() => {
+            animatePageFlip(1);
                 loadQuranPage(quranCurrentPage + 1);
-                pageEl.style.transform = 'translateX(0)';
-                pageEl.style.opacity = '1';
-            }, 150);
         }
+        hideSwipeHint();
     }
 }
 
 document.addEventListener('touchstart', e => {
-    if(window.location.hash === '#quranReader') { touchstartX = e.changedTouches[0].screenX; }
-}, false);
+    if(window.location.hash === '#quranReader') {
+        touchstartX = e.changedTouches[0].screenX;
+        touchstartY = e.changedTouches[0].screenY;
+    }
+}, { passive: true });
 
 document.addEventListener('touchend', e => {
-    if(window.location.hash === '#quranReader') { touchendX = e.changedTouches[0].screenX; handleSwipe(); }
-}, false);
+    if(window.location.hash === '#quranReader') {
+        touchendX = e.changedTouches[0].screenX;
+        touchendY = e.changedTouches[0].screenY;
+        handleSwipe();
+    }
+}, { passive: true });
 
 // ------------------------------------------
 
@@ -599,10 +909,13 @@ window.resetMasbaha = () => { document.getElementById('masbaha-count').innerText
 let allAudioReciters = [];
 async function loadAudioReciters() {
     try {
-        let res = await fetch('https://mp3quran.net/api/v3/reciters?language=ar'); let data = await res.json();
+        let data = await fetchJsonWithRetry('https://mp3quran.net/api/v3/reciters?language=ar');
         const sel = document.getElementById('reciter-select'); if(!sel) return;
         data.reciters.forEach(r => { if(r.moshaf) r.moshaf.forEach(m => { let name = `${r.name} (${m.name.replace('حفص عن عاصم','حفص')})`; allAudioReciters.push({ n: name, s: m.server }); sel.innerHTML += `<option value="${m.server}">${name}</option>`; }); });
-    } catch(e){} loadQuranIndex(); 
+    } catch(e){
+        showToast("تعذر تحميل القراء حالياً");
+    }
+    loadQuranIndex(); 
 }
 window.filterReciters = () => { let t = document.getElementById('reciter-search').value.toLowerCase(); const sel = document.getElementById('reciter-select'); sel.innerHTML='<option value="">اختر القارئ...</option>'; allAudioReciters.filter(r => r.n.toLowerCase().includes(t)).forEach(r => { sel.innerHTML += `<option value="${r.s}">${r.n}</option>`; }); };
 window.updateReciter = () => updateAudioSurah();
@@ -625,11 +938,17 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if(localStorage.getItem('masbahaCount')) document.getElementById('masbaha-count').innerText = localStorage.getItem('masbahaCount');
 
+    const quranModeSelect = document.getElementById('quran-text-mode');
+    if(quranModeSelect) quranModeSelect.value = quranTextMode;
+    document.body.classList.toggle('quran-font-classic', quranTextMode === 'classic');
+
     if(!window.location.hash || window.location.hash === '#splash') {
         window.location.hash = 'splash'; setTimeout(() => { window.location.hash = 'home'; }, 2500); 
     } else { handleRoute(); }
     
     initLocationAndPrayers();
     loadAudioReciters();
+    renderHadithLibraries();
+    loadHadithApiCategories();
     renderBookmarks(); 
 });
