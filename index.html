@@ -74,8 +74,14 @@
 
     <div id="main-header" class="top-header hidden">
         <button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
-        <span id="header-title" class="header-title">موسوعة المسلم</span>
-        <div style="width: 30px;"></div>
+        
+        <div id="header-center" class="header-center">
+            <span id="header-title" class="header-title">موسوعة المسلم</span>
+            <span id="header-subtitle" class="header-subtitle hidden"></span>
+        </div>
+        
+        <button id="header-search-icon" class="header-search-icon hidden" onclick="toggleTopSearch()">🔍</button>
+        <input type="text" id="top-search-input" class="top-search-input hidden" placeholder="بحث..." onkeyup="handleTopSearch()">
     </div>
 
     <div id="splash-screen" class="screen active splash-bg">
@@ -112,7 +118,7 @@
     </div>
 
     <div id="azkarMenu-screen" class="screen hidden">
-        <div class="buttons-container" style="margin-top: 80px;">
+        <div class="buttons-container" style="margin-top: 60px;">
             <button class="btn" onclick="startAzkar('morning')">☀️ أذكار الصباح</button>
             <button class="btn" onclick="startAzkar('evening')">🌙 أذكار المساء</button>
             <button class="btn" onclick="startAzkar('sleep')">💤 أذكار النوم</button>
@@ -122,7 +128,7 @@
     </div>
 
     <div id="azkarReader-screen" class="screen hidden">
-        <div class="progress-container" style="margin-top: 70px;"><div id="progress-bar" class="progress-bar"></div></div>
+        <div class="progress-container" style="margin-top: 50px;"><div id="progress-bar" class="progress-bar"></div></div>
         <span id="progress-text" class="progress-text-under">١ من ٢٠</span>
         <div id="zikr-card" class="paper-card">
             <div id="zikr-text">...</div>
@@ -132,7 +138,7 @@
     </div>
 
     <div id="masbaha-screen" class="screen hidden">
-        <div class="paper-card" style="justify-content: center; min-height: 60vh; margin-top: 80px;">
+        <div class="paper-card" style="justify-content: center; min-height: 60vh; margin-top: 60px;">
             <div class="masbaha-display" id="masbaha-count">0</div>
             <button class="masbaha-btn" onclick="incrementMasbaha()">سبّح</button>
             <button class="reset-btn" onclick="resetMasbaha()">🔄 تصفير العداد</button>
@@ -140,7 +146,7 @@
     </div>
 
     <div id="qibla-screen" class="screen hidden">
-        <div class="paper-card" style="justify-content: center; min-height: 60vh; margin-top: 80px;">
+        <div class="paper-card" style="justify-content: center; min-height: 60vh; margin-top: 60px;">
             <div class="compass-circle" id="compass-circle">
                 <div class="qibla-pointer" id="qibla-pointer">🕋</div>
             </div>
@@ -150,13 +156,13 @@
     </div>
 
     <div id="prayerTimes-screen" class="screen hidden">
-        <div class="paper-card" style="margin-top: 80px;">
+        <div class="paper-card" style="margin-top: 60px;">
             <div id="prayer-times-list" style="width:100%;"></div>
         </div>
     </div>
 
     <div id="audioMenu-screen" class="screen hidden">
-        <div class="audio-player-container" style="margin-top: 80px;">
+        <div class="audio-player-container" style="margin-top: 60px;">
             <input type="text" id="reciter-search" placeholder="🔍 ابحث عن قارئ..." onkeyup="filterReciters()">
             <select id="reciter-select" onchange="updateReciter()">
                 <option value="">جاري التحميل...</option>
@@ -172,22 +178,21 @@
     </div>
 
     <div id="quranIndex-screen" class="screen hidden">
-        <div class="surah-grid-container" style="margin-top: 80px;">
+        <div class="surah-grid-container" style="margin-top: 60px;">
             <button class="btn" style="width: 100%; margin-bottom: 20px; background-color: var(--accent-color); color: var(--bg-color);" onclick="navigateTo('bookmarks')">🔖 علاماتي المرجعية</button>
             <div id="surah-list" class="surah-grid"></div>
         </div>
     </div>
 
     <div id="bookmarks-screen" class="screen hidden">
-        <div class="paper-card" style="width: 92%; padding: 20px 15px; margin-top: 80px;">
+        <div class="paper-card" style="width: 92%; padding: 20px 15px; margin-top: 60px;">
             <p style="font-size: 0.9rem; opacity: 0.7; margin-bottom: 15px;">(الآيات التي قمت بحفظها)</p>
             <div id="bookmarks-list" style="width: 100%;"></div>
         </div>
     </div>
 
     <div id="quranReader-screen" class="screen hidden">
-        <div class="quran-paper" style="margin-top: 60px;">
-            <div id="quran-text" class="quran-text-container">جاري التحميل...</div>
+        <div class="quran-paper" style="margin-top: 40px;"> <div id="quran-text" class="quran-text-container">جاري التحميل...</div>
         </div>
         
         <button id="quran-fab" class="fab" onclick="toggleQuranMenu()">+</button>
