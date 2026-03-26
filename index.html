@@ -149,9 +149,9 @@
 
     <div id="hadithMenu-screen" class="screen hidden">
         <div class="buttons-container" style="margin-top: 60px;">
-            <button class="btn" onclick="openHadithBook('nawawi')">📖 الأربعون النووية</button>
-            <button class="btn" onclick="openHadithBook('bukhari')">📘 صحيح البخاري (مختارات)</button>
-            <button class="btn" onclick="openHadithBook('muslim')">📗 صحيح مسلم (مختارات)</button>
+            <button class="btn" onclick="openHadithBook('bukhari')">📘 صحيح البخاري</button>
+            <button class="btn" onclick="openHadithBook('muslim')">📗 صحيح مسلم</button>
+            <button class="btn" onclick="openHadithBook('abudawud')">📙 سنن أبي داود</button>
         </div>
     </div>
 
@@ -207,8 +207,8 @@
         
         <div id="quran-fab-menu" class="fab-menu hidden">
             <button class="fab-item" onclick="goBack()">🔙 الفهرس</button>
-            <button class="fab-item" onclick="navigateSurah(1)">⬅️ التالية</button>
-            <button class="fab-item" onclick="navigateSurah(-1)">➡️ السابقة</button>
+            <button class="fab-item" onclick="navigatePage(-1)">➡️ الصفحة السابقة</button>
+            <button class="fab-item" onclick="navigatePage(1)">⬅️ الصفحة التالية</button>
         </div>
     </div>
 
