@@ -35,7 +35,7 @@ body {
 
 /* --- الهيدر العلوي الجديد (نحيف ومدمج به البحث) --- */
 .top-header {
-    position: fixed; top: 0; left: 0; width: 100%; height: 50px; /* تم التصغير لتوفير المساحة */
+    position: fixed; top: 0; left: 0; width: 100%; height: 50px;
     background-color: var(--card-bg); z-index: 90;
     display: flex; justify-content: space-between; align-items: center;
     padding: 0 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -66,6 +66,39 @@ body {
     opacity: 1; transform: scaleX(1);
 }
 .top-search-input.hidden { opacity: 0; transform: scaleX(0); pointer-events: none; }
+
+/* --- زر القائمة المدمج في الشاشة الرئيسية --- */
+.home-menu-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    font-size: 1.8rem;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    cursor: pointer;
+    z-index: 80;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: 0.2s;
+}
+.home-menu-btn:active {
+    transform: scale(0.9);
+    background: var(--accent-color);
+    color: var(--bg-color);
+}
+.home-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+}
 
 /* --- القائمة الجانبية (Sidebar) --- */
 .sidebar {
@@ -125,7 +158,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* --- ويدجت الصلاة والشبكة --- */
-.prayer-widget { background: var(--widget-bg); color: #FFF; width: 92%; max-width: 450px; border-radius: 25px; padding: 25px; margin-top: 60px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; cursor: pointer; transition: transform 0.2s; }
+.prayer-widget { background: var(--widget-bg); color: #FFF; width: 92%; max-width: 450px; border-radius: 25px; padding: 25px; margin-top: 50px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); text-align: center; cursor: pointer; transition: transform 0.2s; }
 .prayer-widget:active { transform: scale(0.97); }
 .prayer-info { display: flex; flex-direction: column; gap: 5px; }
 #prayer-countdown { font-size: 2.8rem; font-weight: bold; direction: ltr; font-family: monospace; letter-spacing: 2px; margin: 10px 0; }
@@ -146,6 +179,11 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 #zikr-text { font-family: 'Amiri', serif; font-size: var(--zikr-font-size); line-height: 2.2; margin-bottom: 30px; white-space: pre-line; color: var(--text-color);}
 .proof-text { font-size: 0.95rem; opacity: 0.7; border-top: 1px dashed var(--accent-color); padding-top: 15px; margin-top: 10px; width: 100%; }
 
+/* --- تصميم بطاقات الحديث --- */
+.hadith-card { background-color: var(--card-bg); border: 1px solid var(--progress-bg); border-radius: 15px; padding: 25px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; text-align: right; }
+.hadith-text { font-family: 'Amiri', serif; font-size: var(--zikr-font-size); line-height: 2.2; color: var(--text-color); margin-bottom: 15px; white-space: pre-line; text-align: justify; }
+.hadith-narrator { font-size: 0.95rem; color: var(--accent-color); border-top: 1px dashed var(--accent-color); padding-top: 15px; font-weight: bold; }
+
 /* --- القوائم والأزرار --- */
 .buttons-container { display: flex; flex-direction: column; gap: 15px; width: 85%; max-width: 400px; margin-top: 20px; }
 .btn { background-color: var(--card-bg); color: var(--accent-color); border: 2px solid var(--accent-color); padding: 16px; font-size: 1.3rem; font-weight: bold; font-family: 'Tajawal', sans-serif; border-radius: 15px; cursor: pointer; transition: all 0.2s; }
@@ -157,7 +195,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 /* --- المرجعيات والبحث --- */
 .ayah-span { cursor: pointer; transition: background-color 0.3s; padding: 2px 5px; border-radius: 8px; display: inline; }
 .bookmarked-ayah { background-color: rgba(221, 167, 123, 0.15); border-bottom: 2px dashed var(--accent-color); }
-.highlight-search { background-color: rgba(255, 235, 59, 0.4); border-radius: 5px; } /* تمييز كلمات البحث */
+.highlight-search { background-color: rgba(255, 235, 59, 0.4); border-radius: 5px; }
 .bookmark-item { border-bottom: 1px solid var(--progress-bg); padding: 15px 0; text-align: right; }
 .bookmark-item h3 { color: var(--accent-color); font-family: 'Amiri', serif; margin-bottom: 8px; font-size: 1.3rem; }
 
@@ -166,9 +204,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 .masbaha-display { font-size: 4.5rem; font-family: monospace; color: var(--accent-color); margin-bottom: 30px; font-weight: bold; }
 .masbaha-btn { width: 160px; height: 160px; border-radius: 50%; background-color: var(--accent-color); color: #000; font-size: 2.5rem; font-family: 'Amiri', serif; font-weight: bold; border: none; cursor: pointer; }
 
-/* --- البوصلة والصوتيات والمواقيت --- */
-.compass-circle { width: 260px; height: 260px; border: 8px solid var(--accent-color); border-radius: 50%; position: relative; display: flex; justify-content: center; align-items: center; background: var(--card-bg); }
-.qibla-pointer { font-size: 3.5rem; position: absolute; transform: translateY(-80px); transition: transform 0.5s ease-out; }
+/* --- الصوتيات والمواقيت --- */
 .prayer-item { display: flex; justify-content: space-between; width: 100%; padding: 18px 15px; border-bottom: 1px solid var(--progress-bg); font-size: 1.2rem; }
 .active-prayer { background-color: var(--accent-color); color: #000; border-radius: 12px; font-weight: bold; }
 .audio-player-container { width: 90%; max-width: 500px; display: flex; flex-direction: column; gap: 10px; }
