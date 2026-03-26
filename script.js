@@ -84,7 +84,7 @@ window.showToast = (msg) => {
     t.innerText = msg; t.style.bottom = '20px'; setTimeout(() => { t.style.bottom = '-100px'; }, 3000);
 };
 
-// --- 2. إدارة الشاشات والملاحة ---
+// --- 2. إدارة الشاشات والملاحة وتحديث الهيدر ---
 window.navigateTo = function(targetScreen) { window.location.hash = targetScreen; };
 window.goBack = function() { window.history.back(); };
 window.addEventListener('hashchange', handleRoute);
@@ -92,14 +92,20 @@ window.addEventListener('hashchange', handleRoute);
 function handleRoute() {
     let hash = window.location.hash.replace('#', '') || 'home';
     
-    // إظهار وإخفاء الهيدر الثابت
+    let mainHeader = document.getElementById('main-header');
+    let searchIcon = document.getElementById('header-search-icon');
+    let searchInput = document.getElementById('top-search-input');
+    let subtitle = document.getElementById('header-subtitle');
+    let title = document.getElementById('header-title');
+
+    // إخفاء وإظهار الهيدر
     if(hash === 'home' || hash === 'splash') {
-        document.getElementById('main-header').classList.add('hidden');
+        mainHeader.classList.add('hidden');
     } else {
-        document.getElementById('main-header').classList.remove('hidden');
+        mainHeader.classList.remove('hidden');
     }
 
-    // إظهار وإخفاء زر الرجوع العائم
+    // زر الرجوع العائم
     let floatBack = document.getElementById('floating-back-btn');
     if(floatBack) {
         if(hash === 'home' || hash === 'splash') {
@@ -109,12 +115,74 @@ function handleRoute() {
         }
     }
 
+    // إعدادات البحث والنصوص في الهيدر بناءً على الشاشة
+    if(searchInput) { searchInput.value = ''; searchInput.classList.add('hidden'); }
+    
+    if(hash === 'quranIndex') {
+        searchIcon.classList.remove('hidden');
+        title.innerText = "المصحف";
+        subtitle.classList.add('hidden');
+        if(window.handleTopSearch) window.handleTopSearch(); // إعادة تعيين البحث
+    } else if(hash === 'quranReader') {
+        searchIcon.classList.remove('hidden');
+        // السورة والجزء يتم ضبطهم داخل دالة loadSurahContent
+    } else {
+        searchIcon.classList.add('hidden');
+        subtitle.classList.add('hidden');
+        const titles = {
+            'azkarMenu': 'الأذكار',
+            'azkarReader': 'الأذكار',
+            'masbaha': 'السبحة',
+            'qibla': 'القبلة',
+            'prayerTimes': 'مواقيت الصلاة',
+            'audioMenu': 'الصوتيات',
+            'bookmarks': 'علاماتي المرجعية'
+        };
+        title.innerText = titles[hash] || 'موسوعة المسلم';
+    }
+
+    // تبديل الشاشات
     document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.classList.add('hidden'); });
     const target = document.getElementById(hash + '-screen') || document.getElementById('home-screen');
     if(target) { target.classList.replace('hidden', 'active'); window.scrollTo(0, 0); }
 }
 
-// --- 3. القائمة الجانبية والمظهر (UI) ---
+// --- 3. البحث المدمج في الهيدر ---
+window.toggleTopSearch = function() {
+    let input = document.getElementById('top-search-input');
+    input.classList.toggle('hidden');
+    if(!input.classList.contains('hidden')) {
+        input.focus();
+    } else {
+        input.value = '';
+        handleTopSearch(); // مسح الفلتر عند الإغلاق
+    }
+};
+
+window.handleTopSearch = function() {
+    let text = document.getElementById('top-search-input').value.toLowerCase();
+    let hash = window.location.hash.replace('#', '');
+    
+    if(hash === 'quranIndex') {
+        let cards = document.querySelectorAll('.surah-card-btn');
+        cards.forEach(card => {
+            let surahName = card.innerText;
+            if(surahName.includes(text)) card.style.display = 'flex';
+            else card.style.display = 'none';
+        });
+    } else if (hash === 'quranReader') {
+        let ayahs = document.querySelectorAll('.ayah-span');
+        ayahs.forEach(ayah => {
+            if(text.trim() !== '' && ayah.innerText.includes(text)) {
+                ayah.classList.add('highlight-search'); // تظليل أصفر للآية
+            } else {
+                ayah.classList.remove('highlight-search');
+            }
+        });
+    }
+};
+
+// --- 4. القائمة الجانبية والمظهر (UI) ---
 window.toggleSidebar = function() {
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('sidebar-overlay').classList.toggle('show');
@@ -135,7 +203,7 @@ window.toggleQuranMenu = function() {
     document.getElementById('quran-fab-menu').classList.toggle('hidden');
 };
 
-// --- 4. المشاركة، التحديث، والخروج ---
+// --- 5. المشاركة، التحديث، والخروج ---
 window.shareApp = function() {
     toggleSidebar();
     if (navigator.share) {
@@ -167,7 +235,6 @@ window.checkForUpdates = function() {
     }, 1500);
 };
 
-// دالة الخروج من التطبيق بالضغط مرتين (للموبايل)
 let lastBackPress = 0;
 window.addEventListener('popstate', function(e) {
     let hash = window.location.hash;
@@ -193,13 +260,13 @@ window.closeExitModal = function() {
     setTimeout(() => document.getElementById('exit-modal').classList.add('hidden'), 300);
 };
 window.confirmExit = function() {
-    window.close(); // PWA / Browser
-    if(navigator.app){ navigator.app.exitApp(); } // Cordova/PhoneGap
+    window.close(); 
+    if(navigator.app){ navigator.app.exitApp(); } 
     else if(navigator.device){ navigator.device.exitApp(); }
-    else { window.location.href = "about:blank"; } // Fallback
+    else { window.location.href = "about:blank"; } 
 };
 
-// --- 5. الموقع والمواقيت (التحديد اليدوي) ---
+// --- 6. الموقع والمواقيت ---
 let userLat = parseFloat(localStorage.getItem('savedLat')) || 30.0444;
 let userLng = parseFloat(localStorage.getItem('savedLng')) || 31.2357;
 let userCity = localStorage.getItem('savedCity') || "القاهرة (افتراضي)";
@@ -283,7 +350,7 @@ async function fetchPrayers(lat, lng) {
     } catch(e) {}
 }
 
-// --- 6. البوصلة ---
+// --- 7. البوصلة ---
 window.initQibla = function() {
     showToast("جاري تفعيل مستشعر البوصلة...");
     if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
@@ -305,7 +372,7 @@ function startCompass() {
     showToast("✅ البوصلة تعمل الآن");
 }
 
-// --- 7. القرآن والآيات المرجعية ---
+// --- 8. القرآن والآيات المرجعية (مع تحديث الهيدر بالجزء والسورة) ---
 let surahListCached = [];
 let currentSurahNumber = 1;
 let quranBookmarks = JSON.parse(localStorage.getItem('quranBookmarks')) || [];
@@ -326,17 +393,27 @@ async function loadQuranIndex() {
 window.loadSurahContent = async (num, name, scrollToAyah = null) => {
     currentSurahNumber = num;
     
-    // حل مشكلة توقف المصحف
-    let titleEl = document.getElementById('current-surah-name');
-    if(titleEl) titleEl.innerText = name;
+    // إعداد اسم السورة في الهيدر العلوي
+    let titleEl = document.getElementById('header-title');
+    if(titleEl) titleEl.innerText = 'سورة ' + name;
     
     document.getElementById('quran-text').innerHTML="جاري التحميل...";
     
     let fabMenu = document.getElementById('quran-fab-menu');
-    if(fabMenu) fabMenu.classList.add('hidden'); // إخفاء القائمة المنسدلة للزر الشفاف
+    if(fabMenu) fabMenu.classList.add('hidden'); 
 
     try {
-        let res = await fetch(`https://api.alquran.cloud/v1/surah/${num}/quran-uthmani`); let data = await res.json();
+        let res = await fetch(`https://api.alquran.cloud/v1/surah/${num}/quran-uthmani`); 
+        let data = await res.json();
+        
+        // إعداد رقم الجزء في الهيدر العلوي (النص الفرعي)
+        let juzNum = data.data.ayahs[0].juz;
+        let subtitleEl = document.getElementById('header-subtitle');
+        if(subtitleEl) {
+            subtitleEl.innerText = `الجزء ${juzNum}`;
+            subtitleEl.classList.remove('hidden');
+        }
+
         let html = (num!=1&&num!=9)?'<div class="basmalah" style="text-align:center; font-size:1.5rem; margin-bottom:15px;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>':'';
         
         data.data.ayahs.forEach(a => {
@@ -348,6 +425,9 @@ window.loadSurahContent = async (num, name, scrollToAyah = null) => {
         
         document.getElementById('quran-text').innerHTML = html;
         
+        // التأكد من تطبيق فلتر البحث لو المستخدم كاتب حاجة في شريط البحث
+        if(window.handleTopSearch) window.handleTopSearch();
+
         if(scrollToAyah) {
             setTimeout(() => {
                 let el = document.getElementById(`ayah-${scrollToAyah}`);
@@ -400,7 +480,7 @@ window.renderBookmarks = function() {
     });
 };
 
-// --- 8. الأذكار والسبحة ---
+// --- 9. الأذكار والسبحة ---
 let curCat=[], curIdx=0, remC=0;
 window.startAzkar = (type) => { curCat = azkarData[type]; curIdx = 0; navigateTo('azkarReader'); showZikr(); };
 function showZikr() {
@@ -420,7 +500,7 @@ document.getElementById('counter-btn').onclick = () => {
 window.incrementMasbaha = () => { let c = parseInt(document.getElementById('masbaha-count').innerText) + 1; document.getElementById('masbaha-count').innerText = c; localStorage.setItem('masbahaCount', c); if(navigator.vibrate) navigator.vibrate(30); };
 window.resetMasbaha = () => { document.getElementById('masbaha-count').innerText = 0; localStorage.setItem('masbahaCount', 0); };
 
-// --- 9. الصوتيات ---
+// --- 10. الصوتيات ---
 let allAudioReciters = [];
 async function loadAudioReciters() {
     try {
@@ -433,7 +513,7 @@ window.filterReciters = () => { let t = document.getElementById('reciter-search'
 window.updateReciter = () => updateAudioSurah();
 window.updateAudioSurah = () => { let server = document.getElementById('reciter-select').value, surah = document.getElementById('surah-select-audio').value; if(!server || !surah) return; let surahName = document.getElementById('surah-select-audio').options[document.getElementById('surah-select-audio').selectedIndex].text; document.getElementById('now-playing-title').innerText = `🎧 سورة ${surahName}`; document.getElementById('global-quran-audio').src = `${server.endsWith('/')?server:server+'/'}${surah.padStart(3,'0')}.mp3`; document.getElementById('global-quran-audio').play(); };
 
-// --- 10. التحميل الأولي (DOMContentLoaded) ---
+// --- 11. التحميل الأولي (DOMContentLoaded) ---
 document.addEventListener("DOMContentLoaded", () => {
     const rH = hadithsList[Math.floor(Math.random() * hadithsList.length)];
     document.getElementById('splash-hadith').innerText = rH.text;
@@ -441,7 +521,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
     if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-theme');
     
-    // استرجاع حجم الخط من الذاكرة وضبط شريط السحب عليه
     let savedFont = localStorage.getItem('fontSize');
     if(savedFont) {
         document.documentElement.style.setProperty('--zikr-font-size', `${parseFloat(savedFont)}rem`);
