@@ -129,8 +129,10 @@ input[type=range] { -webkit-appearance: none; background: var(--progress-bg); he
 input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-color); cursor: pointer; }
 
 /* --- الزر العائم الشفاف (+) في المصحف --- */
+/* --- الزر العائم الشفاف (+) في المصحف --- */
 .fab {
-    position: fixed; bottom: 30px; left: 20px; width: 55px; height: 55px;
+    position: fixed; bottom: 30px; right: 20px; left: auto; /* نقلناه لليمين هنا */
+    width: 55px; height: 55px;
     background-color: rgba(221, 167, 123, 0.2);
     color: var(--accent-color); border: 2px solid rgba(221, 167, 123, 0.4); border-radius: 50%;
     font-size: 2rem; display: flex; justify-content: center; align-items: center;
@@ -138,7 +140,11 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
     backdrop-filter: blur(5px);
 }
 .fab:active { background-color: var(--accent-color); color: #000; transform: scale(0.9); }
-.fab-menu { position: fixed; bottom: 95px; left: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 99; transition: opacity 0.3s, transform 0.3s; }
+
+.fab-menu { 
+    position: fixed; bottom: 95px; right: 20px; left: auto; /* نقلنا القائمة لليمين كمان */
+    display: flex; flex-direction: column; gap: 10px; z-index: 99; transition: opacity 0.3s, transform 0.3s; 
+}
 .fab-menu.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
 .fab-item { background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-color); padding: 10px 15px; border-radius: 15px; font-family: 'Tajawal'; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
 
