@@ -99,6 +99,16 @@ function handleRoute() {
         document.getElementById('main-header').classList.remove('hidden');
     }
 
+    // إظهار وإخفاء زر الرجوع العائم
+    let floatBack = document.getElementById('floating-back-btn');
+    if(floatBack) {
+        if(hash === 'home' || hash === 'splash') {
+            floatBack.classList.add('hidden');
+        } else {
+            floatBack.classList.remove('hidden');
+        }
+    }
+
     document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.classList.add('hidden'); });
     const target = document.getElementById(hash + '-screen') || document.getElementById('home-screen');
     if(target) { target.classList.replace('hidden', 'active'); window.scrollTo(0, 0); }
@@ -315,13 +325,19 @@ async function loadQuranIndex() {
 
 window.loadSurahContent = async (num, name, scrollToAyah = null) => {
     currentSurahNumber = num;
-    document.getElementById('current-surah-name').innerText = name;
+    
+    // حل مشكلة توقف المصحف
+    let titleEl = document.getElementById('current-surah-name');
+    if(titleEl) titleEl.innerText = name;
+    
     document.getElementById('quran-text').innerHTML="جاري التحميل...";
-    document.getElementById('quran-fab-menu').classList.add('hidden'); // إخفاء القائمة المنسدلة للزر الشفاف
+    
+    let fabMenu = document.getElementById('quran-fab-menu');
+    if(fabMenu) fabMenu.classList.add('hidden'); // إخفاء القائمة المنسدلة للزر الشفاف
 
     try {
         let res = await fetch(`https://api.alquran.cloud/v1/surah/${num}/quran-uthmani`); let data = await res.json();
-        let html = (num!=1&&num!=9)?'<div class="basmalah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>':'';
+        let html = (num!=1&&num!=9)?'<div class="basmalah" style="text-align:center; font-size:1.5rem; margin-bottom:15px;">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>':'';
         
         data.data.ayahs.forEach(a => {
             let text = (num!=1&&num!=9&&a.numberInSurah==1)?a.text.replace("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ",""):a.text;
@@ -343,7 +359,8 @@ window.loadSurahContent = async (num, name, scrollToAyah = null) => {
 };
 
 window.navigateSurah = function(step) {
-    document.getElementById('quran-fab-menu').classList.add('hidden');
+    let fabMenu = document.getElementById('quran-fab-menu');
+    if(fabMenu) fabMenu.classList.add('hidden');
     let newNum = currentSurahNumber + step;
     if(newNum >= 1 && newNum <= 114) {
         let newSurah = surahListCached.find(s => s.number === newNum);
