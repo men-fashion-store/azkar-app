@@ -1,4 +1,4 @@
-// --- 1. بيانات الأذكار والأحاديث (النسخة الكاملة) ---
+// --- 1. بيانات الأذكار والمكتبات ---
 const ayatAlKursi="أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ\nبِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ﴾ [البقرة: 255]";
 const surahAlIkhlas="بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿قُلْ هُوَ اللَّهُ أَحَدٌ ۝ اللَّهُ الصَّمَدُ ۝ لَمْ يَلِدْ وَلَمْ يُولَدْ ۝ وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ﴾";
 const surahAlFalaq="بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ\n﴿قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ ۝ مِن شَرِّ مَا خَلَقَ ۝ وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ۝ وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ ۝ وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ﴾";
@@ -79,6 +79,30 @@ const hadithsList = [
     {text:"مَنْ صَلَّى عَلَيَّ صَلَاةً صَلَّى اللَّهُ عَلَيْهِ بِهَا عَشْرًا.",proof:"(رواه مسلم)"}
 ];
 
+// --- بيانات مكتبة الحديث الشريف ---
+let currentHadithBookTitle = '';
+const libraryData = {
+    nawawi: [
+        {text: "إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى، فمن كانت هجرته إلى الله ورسوله، فهجرته إلى الله ورسوله، ومن كانت هجرته لدنيا يصيبها أو امرأة ينكحها، فهجرته إلى ما هاجر إليه.", narrator: "الحديث الأول - رواه البخاري ومسلم"},
+        {text: "بني الإسلام على خمس: شهادة أن لا إله إلا الله وأن محمداً رسول الله، وإقام الصلاة، وإيتاء الزكاة، وحج البيت، وصوم رمضان.", narrator: "الحديث الثالث - رواه البخاري ومسلم"},
+        {text: "من أحدث في أمرنا هذا ما ليس منه فهو رد.", narrator: "الحديث الخامس - رواه البخاري ومسلم"},
+        {text: "الدين النصيحة. قلنا: لمن؟ قال: لله ولكتابه ولرسوله ولأئمة المسلمين وعامتهم.", narrator: "الحديث السابع - رواه مسلم"},
+        {text: "من حسن إسلام المرء تركه ما لا يعنيه.", narrator: "الحديث الثاني عشر - رواه الترمذي وغيره"}
+    ],
+    bukhari: [
+        {text: "كلمتان خفيفتان على اللسان، ثقيلتان في الميزان، حبيبتان إلى الرحمن: سبحان الله وبحمده، سبحان الله العظيم.", narrator: "صحيح البخاري"},
+        {text: "لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه.", narrator: "صحيح البخاري"},
+        {text: "من كان يؤمن بالله واليوم الآخر فليقل خيراً أو ليصمت.", narrator: "صحيح البخاري"},
+        {text: "المسلم من سلم المسلمون من لسانه ويده، والمهاجر من هجر ما نهى الله عنه.", narrator: "صحيح البخاري"}
+    ],
+    muslim: [
+        {text: "الطهور شطر الإيمان، والحمد لله تمْلأ الميزان، وسبحان الله والحمد لله تمْلآن ما بين السماوات والأرض.", narrator: "صحيح مسلم"},
+        {text: "من سلك طريقاً يلتمس فيه علماً سهّل الله له به طريقاً إلى الجنة.", narrator: "صحيح مسلم"},
+        {text: "عجباً لأمر المؤمن إن أمره كله خير، وليس ذاك لأحد إلا للمؤمن، إن أصابته سراء شكر فكان خيراً له، وإن أصابته ضراء صبر فكان خيراً له.", narrator: "صحيح مسلم"},
+        {text: "أقرب ما يكون العبد من ربه وهو ساجد، فأكثروا الدعاء.", narrator: "صحيح مسلم"}
+    ]
+};
+
 window.showToast = (msg) => {
     const t = document.getElementById('toast-msg'); if(!t) return;
     t.innerText = msg; t.style.bottom = '20px'; setTimeout(() => { t.style.bottom = '-100px'; }, 3000);
@@ -98,11 +122,15 @@ function handleRoute() {
     let subtitle = document.getElementById('header-subtitle');
     let title = document.getElementById('header-title');
 
-    // إخفاء وإظهار الهيدر
+    // إخفاء الهيدر في الرئيسية، وإظهار زر القائمة المدمج
+    let homeMenuBtn = document.querySelector('.home-menu-btn');
     if(hash === 'home' || hash === 'splash') {
         mainHeader.classList.add('hidden');
+        if(homeMenuBtn && hash === 'home') homeMenuBtn.classList.remove('hidden');
+        else if (homeMenuBtn) homeMenuBtn.classList.add('hidden');
     } else {
         mainHeader.classList.remove('hidden');
+        if(homeMenuBtn) homeMenuBtn.classList.add('hidden');
     }
 
     // زر الرجوع العائم
@@ -115,17 +143,21 @@ function handleRoute() {
         }
     }
 
-    // إعدادات البحث والنصوص في الهيدر بناءً على الشاشة
+    // إعدادات البحث والنصوص في الهيدر
     if(searchInput) { searchInput.value = ''; searchInput.classList.add('hidden'); }
     
-    if(hash === 'quranIndex') {
+    if(hash === 'quranIndex' || hash === 'hadithReader') {
         searchIcon.classList.remove('hidden');
-        title.innerText = "المصحف";
-        subtitle.classList.add('hidden');
-        if(window.handleTopSearch) window.handleTopSearch(); // إعادة تعيين البحث
+        if(hash === 'quranIndex') {
+            title.innerText = "المصحف";
+            subtitle.classList.add('hidden');
+        } else {
+            title.innerText = currentHadithBookTitle;
+            subtitle.classList.add('hidden');
+        }
+        if(window.handleTopSearch) window.handleTopSearch(); 
     } else if(hash === 'quranReader') {
         searchIcon.classList.remove('hidden');
-        // السورة والجزء يتم ضبطهم داخل دالة loadSurahContent
     } else {
         searchIcon.classList.add('hidden');
         subtitle.classList.add('hidden');
@@ -133,10 +165,10 @@ function handleRoute() {
             'azkarMenu': 'الأذكار',
             'azkarReader': 'الأذكار',
             'masbaha': 'السبحة',
-            'qibla': 'القبلة',
             'prayerTimes': 'مواقيت الصلاة',
             'audioMenu': 'الصوتيات',
-            'bookmarks': 'علاماتي المرجعية'
+            'bookmarks': 'علاماتي المرجعية',
+            'hadithMenu': 'مكتبة الحديث'
         };
         title.innerText = titles[hash] || 'موسوعة المسلم';
     }
@@ -155,7 +187,7 @@ window.toggleTopSearch = function() {
         input.focus();
     } else {
         input.value = '';
-        handleTopSearch(); // مسح الفلتر عند الإغلاق
+        handleTopSearch(); // مسح الفلتر
     }
 };
 
@@ -174,10 +206,16 @@ window.handleTopSearch = function() {
         let ayahs = document.querySelectorAll('.ayah-span');
         ayahs.forEach(ayah => {
             if(text.trim() !== '' && ayah.innerText.includes(text)) {
-                ayah.classList.add('highlight-search'); // تظليل أصفر للآية
+                ayah.classList.add('highlight-search'); 
             } else {
                 ayah.classList.remove('highlight-search');
             }
+        });
+    } else if (hash === 'hadithReader') {
+        let cards = document.querySelectorAll('.hadith-card');
+        cards.forEach(card => {
+            if(card.innerText.includes(text)) card.style.display = 'block';
+            else card.style.display = 'none';
         });
     }
 };
@@ -203,13 +241,13 @@ window.toggleQuranMenu = function() {
     document.getElementById('quran-fab-menu').classList.toggle('hidden');
 };
 
-// --- 5. المشاركة، التحديث، والخروج ---
+// --- 5. المشاركة والتحديث والخروج ---
 window.shareApp = function() {
     toggleSidebar();
     if (navigator.share) {
         navigator.share({
             title: 'موسوعة المسلم',
-            text: 'الدال على الخير كفاعله 🤍\nحمل تطبيق موسوعة المسلم (قرآن، أذكار، مواقيت، قبلة) بدون إعلانات:',
+            text: 'الدال على الخير كفاعله 🤍\nحمل تطبيق موسوعة المسلم (قرآن، حديث، أذكار، مواقيت) بدون إعلانات:',
             url: window.location.href
         }).catch(console.error);
     } else {
@@ -350,29 +388,29 @@ async function fetchPrayers(lat, lng) {
     } catch(e) {}
 }
 
-// --- 7. البوصلة ---
-window.initQibla = function() {
-    showToast("جاري تفعيل مستشعر البوصلة...");
-    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-        DeviceOrientationEvent.requestPermission().then(p => { if (p === 'granted') startCompass(); else showToast("❌ تم رفض صلاحية البوصلة"); }).catch(console.error);
-    } else { startCompass(); }
+// --- 7. عرض مكتبة الحديث الشريف ---
+window.openHadithBook = function(bookId) {
+    const titles = { 'nawawi': 'الأربعون النووية', 'bukhari': 'صحيح البخاري', 'muslim': 'صحيح مسلم' };
+    currentHadithBookTitle = titles[bookId] || 'الحديث';
+    
+    let container = document.getElementById('hadith-list-container');
+    container.innerHTML = ''; // مسح المحتوى القديم
+    
+    let bookData = libraryData[bookId];
+    if(bookData) {
+        bookData.forEach(hadith => {
+            container.innerHTML += `
+                <div class="hadith-card">
+                    <p class="hadith-text">${hadith.text}</p>
+                    <p class="hadith-narrator">${hadith.narrator}</p>
+                </div>
+            `;
+        });
+    }
+    navigateTo('hadithReader');
 };
-function startCompass() {
-    window.addEventListener('deviceorientationabsolute', e => {
-        let comp = e.webkitCompassHeading || Math.abs(e.alpha - 360);
-        let qAngle = (Math.atan2(Math.sin(39.826206*Math.PI/180 - userLng*Math.PI/180), Math.cos(userLat*Math.PI/180)*Math.tan(21.422487*Math.PI/180) - Math.sin(userLat*Math.PI/180)*Math.cos(39.826206*Math.PI/180 - userLng*Math.PI/180)) * 180 / Math.PI + 360) % 360;
-        if(comp) {
-            let diff = qAngle - comp;
-            document.getElementById('qibla-pointer').style.transform = `translateY(-80px) rotate(${diff}deg)`;
-            let st = document.getElementById('qibla-status');
-            if(Math.abs(diff) < 5 || Math.abs(diff) > 355){ st.innerText="أنت في اتجاه القبلة 🕋"; st.style.color="#4CAF50"; }
-            else { st.innerText="قم بلف الهاتف للضبط"; st.style.color="var(--accent-color)"; }
-        }
-    }, true);
-    showToast("✅ البوصلة تعمل الآن");
-}
 
-// --- 8. القرآن والآيات المرجعية (مع تحديث الهيدر بالجزء والسورة) ---
+// --- 8. القرآن والآيات المرجعية ---
 let surahListCached = [];
 let currentSurahNumber = 1;
 let quranBookmarks = JSON.parse(localStorage.getItem('quranBookmarks')) || [];
@@ -392,13 +430,10 @@ async function loadQuranIndex() {
 
 window.loadSurahContent = async (num, name, scrollToAyah = null) => {
     currentSurahNumber = num;
-    
-    // إعداد اسم السورة في الهيدر العلوي
     let titleEl = document.getElementById('header-title');
     if(titleEl) titleEl.innerText = 'سورة ' + name;
     
     document.getElementById('quran-text').innerHTML="جاري التحميل...";
-    
     let fabMenu = document.getElementById('quran-fab-menu');
     if(fabMenu) fabMenu.classList.add('hidden'); 
 
@@ -406,7 +441,6 @@ window.loadSurahContent = async (num, name, scrollToAyah = null) => {
         let res = await fetch(`https://api.alquran.cloud/v1/surah/${num}/quran-uthmani`); 
         let data = await res.json();
         
-        // إعداد رقم الجزء في الهيدر العلوي (النص الفرعي)
         let juzNum = data.data.ayahs[0].juz;
         let subtitleEl = document.getElementById('header-subtitle');
         if(subtitleEl) {
@@ -424,8 +458,6 @@ window.loadSurahContent = async (num, name, scrollToAyah = null) => {
         });
         
         document.getElementById('quran-text').innerHTML = html;
-        
-        // التأكد من تطبيق فلتر البحث لو المستخدم كاتب حاجة في شريط البحث
         if(window.handleTopSearch) window.handleTopSearch();
 
         if(scrollToAyah) {
@@ -434,7 +466,6 @@ window.loadSurahContent = async (num, name, scrollToAyah = null) => {
                 if(el) { el.scrollIntoView({behavior: "smooth", block: "center"}); el.style.backgroundColor = "rgba(221, 167, 123, 0.4)"; }
             }, 500);
         } else { window.scrollTo(0,0); }
-        
     } catch(e) { document.getElementById('quran-text').innerHTML = "تحقق من اتصالك بالإنترنت"; }
 };
 
