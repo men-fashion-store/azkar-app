@@ -1,6 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;700&display=swap');
 
 :root {
+    /* متغيرات الثيم (تم تحديدها هنا لأن المشروع يحتوي على `::root` غير صالح) */
+    --bg-color: #FAF8F0;
+    --card-bg: #FFFEF5;
+    --text-color: #4A3728;
+    --accent-color: #A0522D;
+    --progress-bg: #E8E0D0;
+    --zikr-font-size: 1.6rem;
+    --widget-bg: linear-gradient(135deg, #8B4513, #A0522D);
+
+    --primary-gradient: linear-gradient(135deg, #FAF8F0 0%, #E8D7C3 100%);
+    --secondary-gradient: linear-gradient(135deg, #F5E6D3 0%, #D4A574 100%);
+    --success-gradient: linear-gradient(135deg, #FAF8F0 0%, #C89B5A 100%);
+    --card-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    --hover-shadow: 0 15px 35px rgba(0,0,0,0.25);
+}
+
+:root {
     --bg-color: #FAF8F0;
     --card-bg: #FFFEF5;
     --text-color: #4A3728; 
@@ -142,6 +159,113 @@ body {
 }
 
 /* شاشة الأحاديث */
+.hadith-screen {
+    background: var(--bg-color);
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.hadith-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--progress-bg);
+    position: sticky;
+    top: 60px;
+    z-index: 40;
+}
+
+.hadith-back-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.hadith-back-btn:hover {
+    background: var(--progress-bg);
+}
+
+.hadith-title {
+    font-family: 'Amiri', serif;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--text-color);
+    flex: 1;
+    text-align: center;
+    margin: 0;
+}
+
+.hadith-placeholder {
+    width: 40px;
+}
+
+.hadith-tabs {
+    display: flex;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--progress-bg);
+    position: sticky;
+    top: 120px;
+    z-index: 30;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.hadith-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.hadith-tab {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    padding: 15px 20px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    flex: 1;
+    min-width: 120px;
+}
+
+.hadith-tab:hover {
+    background: var(--progress-bg);
+}
+
+.hadith-tab.active {
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+    background: var(--progress-bg);
+}
+
+.hadith-content-area {
+    flex: 1;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.hadith-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 .hadith-content {
     display: flex;
     flex-direction: column;
@@ -149,27 +273,91 @@ body {
 }
 
 .hadith-item {
-    background: var(--bg-color);
+    background: var(--card-bg);
     padding: 20px;
     border-radius: 15px;
     border: 1px solid var(--progress-bg);
     text-align: right;
+    transition: 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.hadith-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .hadith-text {
     font-family: 'Amiri', serif;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     line-height: 2;
     color: var(--text-color);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    text-align: justify;
 }
 
 .hadith-source {
     font-family: 'Tajawal', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--accent-color);
     opacity: 0.8;
     font-style: italic;
+    border-top: 1px solid var(--progress-bg);
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+/* تحسين العرض على الشاشات الصغيرة */
+@media (max-width: 768px) {
+    .hadith-header {
+        top: 50px;
+    }
+    
+    .hadith-tabs {
+        top: 100px;
+    }
+    
+    .hadith-tab {
+        font-size: 0.85rem;
+        padding: 12px 15px;
+        min-width: 100px;
+    }
+    
+    .hadith-content-area {
+        padding: 15px;
+    }
+    
+    .hadith-item {
+        padding: 15px;
+    }
+    
+    .hadith-text {
+        font-size: 1.1rem;
+    }
+    
+    .hadith-source {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hadith-title {
+        font-size: 1.2rem;
+    }
+    
+    .hadith-tab {
+        font-size: 0.8rem;
+        padding: 10px 12px;
+        min-width: 80px;
+    }
+    
+    .hadith-text {
+        font-size: 1rem;
+    }
+    
+    .hadith-source {
+        font-size: 0.75rem;
+    }
 }
 
 /* واجهة المصحف الجديدة */
@@ -230,7 +418,7 @@ body {
 .quran-page {
     max-width: 600px;
     margin: 0 auto;
-    background: linear-gradient(145deg, #FAF5F0 0%, #F5E6D3 50%, #E8D7C3 100%);
+    background: linear-gradient(145deg, #FFF8DC 0%, #F5E6D3 50%, #E8D7C3 100%);
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(139, 90, 43, 0.2);
     padding: 30px 25px;
@@ -260,9 +448,25 @@ body {
     font-size: 1.6rem;
     line-height: 2.8;
     text-align: justify;
-    color: #2C1810;
+    color: #000000;
     margin-bottom: 30px;
     min-height: 50vh;
+}
+
+/* تشكيل القرآن باللون البني في صفحات المصحف */
+.page-content .fatha,
+.page-content .damma, 
+.page-content .kasra,
+.page-content .sukun,
+.page-content .shadda,
+.page-content .tanwin-fatha,
+.page-content .tanwin-damma,
+.page-content .tanwin-kasra,
+.page-content .hamza-above,
+.page-content .hamza-below,
+.page-content .madda,
+.page-content .small-alef {
+    color: #8B4513;
 }
 
 .page-footer {
@@ -534,18 +738,57 @@ body.dark-theme .action-btn:hover {
     justify-content: center;
     background: var(--accent-color);
     border-radius: 15px;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(139, 90, 43, 0.3);
+}
+
+.btn-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s ease;
+}
+
+.btn-icon:hover::before {
+    left: 100%;
 }
 
 .btn-icon svg {
     color: #fff;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+    z-index: 1;
+    position: relative;
+}
+
+/* تأثير نبضي للأيقونات */
+@keyframes iconPulse {
+    0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 4px 12px rgba(139, 90, 43, 0.3);
+    }
+    50% { 
+        transform: scale(1.02); 
+        box-shadow: 0 6px 18px rgba(139, 90, 43, 0.4);
+    }
+}
+
+.btn-icon {
+    animation: iconPulse 3s ease-in-out infinite;
 }
 
 .grid-btn:hover .btn-icon {
-    transform: scale(1.1);
+    animation: none;
+    transform: scale(1.05) rotateY(10deg);
     background: var(--accent-color);
-    box-shadow: 0 5px 15px rgba(139, 90, 43, 0.4);
+    box-shadow: 0 8px 25px rgba(139, 90, 43, 0.5);
+    border-radius: 20px;
 }
 
 .grid-btn span {
@@ -564,9 +807,9 @@ body.dark-theme .action-btn:hover {
 
 /* تحسين الخلفيات والألوان */
 :root {
-    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --primary-gradient: linear-gradient(135deg, #FAF8F0 0%, #E8D7C3 100%);
+    --secondary-gradient: linear-gradient(135deg, #F5E6D3 0%, #D4A574 100%);
+    --success-gradient: linear-gradient(135deg, #FAF8F0 0%, #C89B5A 100%);
     --card-shadow: 0 10px 30px rgba(0,0,0,0.15);
     --hover-shadow: 0 15px 35px rgba(0,0,0,0.25);
 }
@@ -612,10 +855,10 @@ body::before {
 
 /* تحسين الوضع الليلي */
 body.dark-theme {
-    --primary-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-    --card-bg: #0f3460;
-    --text-color: #e94560;
-    --accent-color: #f47068;
+    --primary-gradient: linear-gradient(135deg, #2C1810 0%, #3D2418 100%);
+    --card-bg: #3D2418;
+    --text-color: #F5F5DC;
+    --accent-color: #DDA77B;
 }
 
 body.dark-theme .btn-icon {
@@ -649,11 +892,13 @@ body.dark-theme .grid-btn:hover {
         width: 40px;
         height: 40px;
         border-radius: 12px;
+        box-shadow: 0 3px 8px rgba(139, 90, 43, 0.25);
     }
     
     .btn-icon svg {
         width: 20px;
         height: 20px;
+        filter: drop-shadow(0 1px 1px rgba(0,0,0,0.15));
     }
     
     .grid-btn span {
@@ -683,11 +928,13 @@ body.dark-theme .grid-btn:hover {
         width: 60px;
         height: 60px;
         border-radius: 18px;
+        box-shadow: 0 5px 15px rgba(139, 90, 43, 0.35);
     }
     
     .btn-icon svg {
         width: 28px;
         height: 28px;
+        filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
     }
     
     .grid-btn span {
@@ -2487,17 +2734,52 @@ body.dark-theme .surah-card:hover {
     background: transparent;
     border: none;
     color: var(--accent-color);
-    cursor: pointer;
-    padding: 8px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.app-bar-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(139, 90, 43, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.4s ease;
+}
+
+.app-bar-btn:hover::before {
+    width: 100%;
+    height: 100%;
 }
 
 .app-bar-btn:hover {
-    background: var(--progress-bg);
+    background: rgba(139, 90, 43, 0.1);
+    transform: scale(1.05);
+}
+
+.app-bar-btn:active {
+    transform: scale(0.95);
+}
+
+.app-bar-btn svg {
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 1px 2px rgba(139, 90, 43, 0.2));
+}
+
+.app-bar-btn:hover svg {
+    transform: rotate(15deg) scale(1.1);
 }
 
 .app-bar-title {
@@ -2530,11 +2812,12 @@ body.dark-theme .surah-card:hover {
 
 /* تصميم المصحف الذهبي */
 .golden-quran-reader {
-    background: #FAF8F0;
+    background: #D4A574;
     display: flex;
     flex-direction: column;
     height: 100vh;
     padding: 0;
+    color: #000;
 }
 
 /* الشريط العلوي */
@@ -2543,15 +2826,15 @@ body.dark-theme .surah-card:hover {
     align-items: center;
     justify-content: space-between;
     padding: 10px 15px;
-    background: #FFFEF5;
-    border-bottom: 1px solid #E8E0D0;
+    background: #E8D7C3;
+    border-bottom: 1px solid #C89B5A;
     height: 50px;
 }
 
 .quran-bar-btn {
     background: transparent;
     border: none;
-    color: #8B4513;
+    color: #F5E6D3;
     cursor: pointer;
     padding: 8px;
     border-radius: 50%;
@@ -2562,13 +2845,13 @@ body.dark-theme .surah-card:hover {
 }
 
 .quran-bar-btn:hover {
-    background: #F5F0E0;
+    background: #C89B5A;
 }
 
 .surah-name-small {
     font-family: 'Amiri', serif;
     font-size: 1rem;
-    color: #4A3728;
+    color: #000;
     font-weight: bold;
 }
 
@@ -2579,17 +2862,17 @@ body.dark-theme .surah-card:hover {
     padding: 20px;
     display: flex;
     justify-content: center;
-    background: linear-gradient(180deg, #FAF8F0 0%, #F5F0E0 100%);
+    background: linear-gradient(180deg, #D4A574 0%, #B8860B 100%);
 }
 
 .mushaf-page {
-    background: #FFFEF5;
+    background: #FFF8DC;
     border-radius: 12px;
     padding: 25px 20px;
     max-width: 500px;
     width: 100%;
     box-shadow: 0 4px 20px rgba(139, 69, 19, 0.15);
-    border: 1px solid #E8E0D0;
+    border: 1px solid #C89B5A;
     min-height: 70vh;
     display: flex;
     flex-direction: column;
@@ -2598,33 +2881,49 @@ body.dark-theme .surah-card:hover {
 .bismillah {
     font-family: 'Amiri', serif;
     font-size: 1.4rem;
-    color: #8B4513;
+    color: #000;
     text-align: center;
     margin-bottom: 20px;
     padding-bottom: 15px;
-    border-bottom: 1px solid #E8E0D0;
+    border-bottom: 1px solid #C89B5A;
 }
 
 .quran-text {
     font-family: 'Amiri', serif;
-    font-size: 1.3rem;
+    font-size: var(--zikr-font-size);
     line-height: 2.2;
-    color: #4A3728;
+    color: #000000;
     text-align: justify;
     flex: 1;
+}
+
+/* تشكيل القرآن باللون البني */
+.quran-text .fatha,
+.quran-text .damma, 
+.quran-text .kasra,
+.quran-text .sukun,
+.quran-text .shadda,
+.quran-text .tanwin-fatha,
+.quran-text .tanwin-damma,
+.quran-text .tanwin-kasra,
+.quran-text .hamza-above,
+.quran-text .hamza-below,
+.quran-text .madda,
+.quran-text .small-alef {
+    color: #8B4513;
 }
 
 .page-info {
     text-align: center;
     margin-top: 20px;
     padding-top: 15px;
-    border-top: 1px solid #E8E0D0;
+    border-top: 1px solid #C89B5A;
 }
 
 .page-info span {
     font-family: 'Amiri', serif;
     font-size: 0.85rem;
-    color: #888;
+    color: #222;
 }
 
 /* شريط التنقل السفلي */
@@ -2633,8 +2932,8 @@ body.dark-theme .surah-card:hover {
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
-    background: #FFFEF5;
-    border-top: 1px solid #E8E0D0;
+    background: #FFF7E8;
+    border-top: 1px solid #C89B5A;
     gap: 10px;
 }
 
@@ -2643,8 +2942,8 @@ body.dark-theme .surah-card:hover {
     align-items: center;
     gap: 5px;
     background: transparent;
-    border: 1px solid #E8E0D0;
-    color: #4A3728;
+    border: 1px solid #C89B5A;
+    color: #000;
     padding: 8px 15px;
     border-radius: 20px;
     font-family: 'Tajawal', sans-serif;
@@ -2654,13 +2953,17 @@ body.dark-theme .surah-card:hover {
 }
 
 .nav-btn:hover {
-    background: #F5F0E0;
-    border-color: #A0522D;
+    background: #F5E6D3;
+    border-color: #8B4513;
+}
+
+.nav-btn svg {
+    color: #F5E6D3;
 }
 
 .nav-btn.actions-btn {
     background: #8B4513;
-    color: #fff;
+    color: #000;
     border-color: #8B4513;
 }
 
@@ -2670,7 +2973,7 @@ body.dark-theme .surah-card:hover {
     bottom: 70px;
     left: 50%;
     transform: translateX(-50%);
-    background: #FFFEF5;
+    background: #FFF7E8;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.2);
     padding: 10px;
@@ -2691,7 +2994,7 @@ body.dark-theme .surah-card:hover {
     padding: 12px 15px;
     background: transparent;
     border: none;
-    color: #4A3728;
+    color: #000;
     font-family: 'Tajawal', sans-serif;
     font-size: 0.9rem;
     cursor: pointer;
@@ -2699,8 +3002,12 @@ body.dark-theme .surah-card:hover {
     transition: all 0.3s ease;
 }
 
+.menu-item svg {
+    color: #F5E6D3;
+}
+
 .menu-item:hover {
-    background: #F5F0E0;
+    background: #F5E6D3;
 }
 
 /* تصميم الأذكار مثل تطبيق الأذكار */
@@ -3417,7 +3724,7 @@ body.dark-theme .surah-card:hover {
 /* شاشة تحميل المصحف */
 #quran-loading-screen {
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #FAF8F0 0%, #E8D7C3 100%);
     position: relative;
     overflow: hidden;
 }
@@ -3498,7 +3805,7 @@ body.dark-theme .surah-card:hover {
 
 .splash-bg { 
     justify-content: center; 
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #FAF8F0 0%, #E8D7C3 100%);
     position: relative;
     overflow: hidden;
 }
@@ -3596,13 +3903,93 @@ body.dark-theme .surah-card:hover {
 .quran-main-btn { background-color: var(--accent-color); color: var(--bg-color); width: 100%; max-width: 300px; padding: 15px; font-size: 1.3rem; border-radius: 15px; border: none; font-weight: bold; font-family: 'Tajawal'; cursor: pointer;}
 
 .buttons-container { display: flex; flex-direction: column; gap: 15px; width: 85%; max-width: 400px; margin-top: 20px; }
-.btn { background-color: var(--card-bg); color: var(--accent-color); border: 2px solid var(--accent-color); padding: 16px; font-size: 1.3rem; font-weight: bold; font-family: 'Tajawal', sans-serif; border-radius: 15px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: all 0.2s; }
-.btn:active { transform: scale(0.96); background-color: var(--accent-color); color: var(--bg-color); }
+.btn { 
+    background-color: var(--card-bg); 
+    color: var(--accent-color); 
+    border: 2px solid var(--accent-color); 
+    padding: 16px; 
+    font-size: 1.3rem; 
+    font-weight: bold; 
+    font-family: 'Tajawal', sans-serif; 
+    border-radius: 15px; 
+    cursor: pointer; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(139, 90, 43, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover { 
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(139, 90, 43, 0.3);
+    background-color: rgba(139, 90, 43, 0.05);
+}
+
+.btn:active { 
+    transform: translateY(-1px) scale(0.98);
+    background-color: var(--accent-color); 
+    color: var(--bg-color);
+    box-shadow: 0 4px 15px rgba(139, 90, 43, 0.4);
+}
 
 .header-wrapper { position: sticky; top: 0; width: 100%; background-color: var(--bg-color); padding: 15px 0 10px 0; z-index: 50; display: flex; flex-direction: column; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 .top-bar { width: 90%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.back-btn { background: var(--card-bg); border: 1px solid var(--accent-color); color: var(--text-color); padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; font-family: 'Tajawal', sans-serif; transition: 0.2s; }
-.back-btn:active { background-color: var(--accent-color); color: var(--bg-color); }
+.back-btn { 
+    background: var(--card-bg); 
+    border: 1px solid var(--accent-color); 
+    color: var(--text-color); 
+    padding: 8px 15px; 
+    border-radius: 10px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    font-family: 'Tajawal', sans-serif; 
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(139, 90, 43, 0.2);
+}
+
+.back-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(139, 90, 43, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.back-btn:hover::before {
+    left: 100%;
+}
+
+.back-btn:hover { 
+    background-color: var(--accent-color); 
+    color: var(--bg-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(139, 90, 43, 0.4);
+}
+
+.back-btn:active { 
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(139, 90, 43, 0.3);
+}
 .screen-title { font-size: 1.4rem; font-weight: bold; color: var(--accent-color); font-family: 'Amiri', serif; }
 
 .paper-card { background-color: var(--card-bg); width: 92%; max-width: 650px; min-height: 50vh; padding: 35px 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 20px; border: 1px solid rgba(255, 255, 255, 0.05); }
@@ -3767,11 +4154,27 @@ body.dark-theme .surah-card:hover {
     font-size: 1.8rem;
     line-height: 3;
     text-align: justify;
-    color: #2C1810;
+    color: #000000;
     margin-bottom: 40px;
     min-height: 60vh;
     white-space: pre-wrap;
     word-spacing: 2px;
+}
+
+/* تشكيل القرآن باللون البني في صفحات المصحف الثانية */
+.page-content .fatha,
+.page-content .damma, 
+.page-content .kasra,
+.page-content .sukun,
+.page-content .shadda,
+.page-content .tanwin-fatha,
+.page-content .tanwin-damma,
+.page-content .tanwin-kasra,
+.page-content .hamza-above,
+.page-content .hamza-below,
+.page-content .madda,
+.page-content .small-alef {
+    color: #8B4513;
 }
 
 .ayah-verse {
@@ -4087,106 +4490,3 @@ body.dark-theme .offline-banner { background: #7f0000; }
 .swipe-out-left { transform: translateX(-100vw) rotate(-15deg); opacity: 0; transition: 0.3s; }
 .swipe-in { animation: slideIn 0.3s forwards; }
 @keyframes slideIn { from { transform: translateX(100vw); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-/* =========================================
-   تنسيقات المصحف 3D (Page Flip) الجديدة
-   ========================================= */
-
-#quran-book-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 2000px;
-}
-
-.st-page-flip {
-    box-shadow: 0 0 25px rgba(0,0,0,0.15);
-}
-
-#quran-book .page {
-    background-color: var(--card-bg); /* بيأخد لون التطبيق حسب الوضع المظلم أو الفاتح */
-    border: 1px solid var(--progress-bg);
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.06);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-/* تنسيقات إذا استخدمنا صور للمصحف */
-#quran-book .page img {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-}
-
-/* تنسيقات إذا استخدمنا نصوص للآيات */
-#quran-book .page-content {
-    padding: 20px 15px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-}
-
-#quran-book .page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
-    color: var(--text-color);
-    border-bottom: 1px solid var(--progress-bg);
-    padding-bottom: 8px;
-    margin-bottom: 15px;
-    font-family: 'Amiri', serif;
-}
-
-#quran-book .ayahs {
-    font-family: 'Amiri', serif;
-    font-size: 24px; /* حجم ابتدائي للخط */
-    line-height: 2.2;
-    text-align: justify;
-    text-align-last: center;
-    flex: 1;
-    overflow: hidden; /* لمنع خروج النص من الصفحة أثناء التقليب */
-    color: var(--text-color);
-}
-
-#quran-book .ayah {
-    cursor: pointer;
-    padding: 0 4px;
-    transition: background-color 0.2s, color 0.2s;
-}
-
-#quran-book .ayah:active {
-    background-color: rgba(139, 90, 43, 0.1);
-}
-
-#quran-book .ayah.highlighted {
-    background-color: rgba(139, 90, 43, 0.2);
-    border-radius: 4px;
-}
-
-#quran-book .page-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 15px;
-    font-family: 'Amiri', serif;
-    color: var(--text-color);
-    margin-top: 15px;
-    border-top: 1px solid var(--progress-bg);
-    padding-top: 8px;
-}
-
-body.dark-theme #quran-book .page {
-    background-color: #1a1a1a;
-    border-color: #333;
-    box-shadow: inset 0 0 25px rgba(0,0,0,0.6);
-}
-
-body.dark-theme .st-page-flip {
-    box-shadow: 0 0 25px rgba(0,0,0,0.5);
-}
