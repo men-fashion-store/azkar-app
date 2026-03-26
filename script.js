@@ -64,12 +64,6 @@ const azkarData = {
         {text:ayatAlKursi,count:1,proof:"الدليل: لم يمنعه من دخول الجنة إلا الموت"},{text:surahAlIkhlas,count:1,proof:"الدليل: سنة"},{text:surahAlFalaq,count:1,proof:"الدليل: سنة"},{text:surahAnNas,count:1,proof:"الدليل: سنة"},
         {text:"سُبْحَانَ اللَّهِ (33)، الْحَمْدُ لِلَّهِ (33)، اللَّهُ أَكْبَرُ (33)",count:1,proof:"الدليل: صحيح مسلم"},
         {text:"لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.",count:1,proof:"الدليل: تمام المائة"}
-    ],
-    ruqyah:[
-        {text:"بِسْمِ اللَّهِ أَرْقِيكَ، مِنْ كُلِّ شَيْءٍ يُؤْذِيكَ، مِنْ شَرِّ كُلِّ نَفْسٍ أَوْ عَيْنِ حَاسِدٍ، اللَّهُ يَشْفِيكَ، بِسْمِ اللَّهِ أَرْقِيكَ.",count:3,proof:"الدليل: رقية جبريل"},
-        {text:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ، مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ، وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ.",count:3,proof:"الدليل: البخاري"},
-        {text:"بِسْمِ اللَّهِ (ثلاثاً)\nأَعُوذُ بِاللَّهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ (سبعاً).",count:1,proof:"الدليل: توضع اليد على موضع الألم"},
-        {text:ayatAlKursi,count:1,proof:"آية الكرسي"},{text:surahAlIkhlas,count:3,proof:"سورة الإخلاص"},{text:surahAlFalaq,count:3,proof:"سورة الفلق"},{text:surahAnNas,count:3,proof:"سورة الناس"}
     ]
 };
 
@@ -113,7 +107,7 @@ function toArabicNumerals(num) {
     return num.toString().replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
 }
 
-// --- 2. إدارة الشاشات والملاحة وتحديث الهيدر ---
+// --- 2. إدارة الشاشات والملاحة ---
 window.navigateTo = function(targetScreen) { window.location.hash = targetScreen; };
 window.goBack = function() { window.history.back(); };
 window.addEventListener('hashchange', handleRoute);
@@ -183,16 +177,12 @@ function handleRoute() {
     if(target) { target.classList.replace('hidden', 'active'); window.scrollTo(0, 0); }
 }
 
-// --- 3. البحث المدمج في الهيدر ---
+// --- 3. البحث المدمج ---
 window.toggleTopSearch = function() {
     let input = document.getElementById('top-search-input');
     input.classList.toggle('hidden');
-    if(!input.classList.contains('hidden')) {
-        input.focus();
-    } else {
-        input.value = '';
-        handleTopSearch(); 
-    }
+    if(!input.classList.contains('hidden')) { input.focus(); } 
+    else { input.value = ''; handleTopSearch(); }
 };
 
 window.handleTopSearch = function() {
@@ -203,28 +193,23 @@ window.handleTopSearch = function() {
         let cards = document.querySelectorAll('.surah-card-btn');
         cards.forEach(card => {
             let surahName = card.innerText;
-            if(surahName.includes(text)) card.style.display = 'flex';
-            else card.style.display = 'none';
+            if(surahName.includes(text)) card.style.display = 'flex'; else card.style.display = 'none';
         });
     } else if (hash === 'quranReader') {
         let ayahs = document.querySelectorAll('.ayah-span');
         ayahs.forEach(ayah => {
-            if(text.trim() !== '' && ayah.innerText.includes(text)) {
-                ayah.classList.add('highlight-search'); 
-            } else {
-                ayah.classList.remove('highlight-search');
-            }
+            if(text.trim() !== '' && ayah.innerText.includes(text)) { ayah.classList.add('highlight-search'); } 
+            else { ayah.classList.remove('highlight-search'); }
         });
     } else if (hash === 'hadithReader') {
         let cards = document.querySelectorAll('.hadith-card');
         cards.forEach(card => {
-            if(card.innerText.includes(text)) card.style.display = 'block';
-            else card.style.display = 'none';
+            if(card.innerText.includes(text)) card.style.display = 'block'; else card.style.display = 'none';
         });
     }
 };
 
-// --- 4. القائمة الجانبية والمظهر ---
+// --- 4. القائمة والمظهر ---
 window.toggleSidebar = function() {
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('sidebar-overlay').classList.toggle('show');
@@ -363,7 +348,7 @@ async function fetchPrayers(lat, lng) {
     } catch(e) {}
 }
 
-// --- 7. عرض مكتبة الحديث الشريف ---
+// --- 7. عرض مكتبة الحديث ---
 window.openHadithBook = function(bookId) {
     const titles = { 'bukhari': 'صحيح البخاري', 'muslim': 'صحيح مسلم', 'abudawud': 'سنن أبي داود' };
     currentHadithBookTitle = titles[bookId] || 'الحديث';
@@ -378,7 +363,7 @@ window.openHadithBook = function(bookId) {
     navigateTo('hadithReader');
 };
 
-// --- 8. المصحف (بنظام الصفحات والسحب باللمس Swipe) ---
+// --- 8. المصحف (نظام الصفحات مع ذكاء اصطناعي لتظبيط الخط) ---
 let surahListCached = [];
 let quranBookmarks = JSON.parse(localStorage.getItem('quranBookmarks')) || [];
 let quranCurrentPage = parseInt(localStorage.getItem('quranCurrentPage')) || 1;
@@ -405,7 +390,7 @@ window.jumpToAyah = async (sNum, aNum) => {
         let data = await res.json();
         let page = data.data.page;
         loadQuranPage(page, `${sNum}-${aNum}`);
-    } catch(e) { document.getElementById('quran-text').innerHTML = "تحقق من اتصالك بالإنترنت"; }
+    } catch(e) { document.getElementById('quran-text').innerHTML = "خطأ في الاتصال"; }
 };
 
 window.loadQuranPage = async (pageNum, scrollToAyahId = null) => {
@@ -422,31 +407,40 @@ window.loadQuranPage = async (pageNum, scrollToAyahId = null) => {
     }
 
     document.getElementById('quran-text').innerHTML="جاري التحميل...";
-
     try {
         let res = await fetch(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
         let data = await res.json();
         quranPageCache[pageNum] = data.data; 
         renderPageData(data.data, pageNum, scrollToAyahId);
         preloadPages(pageNum); 
-    } catch(e) { document.getElementById('quran-text').innerHTML = "تحقق من اتصالك بالإنترنت"; }
+    } catch(e) { document.getElementById('quran-text').innerHTML = "خطأ في الاتصال"; }
 };
+
+// الدالة السحرية لتظبيط الخط أوتوماتيك لملء الشاشة بدون سكرول
+function fitTextToScreen() {
+    let container = document.getElementById('quran-text');
+    if(!container) return;
+    
+    // إرجاع الخط للحجم الافتراضي عشان يقيس من جديد
+    container.style.fontSize = ''; 
+    let currentSize = 35; // أقصى حجم متوقع
+    container.style.fontSize = currentSize + 'px';
+
+    // طالما النص أطول من مساحة الشاشة (بيعمل سكرول)، صغّره درجة درجة
+    while (container.scrollHeight > container.clientHeight && currentSize > 14) {
+        currentSize -= 0.5;
+        container.style.fontSize = currentSize + 'px';
+    }
+}
 
 function renderPageData(pageData, pageNum, scrollToAyahId) {
     let ayahs = pageData.ayahs;
     let juzNum = toArabicNumerals(ayahs[0].juz);
     let surahsOnPage = [...new Set(ayahs.map(a => a.surah.name))];
     
-    // الهيدر العلوي للتطبيق
     let titleEl = document.getElementById('header-title');
     if(titleEl) titleEl.innerText = "سورة " + surahsOnPage[0];
-    let subtitleEl = document.getElementById('header-subtitle');
-    if(subtitleEl) {
-        subtitleEl.innerText = `الجزء ${juzNum} - صفحة ${toArabicNumerals(pageNum)}`;
-        subtitleEl.classList.remove('hidden');
-    }
-
-    // هيدر صفحة المصحف الداخلي (المطابق للصورة)
+    
     let mJuz = document.getElementById('mushaf-juz-name');
     let mSurah = document.getElementById('mushaf-surah-name');
     let mPageNum = document.getElementById('mushaf-page-num');
@@ -475,14 +469,17 @@ function renderPageData(pageData, pageNum, scrollToAyahId) {
     });
     
     document.getElementById('quran-text').innerHTML = html;
-    if(window.handleTopSearch) window.handleTopSearch();
+    
+    // تشغيل دالة تثبيت الخط بعد وضع الآيات بـ 50 ملي ثانية
+    setTimeout(fitTextToScreen, 50);
 
+    if(window.handleTopSearch) window.handleTopSearch();
     if(scrollToAyahId) {
         setTimeout(() => {
             let el = document.getElementById(`ayah-${scrollToAyahId}`);
-            if(el) { el.scrollIntoView({behavior: "smooth", block: "center"}); el.style.backgroundColor = "rgba(221, 167, 123, 0.4)"; }
+            if(el) { el.style.backgroundColor = "rgba(221, 167, 123, 0.4)"; }
         }, 100);
-    } else { window.scrollTo(0,0); }
+    }
 }
 
 async function preloadPages(currentPage) {
@@ -491,38 +488,42 @@ async function preloadPages(currentPage) {
         if(!quranPageCache[p]) {
             try {
                 let res = await fetch(`https://api.alquran.cloud/v1/page/${p}/quran-uthmani`);
-                let data = await res.json();
-                quranPageCache[p] = data.data; 
+                let data = await res.json(); quranPageCache[p] = data.data; 
             } catch(e) {} 
         }
     }
 }
 
-// --- برمجة السحب باللمس (Swipe) لتقليب الصفحات ---
+window.navigatePage = function(step) {
+    // التقليب يمين وشمال (خطوة 1 للصفحة التالية، -1 للسابقة)
+    loadQuranPage(quranCurrentPage + step);
+};
+
+// --- السحب باللمس لتقليب الصفحات ---
 let touchstartX = 0;
 let touchendX = 0;
 
 function handleSwipe() {
     let diff = touchendX - touchstartX;
-    // إذا كان السحب أقوى من 50 بكسل
-    if (Math.abs(diff) > 50) { 
+    // الحساسية مضبوطة على 40 بكسل
+    if (Math.abs(diff) > 40) { 
         let pageEl = document.getElementById('mushaf-page');
         if(!pageEl) return;
 
         pageEl.style.opacity = '0';
         if (touchendX > touchstartX) {
-            // سحب لليمين (يفتح الصفحة التالية في المصحف العربي)
+            // سحب لليمين يجيب الصفحة السابقة (-1)
             pageEl.style.transform = 'translateX(30px)';
             setTimeout(() => {
-                loadQuranPage(quranCurrentPage + 1);
+                loadQuranPage(quranCurrentPage - 1);
                 pageEl.style.transform = 'translateX(0)';
                 pageEl.style.opacity = '1';
             }, 150);
         } else {
-            // سحب لليسار (يفتح الصفحة السابقة)
+            // سحب لليسار يجيب الصفحة التالية (1)
             pageEl.style.transform = 'translateX(-30px)';
             setTimeout(() => {
-                loadQuranPage(quranCurrentPage - 1);
+                loadQuranPage(quranCurrentPage + 1);
                 pageEl.style.transform = 'translateX(0)';
                 pageEl.style.opacity = '1';
             }, 150);
@@ -531,16 +532,11 @@ function handleSwipe() {
 }
 
 document.addEventListener('touchstart', e => {
-    if(window.location.hash === '#quranReader') {
-        touchstartX = e.changedTouches[0].screenX;
-    }
+    if(window.location.hash === '#quranReader') { touchstartX = e.changedTouches[0].screenX; }
 }, false);
 
 document.addEventListener('touchend', e => {
-    if(window.location.hash === '#quranReader') {
-        touchendX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }
+    if(window.location.hash === '#quranReader') { touchendX = e.changedTouches[0].screenX; handleSwipe(); }
 }, false);
 
 // ------------------------------------------
