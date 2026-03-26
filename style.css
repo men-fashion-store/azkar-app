@@ -9,6 +9,9 @@
     --progress-bg: #E0D8C8; 
     --zikr-font-size: 1.6rem; 
     --widget-bg: linear-gradient(135deg, #8B5A2B, #A06D3A);
+    /* ألوان خاصة لصفحة المصحف تطابق طبعة المدينة */
+    --mushaf-bg: #FCF7E8; 
+    --mushaf-text: #000000;
 }
 
 body.dark-theme {
@@ -18,6 +21,9 @@ body.dark-theme {
     --accent-color: #DDA77B; 
     --progress-bg: #222222; 
     --widget-bg: linear-gradient(135deg, #2A1A10, #4A2E1B);
+    /* ألوان المصحف في الوضع الليلي */
+    --mushaf-bg: #1A1511; 
+    --mushaf-text: #E0D8C8;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -69,36 +75,16 @@ body {
 
 /* --- زر القائمة المدمج في الشاشة الرئيسية --- */
 .home-menu-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: var(--card-bg);
-    border: 1px solid var(--accent-color);
-    color: var(--accent-color);
-    font-size: 1.8rem;
-    width: 45px;
-    height: 45px;
-    border-radius: 12px;
-    cursor: pointer;
-    z-index: 80;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    transition: 0.2s;
+    position: absolute; top: 20px; right: 20px;
+    background: var(--card-bg); border: 1px solid var(--accent-color);
+    color: var(--accent-color); font-size: 1.8rem;
+    width: 45px; height: 45px; border-radius: 12px;
+    cursor: pointer; z-index: 80; display: flex;
+    justify-content: center; align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: 0.2s;
 }
-.home-menu-btn:active {
-    transform: scale(0.9);
-    background: var(--accent-color);
-    color: var(--bg-color);
-}
-.home-content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 15px;
-}
+.home-menu-btn:active { transform: scale(0.9); background: var(--accent-color); color: var(--bg-color); }
+.home-content { width: 100%; display: flex; flex-direction: column; align-items: center; padding-top: 15px; }
 
 /* --- القائمة الجانبية (Sidebar) --- */
 .sidebar {
@@ -128,22 +114,7 @@ body {
 input[type=range] { -webkit-appearance: none; background: var(--progress-bg); height: 8px; border-radius: 5px; outline: none; }
 input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent-color); cursor: pointer; }
 
-/* --- الزر العائم الشفاف (+) في المصحف (تم نقله لليمين) --- */
-.fab {
-    position: fixed; bottom: 30px; right: 20px; left: auto;
-    width: 55px; height: 55px;
-    background-color: rgba(221, 167, 123, 0.2);
-    color: var(--accent-color); border: 2px solid rgba(221, 167, 123, 0.4); border-radius: 50%;
-    font-size: 2rem; display: flex; justify-content: center; align-items: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 100; cursor: pointer; transition: 0.3s;
-    backdrop-filter: blur(5px);
-}
-.fab:active { background-color: var(--accent-color); color: #000; transform: scale(0.9); }
-.fab-menu { position: fixed; bottom: 95px; right: 20px; left: auto; display: flex; flex-direction: column; gap: 10px; z-index: 99; transition: opacity 0.3s, transform 0.3s; }
-.fab-menu.hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
-.fab-item { background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-color); padding: 10px 15px; border-radius: 15px; font-family: 'Tajawal'; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-
-/* --- زر الرجوع العائم (باقي في الشمال) --- */
+/* --- زر الرجوع العائم في الشمال --- */
 .floating-back {
     position: fixed; bottom: 25px; left: 20px; right: auto;
     background-color: var(--accent-color); color: var(--bg-color);
@@ -180,19 +151,86 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 92%; max-width: 450px; margin-top: 20px; }
 .grid-btn { background-color: var(--card-bg); color: var(--accent-color); border: 2px solid var(--accent-color); padding: 22px 10px; font-size: 1.25rem; font-weight: bold; border-radius: 20px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); text-align: center; }
 
-/* --- بطاقات الأذكار والمصحف --- */
+/* --- بطاقات الأذكار --- */
 .paper-card { background-color: var(--card-bg); width: 92%; max-width: 650px; min-height: 50vh; padding: 35px 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 20px; border: 1px solid rgba(255, 255, 255, 0.05); }
-.quran-paper { padding: 10px 5px; width: 98%; max-width: 800px; background: transparent; box-shadow: none; border: none; margin-bottom: 60px;}
-
-/* --- الخط العثماني وصفحات المصحف --- */
-.quran-text-container { font-family: 'Amiri Quran', serif; font-size: var(--zikr-font-size); line-height: 2.4; text-align: justify; width: 100%; color: var(--text-color); padding-bottom: 40px;}
-.surah-divider { text-align: center; background: url('https://www.transparenttextures.com/patterns/arabesque.png'), var(--accent-color); color: var(--bg-color); padding: 12px; margin: 30px 0 20px 0; border-radius: 10px; font-family: 'Amiri Quran', serif; font-size: 1.8rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-.bismillah-divider { text-align: center; font-size: 1.5rem; color: var(--accent-color); margin-bottom: 20px; font-family: 'Amiri Quran', serif; }
-.ayah-symbol { color: var(--accent-color); font-size: 0.7em; margin: 0 5px; }
-.page-number-footer { text-align: center; margin-top: 20px; font-family: 'Tajawal'; font-weight: bold; color: var(--accent-color); font-size: 1.1rem; border-top: 1px dashed var(--progress-bg); padding-top: 10px; }
 
 #zikr-text { font-family: 'Amiri', serif; font-size: var(--zikr-font-size); line-height: 2.2; margin-bottom: 30px; white-space: pre-line; color: var(--text-color);}
 .proof-text { font-size: 0.95rem; opacity: 0.7; border-top: 1px dashed var(--accent-color); padding-top: 15px; margin-top: 10px; width: 100%; }
+
+/* --- تصميم صفحة المصحف (الجديدة كلياً والمطابقة لطبعة المدينة) --- */
+.mushaf-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 60px 10px 20px 10px; /* مسافة للهيدر العلوي */
+    overflow-x: hidden;
+}
+
+.mushaf-page {
+    background-color: var(--mushaf-bg); /* لون الورق الكريمي */
+    width: 100%;
+    max-width: 600px;
+    /* الإطار الذهبي المزدوج */
+    border: 4px double var(--accent-color);
+    outline: 1px solid var(--accent-color);
+    outline-offset: -8px;
+    border-radius: 5px;
+    padding: 15px 15px 10px 15px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    /* حركات التقليب هتضاف هنا بالـ JS */
+    transition: transform 0.3s ease-out;
+}
+
+.mushaf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Amiri', serif;
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    border-bottom: 1px solid var(--accent-color);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.quran-text-container { 
+    font-family: 'Amiri Quran', serif; 
+    font-size: var(--zikr-font-size); 
+    line-height: 2.1; 
+    color: var(--mushaf-text);
+    /* مساواة السطور لتبدو مثل البلوك (Justify) */
+    text-align: justify;
+    text-justify: inter-word;
+    flex-grow: 1;
+}
+
+.mushaf-footer {
+    text-align: center;
+    margin-top: 15px;
+    border-top: 1px solid var(--accent-color);
+    padding-top: 5px;
+}
+
+.mushaf-page-num {
+    display: inline-block;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: bold;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    padding: 2px 15px;
+    border-radius: 12px;
+    background: transparent;
+    font-size: 1rem;
+}
+
+/* فاصل بداية السورة والبسملة */
+.surah-divider { text-align: center; background: url('https://www.transparenttextures.com/patterns/arabesque.png'), var(--accent-color); color: var(--bg-color); padding: 12px; margin: 20px 0 10px 0; border-radius: 10px; font-family: 'Amiri Quran', serif; font-size: 1.6rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+.bismillah-divider { text-align: center; font-size: 1.5rem; color: var(--accent-color); margin-bottom: 15px; font-family: 'Amiri Quran', serif; }
+.ayah-symbol { color: var(--accent-color); font-size: 0.7em; margin: 0 5px; }
 
 /* --- تصميم بطاقات الحديث --- */
 .hadith-card { background-color: var(--card-bg); border: 1px solid var(--progress-bg); border-radius: 15px; padding: 25px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; text-align: right; }
