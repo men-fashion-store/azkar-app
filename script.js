@@ -123,7 +123,6 @@ function handleRoute() {
     let subtitle = document.getElementById('header-subtitle');
     let title = document.getElementById('header-title');
 
-    // إخفاء الهيدر في الرئيسية، وإظهار زر القائمة المدمج
     let homeMenuBtn = document.querySelector('.home-menu-btn');
     if(hash === 'home' || hash === 'splash') {
         mainHeader.classList.add('hidden');
@@ -134,7 +133,6 @@ function handleRoute() {
         if(homeMenuBtn) homeMenuBtn.classList.add('hidden');
     }
 
-    // زر الرجوع العائم
     let floatBack = document.getElementById('floating-back-btn');
     if(floatBack) {
         if(hash === 'home' || hash === 'splash') {
@@ -144,7 +142,6 @@ function handleRoute() {
         }
     }
 
-    // إعدادات البحث والنصوص في الهيدر
     if(searchInput) { searchInput.value = ''; searchInput.classList.add('hidden'); }
     
     if(hash === 'quranIndex' || hash === 'hadithReader') {
@@ -159,7 +156,7 @@ function handleRoute() {
         if(window.handleTopSearch) window.handleTopSearch(); 
     } else if(hash === 'quranReader') {
         searchIcon.classList.remove('hidden');
-        // في حالة العودة للمصحف، نقوم بتحميل آخر صفحة لو كان النص فارغ
+        // في حالة العودة للمصحف يتم استدعاء الصفحة المحفوظة مباشرة من الكاش
         if(!document.getElementById('quran-text').innerHTML.includes('ayah-span')) {
             loadQuranPage(quranCurrentPage);
         }
@@ -178,7 +175,6 @@ function handleRoute() {
         title.innerText = titles[hash] || 'موسوعة المسلم';
     }
 
-    // تبديل الشاشات
     document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.classList.add('hidden'); });
     const target = document.getElementById(hash + '-screen') || document.getElementById('home-screen');
     if(target) { target.classList.replace('hidden', 'active'); window.scrollTo(0, 0); }
@@ -225,7 +221,7 @@ window.handleTopSearch = function() {
     }
 };
 
-// --- 4. القائمة الجانبية والمظهر (UI) ---
+// --- 4. القائمة الجانبية والمظهر ---
 window.toggleSidebar = function() {
     document.getElementById('sidebar').classList.toggle('open');
     document.getElementById('sidebar-overlay').classList.toggle('show');
@@ -340,7 +336,7 @@ async function initLocationAndPrayers() {
             document.getElementById('prayer-location').innerText = `📍 ${userCity}`;
             fetchPrayers(userLat, userLng);
         }
-    } catch(e) { console.log("استخدام الموقع المحفوظ"); }
+    } catch(e) {}
 }
 
 window.requestLocationPermission = function() {
@@ -415,10 +411,11 @@ window.openHadithBook = function(bookId) {
     navigateTo('hadithReader');
 };
 
-// --- 8. القرآن (نظام الصفحات الفعلي) والآيات المرجعية ---
+// --- 8. المصحف (بنظام الصفحات الحقيقية والتحميل المسبق لمنع التهنيج) ---
 let surahListCached = [];
 let quranBookmarks = JSON.parse(localStorage.getItem('quranBookmarks')) || [];
 let quranCurrentPage = parseInt(localStorage.getItem('quranCurrentPage')) || 1;
+let quranPageCache = {}; // ذاكرة تخزين مؤقتة للصفحات المحملة مسبقاً
 
 async function loadQuranIndex() {
     if(surahListCached.length>0) return;
@@ -427,7 +424,6 @@ async function loadQuranIndex() {
         const list = document.getElementById('surah-list'); list.innerHTML='';
         const audioSel = document.getElementById('surah-select-audio'); if(audioSel) audioSel.innerHTML='<option value="">اختر السورة...</option>';
         surahListCached.forEach(s => {
-            // الآن نمرر رقم السورة لدالة القفز للآية الأولى لمعرفة الصفحة
             list.innerHTML += `<button class="surah-card-btn" onclick="jumpToAyah(${s.number}, 1)"><span class="surah-number">${s.number}</span> <span>${s.name}</span></button>`;
             if(audioSel) audioSel.innerHTML += `<option value="${s.number}">${s.name}</option>`;
         });
@@ -438,11 +434,10 @@ window.jumpToAyah = async (sNum, aNum) => {
     document.getElementById('quran-text').innerHTML="جاري التحميل...";
     navigateTo('quranReader');
     try {
-        // نسأل الـ API: الآية دي في صفحة كام؟
         let res = await fetch(`https://api.alquran.cloud/v1/ayah/${sNum}:${aNum}/quran-uthmani`);
         let data = await res.json();
         let page = data.data.page;
-        loadQuranPage(page, `${sNum}-${aNum}`); // تمرير ID مميز للآية
+        loadQuranPage(page, `${sNum}-${aNum}`);
     } catch(e) { document.getElementById('quran-text').innerHTML = "تحقق من اتصالك بالإنترنت"; }
 };
 
@@ -451,64 +446,96 @@ window.loadQuranPage = async (pageNum, scrollToAyahId = null) => {
     if(pageNum > 604) pageNum = 604;
     
     quranCurrentPage = pageNum;
-    localStorage.setItem('quranCurrentPage', quranCurrentPage); // حفظ آخر صفحة
+    localStorage.setItem('quranCurrentPage', quranCurrentPage);
 
-    document.getElementById('quran-text').innerHTML="جاري التحميل...";
     let fabMenu = document.getElementById('quran-fab-menu');
     if(fabMenu) fabMenu.classList.add('hidden');
+
+    // إذا كانت الصفحة محملة مسبقاً في الكاش، نعرضها فوراً بدون شاشة تحميل وبدون تهنيج
+    if(quranPageCache[pageNum]) {
+        renderPageData(quranPageCache[pageNum], pageNum, scrollToAyahId);
+        preloadPages(pageNum); // نحمل الصفحات القادمة في الخلفية
+        return;
+    }
+
+    // لو الصفحة مش في الكاش (أول مرة فقط)، هنضطر نظهر جاري التحميل
+    document.getElementById('quran-text').innerHTML="جاري التحميل...";
 
     try {
         let res = await fetch(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
         let data = await res.json();
-        let ayahs = data.data.ayahs;
-        
-        let juzNum = ayahs[0].juz;
-        let surahsOnPage = [...new Set(ayahs.map(a => a.surah.name))];
-        
-        let titleEl = document.getElementById('header-title');
-        if(titleEl) titleEl.innerText = "سورة " + surahsOnPage.join(' و ');
-        
-        let subtitleEl = document.getElementById('header-subtitle');
-        if(subtitleEl) {
-            subtitleEl.innerText = `الجزء ${juzNum} - صفحة ${pageNum}`;
-            subtitleEl.classList.remove('hidden');
-        }
-
-        let html = '';
-        ayahs.forEach(a => {
-            let sName = a.surah.name;
-            let sNum = a.surah.number;
-            
-            // إضافة فاصل لو دي أول آية في السورة
-            if(a.numberInSurah === 1) {
-                html += `<div class="surah-divider">${sName}</div>`;
-                if(sNum !== 1 && sNum !== 9) {
-                    html += `<div class="bismillah-divider">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>`;
-                }
-            }
-            
-            let text = (sNum != 1 && sNum != 9 && a.numberInSurah == 1) ? a.text.replace("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ","") : a.text;
-            let isMarked = quranBookmarks.some(b => b.surah === sNum && b.ayah === a.numberInSurah);
-            let markClass = isMarked ? "bookmarked-ayah" : "";
-            let ayahUniqueId = `ayah-${sNum}-${a.numberInSurah}`; // ID فريد يجمع بين السورة والآية
-            
-            html += `<span class="ayah-span ${markClass}" id="${ayahUniqueId}" onclick="toggleBookmark(${sNum}, '${sName}', ${a.numberInSurah}, '${text}')">${text} <span class="ayah-symbol">﴿${a.numberInSurah}﴾</span></span> `;
-        });
-        
-        html += `<div class="page-number-footer">${pageNum}</div>`;
-        document.getElementById('quran-text').innerHTML = html;
-        
-        if(window.handleTopSearch) window.handleTopSearch();
-
-        if(scrollToAyahId) {
-            setTimeout(() => {
-                let el = document.getElementById(`ayah-${scrollToAyahId}`);
-                if(el) { el.scrollIntoView({behavior: "smooth", block: "center"}); el.style.backgroundColor = "rgba(221, 167, 123, 0.4)"; }
-            }, 500);
-        } else { window.scrollTo(0,0); }
-        
+        quranPageCache[pageNum] = data.data; // حفظ في الكاش
+        renderPageData(data.data, pageNum, scrollToAyahId);
+        preloadPages(pageNum); // تحميل مسبق للصفحات اللي بعدها
     } catch(e) { document.getElementById('quran-text').innerHTML = "تحقق من اتصالك بالإنترنت"; }
 };
+
+// دالة عرض بيانات الصفحة (سريعة جداً)
+function renderPageData(pageData, pageNum, scrollToAyahId) {
+    let ayahs = pageData.ayahs;
+    let juzNum = ayahs[0].juz;
+    let surahsOnPage = [...new Set(ayahs.map(a => a.surah.name))];
+    
+    let titleEl = document.getElementById('header-title');
+    if(titleEl) titleEl.innerText = "سورة " + surahsOnPage.join(' و ');
+    
+    let subtitleEl = document.getElementById('header-subtitle');
+    if(subtitleEl) {
+        subtitleEl.innerText = `الجزء ${juzNum} - صفحة ${pageNum}`;
+        subtitleEl.classList.remove('hidden');
+    }
+
+    let html = '';
+    ayahs.forEach(a => {
+        let sName = a.surah.name;
+        let sNum = a.surah.number;
+        
+        if(a.numberInSurah === 1) {
+            html += `<div class="surah-divider">${sName}</div>`;
+            if(sNum !== 1 && sNum !== 9) {
+                html += `<div class="bismillah-divider">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>`;
+            }
+        }
+        
+        let text = (sNum != 1 && sNum != 9 && a.numberInSurah == 1) ? a.text.replace("بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ","") : a.text;
+        let isMarked = quranBookmarks.some(b => b.surah === sNum && b.ayah === a.numberInSurah);
+        let markClass = isMarked ? "bookmarked-ayah" : "";
+        let ayahUniqueId = `ayah-${sNum}-${a.numberInSurah}`;
+        
+        html += `<span class="ayah-span ${markClass}" id="${ayahUniqueId}" onclick="toggleBookmark(${sNum}, '${sName}', ${a.numberInSurah}, '${text}')">${text} <span class="ayah-symbol">﴿${a.numberInSurah}﴾</span></span> `;
+    });
+    
+    html += `<div class="page-number-footer">${pageNum}</div>`;
+    document.getElementById('quran-text').innerHTML = html;
+    
+    if(window.handleTopSearch) window.handleTopSearch();
+
+    if(scrollToAyahId) {
+        setTimeout(() => {
+            let el = document.getElementById(`ayah-${scrollToAyahId}`);
+            if(el) { el.scrollIntoView({behavior: "smooth", block: "center"}); el.style.backgroundColor = "rgba(221, 167, 123, 0.4)"; }
+        }, 100);
+    } else { window.scrollTo(0,0); }
+}
+
+// دالة التحميل المسبق (Preload) لمنع التهنيج
+async function preloadPages(currentPage) {
+    let next1 = currentPage + 1;
+    let next2 = currentPage + 2;
+    let prev1 = currentPage - 1;
+    
+    let pagesToPreload = [next1, next2, prev1].filter(p => p >= 1 && p <= 604);
+    
+    for(let p of pagesToPreload) {
+        if(!quranPageCache[p]) {
+            try {
+                let res = await fetch(`https://api.alquran.cloud/v1/page/${p}/quran-uthmani`);
+                let data = await res.json();
+                quranPageCache[p] = data.data; // يتم حفظها في الكاش في الخلفية
+            } catch(e) {} 
+        }
+    }
+}
 
 window.navigatePage = function(step) {
     let fabMenu = document.getElementById('quran-fab-menu');
@@ -519,13 +546,14 @@ window.navigatePage = function(step) {
 window.toggleBookmark = function(sNum, sName, aNum, text) {
     let index = quranBookmarks.findIndex(b => b.surah === sNum && b.ayah === aNum);
     let ayahUniqueId = `ayah-${sNum}-${aNum}`;
+    let el = document.getElementById(ayahUniqueId);
     if(index > -1) {
         quranBookmarks.splice(index, 1);
-        document.getElementById(ayahUniqueId).classList.remove('bookmarked-ayah');
+        if(el) el.classList.remove('bookmarked-ayah');
         showToast("❌ تم إزالة العلامة المرجعية");
     } else {
         quranBookmarks.push({surah: sNum, surahName: sName, ayah: aNum, text: text});
-        document.getElementById(ayahUniqueId).classList.add('bookmarked-ayah');
+        if(el) el.classList.add('bookmarked-ayah');
         showToast("🔖 تم حفظ الآية");
     }
     localStorage.setItem('quranBookmarks', JSON.stringify(quranBookmarks));
@@ -582,7 +610,7 @@ window.filterReciters = () => { let t = document.getElementById('reciter-search'
 window.updateReciter = () => updateAudioSurah();
 window.updateAudioSurah = () => { let server = document.getElementById('reciter-select').value, surah = document.getElementById('surah-select-audio').value; if(!server || !surah) return; let surahName = document.getElementById('surah-select-audio').options[document.getElementById('surah-select-audio').selectedIndex].text; document.getElementById('now-playing-title').innerText = `🎧 سورة ${surahName}`; document.getElementById('global-quran-audio').src = `${server.endsWith('/')?server:server+'/'}${surah.padStart(3,'0')}.mp3`; document.getElementById('global-quran-audio').play(); };
 
-// --- 11. التحميل الأولي (DOMContentLoaded) ---
+// --- 11. التحميل الأولي ---
 document.addEventListener("DOMContentLoaded", () => {
     const rH = hadithsList[Math.floor(Math.random() * hadithsList.length)];
     document.getElementById('splash-hadith').innerText = rH.text;
