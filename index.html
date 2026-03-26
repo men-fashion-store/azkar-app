@@ -198,8 +198,10 @@
         </div>
     </div>
 
-    <div id="quranReader-screen" class="screen hidden">
+    <div id="quranReader-screen" class="screen hidden no-scroll">
         <div class="mushaf-container">
+            <button class="mushaf-nav-btn right-btn" onclick="navigatePage(-1)">&#10095;</button>
+
             <div id="mushaf-page" class="mushaf-page">
                 <div class="mushaf-header">
                     <span id="mushaf-juz-name">الجزء</span>
@@ -212,6 +214,8 @@
                     <span id="mushaf-page-num" class="mushaf-page-num">١</span>
                 </div>
             </div>
+
+            <button class="mushaf-nav-btn left-btn" onclick="navigatePage(1)">&#10094;</button>
         </div>
     </div>
 
