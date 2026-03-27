@@ -57,11 +57,20 @@ body {
 .top-header {
     position: fixed; top: 0; left: 0; width: 100%; height: 50px;
     background-color: var(--card-bg); z-index: 90;
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex; justify-content: center; align-items: center;
     padding: 0 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 .top-header.hidden { display: none !important; }
-.hamburger-btn { background: none; border: none; color: var(--accent-color); font-size: 1.6rem; cursor: pointer; padding: 5px; z-index: 92; }
+.hamburger-btn {
+    position: absolute; left: 10px;
+    background: none; border: none; color: var(--accent-color);
+    font-size: 1.6rem; cursor: pointer; padding: 5px; z-index: 92;
+}
+.header-back-btn {
+    position: absolute; right: 10px;
+    background: none; border: none; color: var(--accent-color);
+    font-size: 1.45rem; cursor: pointer; padding: 5px; z-index: 92;
+}
 
 .header-center {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -72,7 +81,7 @@ body {
 .header-subtitle { font-family: 'Tajawal', sans-serif; font-size: 0.8rem; color: var(--text-color); opacity: 0.8; line-height: 1;}
 .header-subtitle.hidden { display: none; }
 
-.header-search-icon { background: none; border: none; font-size: 1.4rem; cursor: pointer; padding: 5px; z-index: 92; color: var(--accent-color); }
+.header-search-icon { position: absolute; left: 52px; background: none; border: none; font-size: 1.4rem; cursor: pointer; padding: 5px; z-index: 92; color: var(--accent-color); }
 .header-search-icon.hidden { display: none; }
 
 .top-search-input {
@@ -111,6 +120,9 @@ body {
 .sidebar-section { margin-bottom: 20px; border-bottom: 1px solid var(--progress-bg); padding-bottom: 15px; }
 .sidebar-btn { width: 100%; background: none; border: 1px solid var(--accent-color); color: var(--text-color); padding: 12px; border-radius: 10px; font-family: 'Tajawal'; font-size: 1.1rem; cursor: pointer; font-weight: bold; transition: 0.2s; }
 .sidebar-btn:active { background: var(--accent-color); color: #000; }
+.btn-with-icon { display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.inline-ui-icon { width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; }
+.inline-ui-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .sidebar-select { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--accent-color); background: var(--bg-color); color: var(--text-color); font-family: 'Tajawal'; font-size: 1rem; outline: none; }
 .exit-btn { border-color: #ff4d4d; color: #ff4d4d; }
 .exit-btn:active { background: #ff4d4d; color: #fff; }
@@ -150,7 +162,27 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 92%; max-width: 450px; margin-top: 20px; }
 .grid-btn { background-color: var(--card-bg); color: var(--accent-color); border: 2px solid var(--accent-color); padding: 22px 10px; font-size: 1.25rem; font-weight: bold; border-radius: 20px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); text-align: center; }
 .quran-grid-btn { position: relative; overflow: hidden; }
-.quran-grid-icon { display: inline-block; font-size: 2.2rem; line-height: 1; margin-bottom: 4px; color: #a06d3a; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); }
+.grid-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(160,109,58,0.22), rgba(139,90,43,0.1));
+    border: 1px solid rgba(139,90,43,0.35);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12) inset, 0 2px 6px rgba(0,0,0,0.1);
+}
+.grid-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: var(--accent-color);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
 
 /* --- بطاقات الأذكار والحديث --- */
 .paper-card { background-color: var(--card-bg); width: 92%; max-width: 650px; min-height: 50vh; padding: 35px 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; text-align: center; margin-top: 20px; border: 1px solid rgba(255, 255, 255, 0.05); }
@@ -171,7 +203,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 56px 4px 8px 4px; /* ملء الشاشة بدون فراغ سفلي */
+    padding: 56px 4px 70px 4px; /* ترك مساحة سفلية لأزرار التقليب */
     position: fixed; /* تثبيت الكونتينر في الشاشة */
     top: 0; left: 0;
     background-color: var(--bg-color);
@@ -181,8 +213,9 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 /* أسهم التقليب الجانبية (يمين وشمال) */
 .mushaf-nav-btn {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: auto;
+    bottom: 14px;
+    transform: none;
     background: rgba(255, 255, 255, 0.75);
     color: var(--accent-color);
     border: 1px solid var(--accent-color);
@@ -200,7 +233,7 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
     backdrop-filter: blur(3px);
 }
 .dark-theme .mushaf-nav-btn { background: rgba(0, 0, 0, 0.75); }
-.mushaf-nav-btn:active { background: var(--accent-color); color: var(--bg-color); transform: translateY(-50%) scale(0.9); }
+.mushaf-nav-btn:active { transform: scale(0.9); }
 
 .right-btn { right: 8px; } /* السهم اليمين (الصفحة السابقة) */
 .left-btn { left: 8px; } /* السهم اليسار (الصفحة التالية) */
@@ -340,6 +373,29 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 .counter-circle { width: 90px; height: 90px; border-radius: 50%; background-color: var(--accent-color); color: #000; border: none; font-size: 2.2rem; font-weight: bold; cursor: pointer; margin-top: 20px; }
 .masbaha-display { font-size: 4.5rem; font-family: monospace; color: var(--accent-color); margin-bottom: 30px; font-weight: bold; }
 .masbaha-btn { width: 160px; height: 160px; border-radius: 50%; background-color: var(--accent-color); color: #000; font-size: 2.5rem; font-family: 'Amiri', serif; font-weight: bold; border: none; cursor: pointer; }
+.reset-btn {
+    margin-top: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.reset-icon {
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.reset-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
 
 /* --- الصوتيات والمواقيت --- */
 .prayer-item { display: flex; justify-content: space-between; width: 100%; padding: 18px 15px; border-bottom: 1px solid var(--progress-bg); font-size: 1.2rem; }
