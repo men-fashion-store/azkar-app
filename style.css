@@ -366,8 +366,22 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px;
 .ayah-span { cursor: pointer; transition: background-color 0.3s; padding: 2px 5px; border-radius: 8px; display: inline; }
 .bookmarked-ayah { background-color: rgba(221, 167, 123, 0.15); border-bottom: 2px dashed var(--accent-color); }
 .highlight-search { background-color: rgba(255, 235, 59, 0.4); border-radius: 5px; }
+.reciting-ayah { background-color: rgba(76, 175, 80, 0.24); box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.5) inset; }
 .bookmark-item { border-bottom: 1px solid var(--progress-bg); padding: 15px 0; text-align: right; }
 .bookmark-item h3 { color: var(--accent-color); font-family: 'Amiri', serif; margin-bottom: 8px; font-size: 1.3rem; }
+.stop-recitation-btn {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 103;
+    padding: 8px 14px;
+    font-size: 0.95rem;
+    border-radius: 999px;
+    border: 1px solid #b3261e;
+    background: rgba(179, 38, 30, 0.92);
+    color: #fff;
+}
 
 /* --- السبحة والعداد --- */
 .counter-circle { width: 90px; height: 90px; border-radius: 50%; background-color: var(--accent-color); color: #000; border: none; font-size: 2.2rem; font-weight: bold; cursor: pointer; margin-top: 20px; }

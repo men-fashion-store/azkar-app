@@ -31,18 +31,18 @@
         <div class="sidebar-section">
             <label style="display:block; text-align:center; margin-bottom:10px; color:var(--accent-color); font-weight:bold;">التنبيهات والأصوات</label>
             <select id="muezzin-select" class="sidebar-select" style="margin-bottom: 10px;">
-                <option value="">صوت المؤذن (قريباً)</option>
+                <option value="makkah">صوت المؤذن (مكة)</option>
                 <option value="makkah">أذان مكة المكرمة</option>
                 <option value="madinah">أذان المدينة المنورة</option>
                 <option value="aqsa">أذان الأقصى</option>
             </select>
             <select id="alerts-select" class="sidebar-select" style="margin-bottom: 10px;">
-                <option value="">إشعارات التنبيه (قريباً)</option>
+                <option value="on">إشعارات التنبيه</option>
                 <option value="on">تفعيل تنبيهات الصلاة والأذكار</option>
                 <option value="off">إيقاف التنبيهات</option>
             </select>
             <select id="reciter-settings-select" class="sidebar-select">
-                <option value="">القارئ الافتراضي (قريباً)</option>
+                <option value="husary">القارئ الافتراضي</option>
                 <option value="afs">مشاري العفاسي</option>
                 <option value="basit">عبد الباسط عبد الصمد</option>
                 <option value="husary">محمود خليل الحصري</option>
@@ -256,6 +256,7 @@
                 </div>
             </div>
             <div id="swipe-hint" class="swipe-hint">⇠ اسحب ⇢</div>
+            <button id="stop-recitation-btn" class="stop-recitation-btn hidden" onclick="stopAyahRecitation()">إيقاف القراءة</button>
 
             <button class="mushaf-nav-btn left-btn" onclick="navigatePage(1)">&#10094;</button>
         </div>
