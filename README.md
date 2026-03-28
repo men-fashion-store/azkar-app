@@ -1,1 +1,1 @@
-# quraan-app
+# azkar-app

@@ -48,5 +48,26 @@
       "url": "./index.html#settings",
       "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
     }
+  ],
+  "widgets": [
+    {
+      "name": "مواقيت الصلاة",
+      "short_name": "المواقيت",
+      "description": "ويدجت مواقيت الصلاة مع العداد التنازلي",
+      "layout": {
+        "width": {
+          "min": 4,
+          "max": 6,
+          "default": 4
+        },
+        "height": {
+          "min": 2,
+          "max": 4,
+          "default": 3
+        }
+      },
+      "data": "./widget.html",
+      "update": 60000
+    }
   ]
 }

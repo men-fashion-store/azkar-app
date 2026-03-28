@@ -440,6 +440,76 @@ let recitationStopRequested = false;
 let recitationAudio = null;
 let currentRecitingAyahId = '';
 
+// Arabic day names
+const arabicDays = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+// Hijri months
+const hijriMonths = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الآخر', 'جمادى الأولى', 'جمادى الآخرة', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
+
+// Get Arabic day name
+function getArabicDayName(date) {
+    return arabicDays[date.getDay()];
+}
+
+// Convert Gregorian to Hijri (approximate calculation)
+function gregorianToHijri(date) {
+    const gYear = date.getFullYear();
+    const gMonth = date.getMonth() + 1;
+    const gDay = date.getDate();
+    
+    // Approximate conversion
+    let jd = Math.floor((1461 * (gYear + 4800 + Math.floor((gMonth - 14) / 12))) / 4) +
+             Math.floor((367 * (gMonth - 2 - 12 * Math.floor((gMonth - 14) / 12))) / 12) -
+             Math.floor((3 * Math.floor((gYear + 4900 + Math.floor((gMonth - 14) / 12)) / 100)) / 4) +
+             gDay - 32075;
+    
+    let l = jd - 1948440 + 10632;
+    let n = Math.floor((l - 1) / 10631);
+    l = l - 10631 * n + 354;
+    let j = Math.floor((Math.floor((10985 - l) / 5316)) * (Math.floor((50 * l) / 17719))) + Math.floor((Math.floor(l / 5670)) * (Math.floor((43 * l) / 15238)));
+    l = l - (Math.floor((30 - j) / 15)) * (Math.floor((17719 * j) / 50)) - (Math.floor(j / 16)) * (Math.floor((15238 * j) / 43)) + 29;
+    
+    const hMonth = Math.floor((24 * l) / 709);
+    const hDay = Math.floor(l - Math.floor((709 * hMonth) / 24));
+    const hYear = 30 * n + j - 30;
+    
+    return {
+        day: hDay,
+        month: hijriMonths[hMonth - 1],
+        year: hYear
+    };
+}
+
+// Update prayer widget with all information using Aladhan API for accurate Hijri date
+async function updatePrayerWidgetDate() {
+    const now = new Date();
+    const dayNameEl = document.getElementById('day-name');
+    const hijriDateEl = document.getElementById('hijri-date');
+    const gregorianDateEl = document.getElementById('gregorian-date');
+    
+    if(dayNameEl) dayNameEl.innerText = getArabicDayName(now);
+    if(gregorianDateEl) gregorianDateEl.innerText = now.toLocaleDateString('ar-EG', {day:'numeric', month:'long', year:'numeric'});
+    
+    // Get accurate Hijri date from Aladhan API
+    try {
+        const d = now.getDate();
+        const m = now.getMonth() + 1;
+        const y = now.getFullYear();
+        const data = await fetchJsonWithRetry(`https://api.aladhan.com/v1/gToH/${d}-${m}-${y}`);
+        if(data && data.data && data.data.hijri) {
+            const hijri = data.data.hijri;
+            if(hijriDateEl) hijriDateEl.innerText = `${hijri.day} ${hijri.month.ar} ${hijri.year}هـ`;
+        } else {
+            // Fallback to calculation if API fails
+            const hijri = gregorianToHijri(now);
+            if(hijriDateEl) hijriDateEl.innerText = `${hijri.day} ${hijri.month} ${hijri.year}هـ`;
+        }
+    } catch(e) {
+        // Fallback to calculation if API fails
+        const hijri = gregorianToHijri(now);
+        if(hijriDateEl) hijriDateEl.innerText = `${hijri.day} ${hijri.month} ${hijri.year}هـ`;
+    }
+}
+
 window.setManualLocation = function() {
     let val = document.getElementById('manual-city-select').value;
     if(!val) return; 
@@ -728,17 +798,68 @@ async function fetchPrayers(lat, lng) {
         const list = document.getElementById('prayer-times-list'); if(list) list.innerHTML='';
         let nextT=null, nextN='', now=new Date();
         
-        [{id:'Fajr',n:'الفجر'},{id:'Sunrise',n:'الشروق'},{id:'Dhuhr',n:'الظهر'},{id:'Asr',n:'العصر'},{id:'Maghrib',n:'المغرب'},{id:'Isha',n:'العشاء'}].forEach(p => {
+        // Update widget date
+        updatePrayerWidgetDate();
+        
+        // Prayer configuration
+        const prayers = [
+            {id:'Fajr',n:'الفجر'},
+            {id:'Sunrise',n:'الشروق'},
+            {id:'Dhuhr',n:'الظهر'},
+            {id:'Asr',n:'العصر'},
+            {id:'Maghrib',n:'المغرب'},
+            {id:'Isha',n:'العشاء'}
+        ];
+        
+        prayers.forEach(p => {
             let [h, m] = t[p.id].split(':');
             let pDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
             let h12 = h>12?h-12:(h==0?12:h), ampm = h>=12?'م':'ص';
-            if(pDate > now && !nextT && p.id !== 'Sunrise') { nextT = pDate; nextN = p.n; }
+            
+            // Check if this is the next prayer
+            if(pDate > now && !nextT && p.id !== 'Sunrise') { 
+                nextT = pDate; 
+                nextN = p.n;
+            }
+            
+            // Update detailed list
             if(list) list.innerHTML += `<div class="prayer-item ${nextN===p.n?'active-prayer':''}"><span>${p.n}</span><span>${h12}:${m} <small>${ampm}</small></span></div>`;
+            
+            // Update final widget prayer times
+            const finalWidget = document.getElementById('final-' + p.id.toLowerCase());
+            const timeEl = document.getElementById('widget-' + p.id.toLowerCase());
+            
+            if(timeEl) {
+                timeEl.innerText = `${h12}:${m}`;
+            }
+            
+            // Highlight next prayer
+            if(finalWidget) {
+                finalWidget.classList.remove('active');
+                if(nextN === p.n) {
+                    finalWidget.classList.add('active');
+                }
+            }
         });
         
-        if(!nextT) { nextT = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, t.Fajr.split(':')[0], t.Fajr.split(':')[1], 0); nextN = 'الفجر'; }
+        if(!nextT) { 
+            nextT = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, t.Fajr.split(':')[0], t.Fajr.split(':')[1], 0); 
+            nextN = 'الفجر';
+            // Reset all and highlight Fajr
+            document.querySelectorAll('.prayer-item-final').forEach(el => el.classList.remove('active'));
+            const fajrEl = document.getElementById('final-fajr');
+            if(fajrEl) fajrEl.classList.add('active');
+        }
+        
         nextPrayerEvent = { time: nextT, name: nextN };
-        document.getElementById('next-prayer-name').innerText = `الصلاة القادمة: ${nextN}`;
+        
+        // Update next prayer name
+        const nextPrayerEl = document.getElementById('next-prayer-name');
+        if(nextPrayerEl) nextPrayerEl.innerText = nextN;
+        
+        // Highlight countdown section
+        const countdownSection = document.getElementById('section-countdown');
+        if(countdownSection) countdownSection.classList.add('active-next');
         
         if(prayerInterval) clearInterval(prayerInterval);
         prayerInterval = setInterval(() => {
@@ -749,12 +870,34 @@ async function fetchPrayers(lat, lng) {
                 fetchPrayers(userLat, userLng);
             }
             else {
-                let h=Math.floor((diff/3600000)%24), m=Math.floor((diff/60000)%60), s=Math.floor((diff/1000)%60);
-                document.getElementById('prayer-countdown').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                let h=Math.floor((diff/3600000)%24);
+                let m=Math.floor((diff/60000)%60);
+                let s=Math.floor((diff/1000)%60);
+                
+                const hoursEl = document.getElementById('countdown-hours');
+                const minutesEl = document.getElementById('countdown-minutes');
+                const secondsEl = document.getElementById('countdown-seconds');
+                
+                // Update with flip animation - RTL order: seconds (right) - minutes - hours (left)
+                updateDigitWithAnimation(secondsEl, s.toString().padStart(2,'0'));
+                updateDigitWithAnimation(minutesEl, m.toString().padStart(2,'0'));
+                updateDigitWithAnimation(hoursEl, h.toString().padStart(2,'0'));
             }
         }, 1000);
     } catch(e) {
         showToast("تعذر تحميل مواقيت الصلاة حالياً");
+    }
+}
+
+// Helper function for digit flip animation
+function updateDigitWithAnimation(element, newValue) {
+    if(!element) return;
+    if(element.innerText !== newValue) {
+        element.classList.add('changing');
+        element.innerText = newValue;
+        setTimeout(() => {
+            element.classList.remove('changing');
+        }, 300);
     }
 }
 

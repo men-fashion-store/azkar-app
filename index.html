@@ -124,12 +124,66 @@
         <button class="home-menu-btn" onclick="toggleSidebar()">☰</button>
         
         <div class="home-content">
-            <div class="prayer-widget" onclick="navigateTo('prayerTimes')">
-                <div class="prayer-info">
-                    <span id="next-prayer-name">جاري الحساب...</span>
-                    <span id="prayer-countdown">00:00:00</span>
+            <div class="prayer-widget-final" onclick="navigateTo('prayerTimes')">
+                <!-- Section 1: Date & Location -->
+                <div class="section-date">
+                    <div class="hijri-final" id="hijri-date">---</div>
+                    <div class="day-gregorian">
+                        <span class="day-final" id="day-name">---</span>
+                        <span class="separator">|</span>
+                        <span class="gregorian-final" id="gregorian-date">---</span>
+                    </div>
+                    <div class="location-final" id="prayer-location">---</div>
                 </div>
-                <div class="prayer-location" id="prayer-location">جاري استرجاع الموقع...</div>
+                
+                <!-- Section 2: All Prayer Times - Single Row -->
+                <div class="section-prayers">
+                    <div class="prayer-row">
+                        <div class="prayer-item-final" id="final-fajr">
+                            <span class="prayer-label-final">الفجر</span>
+                            <span class="prayer-time-final" id="widget-fajr">--:--</span>
+                        </div>
+                        <div class="prayer-item-final" id="final-sunrise">
+                            <span class="prayer-label-final">الشروق</span>
+                            <span class="prayer-time-final" id="widget-sunrise">--:--</span>
+                        </div>
+                        <div class="prayer-item-final" id="final-dhuhr">
+                            <span class="prayer-label-final">الظهر</span>
+                            <span class="prayer-time-final" id="widget-dhuhr">--:--</span>
+                        </div>
+                        <div class="prayer-item-final" id="final-asr">
+                            <span class="prayer-label-final">العصر</span>
+                            <span class="prayer-time-final" id="widget-asr">--:--</span>
+                        </div>
+                        <div class="prayer-item-final" id="final-maghrib">
+                            <span class="prayer-label-final">المغرب</span>
+                            <span class="prayer-time-final" id="widget-maghrib">--:--</span>
+                        </div>
+                        <div class="prayer-item-final" id="final-isha">
+                            <span class="prayer-label-final">العشاء</span>
+                            <span class="prayer-time-final" id="widget-isha">--:--</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Section 3: Next Prayer Countdown - RTL like real clock -->
+                <div class="section-countdown" id="section-countdown">
+                    <div class="next-prayer-title-final">الصلاة القادمة: <span id="next-prayer-name">---</span></div>
+                    <div class="countdown-box-final">
+                        <div class="countdown-digit">
+                            <div class="digit-value" id="countdown-seconds">00</div>
+                            <div class="digit-label">ثواني</div>
+                        </div>
+                        <div class="countdown-digit">
+                            <div class="digit-value" id="countdown-minutes">00</div>
+                            <div class="digit-label">دقائق</div>
+                        </div>
+                        <div class="countdown-digit">
+                            <div class="digit-value" id="countdown-hours">00</div>
+                            <div class="digit-label">ساعات</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="main-grid">

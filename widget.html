@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواقيت الصلاة</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(145deg, #faf8f5 0%, #f5f0e8 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+        .widget-container {
+            width: 100%;
+            max-width: 400px;
+            background: linear-gradient(145deg, #faf8f5 0%, #f5f0e8 100%);
+            border-radius: 20px;
+            box-shadow: 15px 15px 40px rgba(139,125,107,0.2), -15px -15px 40px rgba(255,255,255,0.9);
+            overflow: hidden;
+        }
+        .widget-date {
+            background: linear-gradient(145deg, #f0ebe3 0%, #e8e2d8 100%);
+            padding: 15px;
+            text-align: center;
+        }
+        .widget-hijri {
+            font-size: 1.2rem;
+            color: #000000;
+            font-family: 'Amiri', serif;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .widget-day {
+            font-size: 1rem;
+            color: #000000;
+            font-family: 'Amiri', serif;
+        }
+        .widget-prayers {
+            background: linear-gradient(145deg, #fffcfa 0%, #faf7f2 100%);
+            padding: 12px;
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+        }
+        .widget-prayer-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 6px 4px;
+            background: linear-gradient(145deg, #ffffff 0%, #f7f4ef 100%);
+            border-radius: 10px;
+            box-shadow: 2px 2px 6px rgba(139,125,107,0.1), -2px -2px 6px rgba(255,255,255,0.9);
+            flex: 1;
+            font-size: 0.55rem;
+        }
+        .widget-prayer-item.active {
+            background: linear-gradient(145deg, #6b5b4f 0%, #5d4e37 100%);
+            color: #faf8f5;
+        }
+        .widget-prayer-name {
+            color: #5d4e37;
+            font-weight: 500;
+        }
+        .widget-prayer-item.active .widget-prayer-name {
+            color: #faf8f5;
+        }
+        .widget-prayer-time {
+            font-family: 'Tajawal', monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #3d3229;
+            direction: ltr;
+        }
+        .widget-prayer-item.active .widget-prayer-time {
+            color: #faf8f5;
+        }
+        .widget-countdown {
+            background: linear-gradient(145deg, #3d3229 0%, #2c241e 100%);
+            padding: 15px;
+            text-align: center;
+        }
+        .widget-next-prayer {
+            font-size: 0.8rem;
+            color: #c0b0a0;
+            margin-bottom: 10px;
+        }
+        .widget-next-prayer span {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1rem;
+            font-family: 'Amiri', serif;
+        }
+        .widget-countdown-box {
+            display: flex;
+            justify-content: space-between;
+            gap: 4px;
+        }
+        .widget-countdown-digit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 12px 14px;
+            background: linear-gradient(145deg, #2c2c2c 0%, #1a1a1a 100%);
+            border-radius: 10px;
+            box-shadow: 0 4px 0 #0d0d0d, 0 6px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+            flex: 1;
+        }
+        .widget-digit-value {
+            font-family: 'Tajawal', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            direction: ltr;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+            line-height: 1;
+        }
+        .widget-digit-label {
+            font-size: 0.55rem;
+            color: #a0a0a0;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="widget-container">
+        <div class="widget-date">
+            <div class="widget-hijri" id="widget-hijri">---</div>
+            <div class="widget-day" id="widget-day">---</div>
+        </div>
+        
+        <div class="widget-prayers">
+            <div class="widget-prayer-item" id="widget-fajr">
+                <span class="widget-prayer-name">الفجر</span>
+                <span class="widget-prayer-time">--:--</span>
+            </div>
+            <div class="widget-prayer-item" id="widget-sunrise">
+                <span class="widget-prayer-name">الشروق</span>
+                <span class="widget-prayer-time">--:--</span>
+            </div>
+            <div class="widget-prayer-item" id="widget-dhuhr">
+                <span class="widget-prayer-name">الظهر</span>
+                <span class="widget-prayer-time">--:--</span>
+            </div>
+            <div class="widget-prayer-item" id="widget-asr">
+                <span class="widget-prayer-name">العصر</span>
+                <span class="widget-prayer-time">--:--</span>
+            </div>
+            <div class="widget-prayer-item" id="widget-maghrib">
+                <span class="widget-prayer-name">المغرب</span>
+                <span class="widget-prayer-time">--:--</span>
+            </div>
+            <div class="widget-prayer-item" id="widget-isha">
+                <span class="widget-prayer-name">العشاء</span>
+                <span class="widget-prayer-time">--:--</span>
+            </div>
+        </div>
+        
+        <div class="widget-countdown">
+            <div class="widget-next-prayer">الصلاة القادمة: <span id="widget-next-name">---</span></div>
+            <div class="widget-countdown-box">
+                <div class="widget-countdown-digit">
+                    <div class="widget-digit-value" id="widget-seconds">00</div>
+                    <div class="widget-digit-label">ثواني</div>
+                </div>
+                <div class="widget-countdown-digit">
+                    <div class="widget-digit-value" id="widget-minutes">00</div>
+                    <div class="widget-digit-label">دقائق</div>
+                </div>
+                <div class="widget-countdown-digit">
+                    <div class="widget-digit-value" id="widget-hours">00</div>
+                    <div class="widget-digit-label">ساعات</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const hijriMonths = ['محرم', 'صفر', 'ربيع الأول', 'ربيع الثاني', 'جمادى الأولى', 'جمادى الثانية', 'رجب', 'شعبان', 'رمضان', 'شوال', 'ذو القعدة', 'ذو الحجة'];
+        const arabicDays = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+
+        function getArabicDayName(date) {
+            return arabicDays[date.getDay()];
+        }
+
+        function gregorianToHijri(date) {
+            const gYear = date.getFullYear();
+            const gMonth = date.getMonth() + 1;
+            const gDay = date.getDate();
+            
+            let jd = Math.floor((1461 * (gYear + 4800 + Math.floor((gMonth - 14) / 12))) / 4) +
+                     Math.floor((367 * (gMonth - 2 - 12 * Math.floor((gMonth - 14) / 12))) / 12) -
+                     Math.floor((3 * Math.floor((gYear + 4900 + Math.floor((gMonth - 14) / 12)) / 100)) / 4) +
+                     gDay - 32075;
+            
+            let l = jd - 1948440 + 10632;
+            let n = Math.floor((l - 1) / 10631);
+            l = l - 10631 * n + 354;
+            let j = Math.floor((Math.floor((10985 - l) / 5316)) * (Math.floor((50 * l) / 17719))) + Math.floor((Math.floor(l / 5670)) * (Math.floor((43 * l) / 15238)));
+            l = l - (Math.floor((30 - j) / 15)) * (Math.floor((17719 * j) / 50)) - (Math.floor(j / 16)) * (Math.floor((15238 * j) / 43)) + 29;
+            
+            const hMonth = Math.floor((24 * l) / 709);
+            const hDay = Math.floor(l - Math.floor((709 * hMonth) / 24));
+            const hYear = 30 * n + j - 30;
+            
+            return {
+                day: hDay,
+                month: hijriMonths[hMonth - 1],
+                year: hYear
+            };
+        }
+
+        async function fetchPrayers(lat, lng) {
+            const d = new Date();
+            try {
+                const data = await fetch(`https://api.aladhan.com/v1/timings/${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}?latitude=${lat}&longitude=${lng}&method=5`).then(r => r.json());
+                const t = data.data.timings;
+                const prayers = [
+                    {id:'Fajr',n:'الفجر'},
+                    {id:'Sunrise',n:'الشروق'},
+                    {id:'Dhuhr',n:'الظهر'},
+                    {id:'Asr',n:'العصر'},
+                    {id:'Maghrib',n:'المغرب'},
+                    {id:'Isha',n:'العشاء'}
+                ];
+                
+                let nextT=null, nextN='', now=new Date();
+                
+                prayers.forEach(p => {
+                    let [h, m] = t[p.id].split(':');
+                    let pDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
+                    let h12 = h>12?h-12:(h==0?12:h);
+                    
+                    if(pDate > now && !nextT && p.id !== 'Sunrise') { 
+                        nextT = pDate; 
+                        nextN = p.n;
+                    }
+                    
+                    const item = document.getElementById('widget-' + p.id.toLowerCase());
+                    if(item) {
+                        item.querySelector('.widget-prayer-time').innerText = `${h12}:${m}`;
+                        if(nextN === p.n) {
+                            item.classList.add('active');
+                        } else {
+                            item.classList.remove('active');
+                        }
+                    }
+                });
+                
+                if(!nextT) { 
+                    nextT = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, t.Fajr.split(':')[0], t.Fajr.split(':')[1], 0); 
+                    nextN = 'الفجر';
+                    document.querySelectorAll('.widget-prayer-item').forEach(el => el.classList.remove('active'));
+                    document.getElementById('widget-fajr').classList.add('active');
+                }
+                
+                document.getElementById('widget-next-name').innerText = nextN;
+                
+                setInterval(() => {
+                    let diff = nextT - new Date();
+                    if(diff > 0) {
+                        let h = Math.floor((diff/3600000)%24);
+                        let m = Math.floor((diff/60000)%60);
+                        let s = Math.floor((diff/1000)%60);
+                        
+                        document.getElementById('widget-seconds').innerText = s.toString().padStart(2,'0');
+                        document.getElementById('widget-minutes').innerText = m.toString().padStart(2,'0');
+                        document.getElementById('widget-hours').innerText = h.toString().padStart(2,'0');
+                    }
+                }, 1000);
+                
+            } catch(e) {
+                console.error('Error fetching prayers:', e);
+            }
+        }
+
+        async function updateDate() {
+            const now = new Date();
+            try {
+                const d = now.getDate();
+                const m = now.getMonth() + 1;
+                const y = now.getFullYear();
+                const data = await fetch(`https://api.aladhan.com/v1/gToH/${d}-${m}-${y}`).then(r => r.json());
+                if(data && data.data && data.data.hijri) {
+                    const hijri = data.data.hijri;
+                    document.getElementById('widget-hijri').innerText = `${hijri.day} ${hijri.month.ar} ${hijri.year}هـ`;
+                } else {
+                    const hijri = gregorianToHijri(now);
+                    document.getElementById('widget-hijri').innerText = `${hijri.day} ${hijri.month} ${hijri.year}هـ`;
+                }
+            } catch(e) {
+                const hijri = gregorianToHijri(now);
+                document.getElementById('widget-hijri').innerText = `${hijri.day} ${hijri.month} ${hijri.year}هـ`;
+            }
+            
+            document.getElementById('widget-day').innerText = getArabicDayName(now);
+        }
+
+        // Try to get location from parent or use default (Cairo)
+        const urlParams = new URLSearchParams(window.location.search);
+        const lat = urlParams.get('lat') || '30.0444';
+        const lng = urlParams.get('lng') || '31.2357';
+        
+        updateDate();
+        fetchPrayers(lat, lng);
+    </script>
+</body>
+</html>
