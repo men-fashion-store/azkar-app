@@ -358,11 +358,23 @@ window.changeFontSizeSlider = (val) => {
 // --- 5. المشاركة والتحديث والخروج ---
 window.shareApp = function() {
     toggleSidebar();
+    
+    // رابط التحميل من ميديا فاير
+    const mediafireLink = 'https://www.mediafire.com/file/w4rpclk2brt295x/app-release.apk/file';
+    const shareText = `تطبيق موسوعة المسلم - تطبيق إسلامي شامل للمصحف والأذكار والحديث والمواقيت\n\nللتحميل من ميديا فاير:\n${mediafireLink}`;
+    
     if (navigator.share) {
-        navigator.share({ title: 'موسوعة المسلم', text: 'حمل تطبيق موسوعة المسلم', url: window.location.href }).catch(console.error);
+        navigator.share({ 
+            title: 'موسوعة المسلم', 
+            text: shareText
+        }).catch(() => {
+            // إذا فشلت المشاركة، انسخ الرابط
+            navigator.clipboard.writeText(shareText);
+            showToast("تم نسخ رابط التحميل 📋");
+        });
     } else {
-        navigator.clipboard.writeText(window.location.href);
-        showToast("تم نسخ الرابط");
+        navigator.clipboard.writeText(shareText);
+        showToast("تم نسخ رابط التحميل 📋");
     }
 };
 
