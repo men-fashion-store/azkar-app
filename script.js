@@ -639,16 +639,53 @@ async function ensureAyahVisible(surahNum, ayahNum) {
 async function startAyahRecitationLoop(startSurah, startAyah) {
     const edition = AYAH_RECITER_EDITIONS[selectedReciterSetting] || AYAH_RECITER_EDITIONS.husary;
     let ref = { surahNum: startSurah, ayahNum: startAyah };
+    let nextAudio = null;
+    let nextAudioUrl = null;
+    
     while (ref && !recitationStopRequested) {
         await ensureAyahVisible(ref.surahNum, ref.ayahNum);
         setRecitingHighlight(ref.surahNum, ref.ayahNum);
+        
         try {
-            const data = await fetchJsonWithRetry(`https://api.alquran.cloud/v1/ayah/${ref.surahNum}:${ref.ayahNum}/${edition}`, {}, 1, 10000);
-            const audioUrl = data && data.data ? data.data.audio : '';
-            if (!audioUrl) throw new Error('no audio');
-            recitationAudio = new Audio(audioUrl);
+            // Use preloaded next audio if available, otherwise fetch current
+            let audioUrl = nextAudioUrl;
+            let audio = nextAudio;
+            
+            if (!audioUrl) {
+                // Fetch current ayah audio if not preloaded
+                const data = await fetchJsonWithRetry(`https://api.alquran.cloud/v1/ayah/${ref.surahNum}:${ref.ayahNum}/${edition}`, {}, 1, 10000);
+                audioUrl = data && data.data ? data.data.audio : '';
+                if (!audioUrl) throw new Error('no audio');
+                audio = new Audio(audioUrl);
+            }
+            
+            recitationAudio = audio;
+            
+            // Preload next ayah while current is playing
+            const nextRef = await getNextAyahRef(ref.surahNum, ref.ayahNum);
+            if (nextRef && !recitationStopRequested) {
+                try {
+                    const nextData = await fetchJsonWithRetry(`https://api.alquran.cloud/v1/ayah/${nextRef.surahNum}:${nextRef.ayahNum}/${edition}`, {}, 1, 10000);
+                    nextAudioUrl = nextData && nextData.data ? nextData.data.audio : '';
+                    if (nextAudioUrl) {
+                        nextAudio = new Audio(nextAudioUrl);
+                        nextAudio.preload = 'auto';
+                        // Start loading the audio
+                        nextAudio.load();
+                    }
+                } catch (e) {
+                    nextAudio = null;
+                    nextAudioUrl = null;
+                }
+            } else {
+                nextAudio = null;
+                nextAudioUrl = null;
+            }
+            
+            // Play current audio
             await recitationAudio.play();
             await waitForAudioToEnd(recitationAudio);
+            
         } catch (e) {
             showToast("تعذر تشغيل قراءة بعض الآيات");
             break;
@@ -659,8 +696,15 @@ async function startAyahRecitationLoop(startSurah, startAyah) {
                 recitationAudio = null;
             }
         }
+        
         if (recitationStopRequested) break;
         ref = await getNextAyahRef(ref.surahNum, ref.ayahNum);
+    }
+    
+    // Clean up preloaded audio
+    if (nextAudio) {
+        nextAudio.pause();
+        nextAudio.src = '';
     }
 }
 
@@ -838,7 +882,8 @@ function mapQuranComPageDataToLegacyShape(verses) {
 
 function normalizeSurahDisplayName(name) {
     if (!name) return '';
-    return name.trim();
+    // Remove "سورة" prefix if present to avoid duplication
+    return name.replace(/^سورة\s*/, '').trim();
 }
 
 function getSurahNameWithoutPrefix(name) {
@@ -867,8 +912,9 @@ async function loadQuranIndex() {
         }
 
         surahListCached.forEach(s => {
-            list.innerHTML += `<button class="surah-card-btn" onclick="jumpToAyah(${s.number}, 1)"><span class="surah-number">${toArabicNumerals(s.number)}</span> <span>${s.name}</span></button>`;
-            if(audioSel) audioSel.innerHTML += `<option value="${s.number}">${s.name}</option>`;
+            const cleanName = normalizeSurahDisplayName(s.name);
+            list.innerHTML += `<button class="surah-card-btn" onclick="jumpToAyah(${s.number}, 1)"><span class="surah-number">${toArabicNumerals(s.number)}</span> <span>${cleanName}</span></button>`;
+            if(audioSel) audioSel.innerHTML += `<option value="${s.number}">${cleanName}</option>`;
         });
     } catch(e) {
         const summaryEl = document.getElementById('quran-index-summary');
@@ -991,9 +1037,9 @@ function renderPageData(pageData, pageNum, scrollToAyahId) {
         let sNum = a.surah.number;
         
         if(a.numberInSurah === 1) {
-            html += `<div class="surah-divider">سُورَةُ ${getSurahNameWithoutPrefix(sName)}</div>`;
+            html += `<div class="surah-divider">سُورَةُ ${sName}</div>`;
             if(sNum !== 1 && sNum !== 9) {
-                html += `<div class="bismillah-divider">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>`;
+                html += `<div class="bismillah-divider">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>`;
             }
         }
         
