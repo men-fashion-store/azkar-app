@@ -853,6 +853,11 @@ async function fetchPrayers(lat, lng) {
         
         nextPrayerEvent = { time: nextT, name: nextN };
         
+        // Schedule notifications in service worker for background alerts
+        if (alertsEnabled && serviceWorkerRegistration) {
+            schedulePrayerNotificationsInSW(t);
+        }
+        
         // Update next prayer name
         const nextPrayerEl = document.getElementById('next-prayer-name');
         if(nextPrayerEl) nextPrayerEl.innerText = nextN;
@@ -1522,5 +1527,144 @@ document.addEventListener("DOMContentLoaded", () => {
     loadAudioReciters();
     renderHadithLibraries();
     loadHadithApiCategories();
-    renderBookmarks(); 
+    renderBookmarks();
+    initServiceWorker(); // Initialize enhanced service worker for professional notifications
 });
+
+// Service Worker Communication for Professional Prayer Notifications
+let serviceWorkerRegistration = null;
+
+// Initialize service worker communication
+async function initServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  
+  try {
+    serviceWorkerRegistration = await navigator.serviceWorker.ready;
+    
+    // Listen for messages from service worker
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'REFRESH_PRAYER_TIMES') {
+        fetchPrayers(userLat, userLng);
+      }
+    });
+    
+    // Register for periodic sync if supported
+    if ('permissions' in navigator) {
+      const status = await navigator.permissions.query({ name: 'periodic-background-sync' });
+      if (status.state === 'granted' && serviceWorkerRegistration.periodicSync) {
+        try {
+          await serviceWorkerRegistration.periodicSync.register('prayer-times-sync', {
+            minInterval: 15 * 60 * 1000 // 15 minutes
+          });
+        } catch (e) {
+          console.log('Periodic sync not supported');
+        }
+      }
+    }
+    
+    // Initial settings sync
+    updateSWSettings();
+  } catch (e) {
+    console.error('Service Worker init error:', e);
+  }
+}
+
+// Send prayer times to service worker for scheduling
+function schedulePrayerNotificationsInSW(timings) {
+  if (!serviceWorkerRegistration || !serviceWorkerRegistration.active) return;
+  
+  const prayerTimes = {
+    Fajr: timings.Fajr,
+    Dhuhr: timings.Dhuhr,
+    Asr: timings.Asr,
+    Maghrib: timings.Maghrib,
+    Isha: timings.Isha
+  };
+  
+  serviceWorkerRegistration.active.postMessage({
+    type: 'SCHEDULE_PRAYER_NOTIFICATIONS',
+    prayerTimes: prayerTimes
+  });
+}
+
+// Update settings in service worker
+function updateSWSettings() {
+  if (!serviceWorkerRegistration || !serviceWorkerRegistration.active) return;
+  
+  serviceWorkerRegistration.active.postMessage({
+    type: 'UPDATE_SETTINGS',
+    muezzin: selectedMuezzin,
+    alertsEnabled: alertsEnabled
+  });
+}
+
+// Request notification permission with professional UI
+async function requestNotificationPermission() {
+  if (!('Notification' in window)) {
+    showToast('الإشعارات غير مدعومة في هذا المتصفح');
+    return false;
+  }
+  
+  try {
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      showToast('تم تفعيل إشعارات الأذان بنجاح 🕌');
+      // Update service worker settings
+      updateSWSettings();
+      // Reschedule notifications with current prayer times
+      fetchPrayers(userLat, userLng);
+      return true;
+    } else {
+      showToast('يرجى السماح بالإشعارات لتلقي تنبيهات الأذان');
+      return false;
+    }
+  } catch (e) {
+    showToast('تعذر طلب إذن الإشعارات');
+    return false;
+  }
+}
+
+// Professional notification function with service worker support
+function sendNotification(title, options = {}) {
+  // Try service worker first for background notifications
+  if (serviceWorkerRegistration && serviceWorkerRegistration.active) {
+    serviceWorkerRegistration.active.postMessage({
+      type: 'SHOW_NOTIFICATION',
+      title: title,
+      options: {
+        ...options,
+        icon: './icon-192.png',
+        badge: './icon-192.png'
+      }
+    });
+  } else if ('Notification' in window && Notification.permission === 'granted') {
+    // Fallback to regular notification
+    new Notification(title, {
+      ...options,
+      icon: './icon-192.png',
+      badge: './icon-192.png'
+    });
+  }
+}
+
+// Open standalone widget in new window/tab
+window.openWidgetStandalone = function() {
+  // Get current location data
+  const lat = userLat || 30.0444;
+  const lng = userLng || 31.2357;
+  const city = userCity || 'القاهرة';
+  
+  // Open widget with location parameters
+  const widgetUrl = `./widget-standalone.html?lat=${lat}&lng=${lng}&city=${encodeURIComponent(city)}`;
+  
+  // Try to open as PWA window if supported, otherwise as regular tab
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    // Already in PWA mode, open in new tab
+    window.open(widgetUrl, '_blank');
+  } else {
+    // Regular browser, open in new tab
+    window.open(widgetUrl, '_blank');
+  }
+  
+  showToast('تم فتح الويدجت. اضغط مشاركة لإضافته للشاشة الرئيسية 📱');
+};
