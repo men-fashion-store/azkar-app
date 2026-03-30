@@ -1705,8 +1705,8 @@ window.toggleRadioPlay = function() {
     const visualizer = document.querySelector('.radio-visualizer');
     
     if (!radioAudio) {
-        // إذاعة القرآن الكريم من القاهرة (رابط مستقر)
-        radioAudio = new Audio('https://n0a.radiojar.com/8s5u8p3st?rj-ttl=5&rj-tok=AAABj-8f0mYAV9w8S9o4_A');
+        // إذاعة القرآن الكريم من القاهرة - رابط بديل مستقر
+        radioAudio = new Audio('https://stream.radiojar.com/8s5u8p3st');
         radioAudio.volume = document.getElementById('radio-volume').value;
     }
 
@@ -1716,7 +1716,9 @@ window.toggleRadioPlay = function() {
             visualizer.classList.add('playing');
         }).catch(e => {
             console.error("Radio play failed:", e);
-            showToast("فشل تشغيل الإذاعة، يرجى المحاولة لاحقاً");
+            showToast("فشل تشغيل الإذاعة، جاري تجربة رابط بديل...");
+            // Try alternative URL
+            tryAlternativeRadio(playIcon, visualizer);
         });
     } else {
         radioAudio.pause();
@@ -1724,6 +1726,17 @@ window.toggleRadioPlay = function() {
         visualizer.classList.remove('playing');
     }
 };
+
+function tryAlternativeRadio(playIcon, visualizer) {
+    radioAudio = new Audio('https://qurancafe.com/radio/quran/');
+    radioAudio.volume = document.getElementById('radio-volume').value;
+    radioAudio.play().then(() => {
+        playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+        visualizer.classList.add('playing');
+    }).catch(e => {
+        showToast("تعذر تشغيل الإذاعة حالياً، يرجى المحاولة لاحقاً");
+    });
+}
 
 window.updateRadioVolume = function(val) {
     if (radioAudio) {
@@ -2018,6 +2031,11 @@ document.addEventListener("DOMContentLoaded", () => {
         showSplashHadith();
     } catch (e) {
         console.error('Error showing splash hadith:', e);
+    }
+    
+    // Force show splash screen on first load if no hash
+    if (!window.location.hash) {
+        window.location.hash = 'splash';
     }
     
     // 1. استعادة الإعدادات المحفوظة
