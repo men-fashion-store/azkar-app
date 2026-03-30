@@ -23,21 +23,21 @@
         body {
             font-family: 'Tajawal', sans-serif;
             background: linear-gradient(145deg, #faf8f5 0%, #f5f0e8 100%);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 10px;
+            align-items: flex-start;
+            padding: 15px 10px;
         }
         
-        /* نفس تصميم الويدجت اللي في التطبيق بالظبط */
+        /* --- ويدجت الصلاة النهائية - 3 أقسام --- */
         .prayer-widget-final { 
             background: linear-gradient(145deg, #faf8f5 0%, #f5f0e8 100%); 
             width: 98%; 
             max-width: 480px; 
             border-radius: 20px; 
             padding: 0; 
-            margin-top: 10px;
+            margin-top: 10px; 
             box-shadow: 
                 15px 15px 40px rgba(139,125,107,0.2),
                 -15px -15px 40px rgba(255,255,255,0.9);
@@ -116,9 +116,14 @@
                 -2px -2px 6px rgba(255,255,255,0.9);
             flex: 1;
             min-width: 0;
+            transition: all 0.3s ease;
         }
         .prayer-item-final.active {
             background: linear-gradient(145deg, #6b5b4f 0%, #5d4e37 100%);
+            transform: translateY(-2px);
+            box-shadow: 
+                4px 4px 15px rgba(107,91,79,0.3),
+                -4px -4px 15px rgba(255,255,255,0.9);
         }
         .prayer-item-final.active .prayer-label-final,
         .prayer-item-final.active .prayer-time-final {
@@ -143,6 +148,7 @@
             background: linear-gradient(145deg, #f0ebe3 0%, #e8e2d8 100%);
             padding: 20px;
             text-align: center;
+            transition: all 0.3s ease;
         }
         .section-countdown.active-next {
             background: linear-gradient(145deg, #e8e2d8 0%, #ddd5c8 100%);
@@ -195,101 +201,33 @@
             letter-spacing: 1px;
         }
         
-        .widget-header {
+        /* Very subtle animation like mobile clock */
+        @keyframes digitChange {
+            0% { color: #5d4e37; }
+            50% { color: #8b7355; }
+            100% { color: #3d3229; }
+        }
+        .digit-value.changing {
+            animation: digitChange 0.3s ease-in-out;
+        }
+        
+        .open-app-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
             background: linear-gradient(145deg, #8B5A2B 0%, #6b4423 100%);
-            padding: 18px;
-            text-align: center;
             color: #fff;
-        }
-        
-        .widget-app-name {
-            font-size: 0.85rem;
-            opacity: 0.9;
-            margin-bottom: 4px;
-            font-weight: 500;
-        }
-        
-        .widget-date {
-            background: linear-gradient(145deg, #f0ebe3 0%, #e8e2d8 100%);
-            padding: 16px;
             text-align: center;
-            border-bottom: 1px solid rgba(139,125,107,0.1);
-        }
-        
-        .widget-hijri {
-            font-size: 1.25rem;
-            color: #3d3229;
-            font-family: 'Amiri', serif;
-            font-weight: 700;
-            margin-bottom: 6px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
-        
-        .widget-gregorian {
-            font-size: 0.9rem;
-            color: #5d4e37;
-            margin-bottom: 4px;
-        }
-        
-        .widget-day {
-            font-size: 1rem;
-            color: #8B5A2B;
+            text-decoration: none;
             font-weight: 600;
-        }
-        
-        .widget-prayers {
-            background: linear-gradient(145deg, #fffcfa 0%, #faf7f2 100%);
-            padding: 14px 10px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-        
-        .widget-prayer-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 12px 6px;
-            background: linear-gradient(145deg, #ffffff 0%, #f7f4ef 100%);
-            border-radius: 14px;
-            box-shadow: 
-                3px 3px 8px rgba(139,125,107,0.12), 
-                -3px -3px 8px rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid rgba(139,125,107,0.05);
         }
         
-        .widget-prayer-item.active {
-            background: linear-gradient(145deg, #8B5A2B 0%, #6b4423 100%);
-            color: #faf8f5;
-            box-shadow: 
-                0 4px 15px rgba(139,125,107,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.2);
-            transform: translateY(-2px);
-        }
-        
-        .widget-prayer-name {
-            color: #5d4e37;
-            font-weight: 600;
-            font-size: 0.75rem;
-        }
-        
-        .widget-prayer-item.active .widget-prayer-name {
-            color: #faf8f5;
-        }
-        
-        .widget-prayer-time {
-            font-family: 'Tajawal', monospace;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #3d3229;
-            direction: ltr;
-        }
-        
-        .widget-prayer-item.active .widget-prayer-time {
-            color: #faf8f5;
-            font-size: 1rem;
+        .open-app-btn:hover {
+            opacity: 0.9;
         }
         
         .loading, .error {
@@ -312,279 +250,20 @@
             to { transform: rotate(360deg); }
         }
         
-        .open-app-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(145deg, #8B5A2B 0%, #6b4423 100%);
-            color: #fff;
-            text-align: center;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .open-app-btn:hover {
-            opacity: 0.9;
-        }
-        
-        .open-app-btn:active {
-            transform: scale(0.98);
-        }
-        
-        /* Install Prompt Banner */
-        .install-banner {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(145deg, #8B5A2B 0%, #6b4423 100%);
-            color: #fff;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
-            z-index: 1000;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .install-banner.show {
-            transform: translateY(0);
-        }
-        
-        .install-banner-content {
-            flex: 1;
-        }
-        
-        .install-banner-title {
-            font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
-        
-        .install-banner-text {
-            font-size: 0.8rem;
-            opacity: 0.9;
-        }
-        
-        .install-banner-btn {
-            background: #fff;
-            color: #8B5A2B;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.3s ease;
-        }
-        
-        .install-banner-btn:hover {
-            transform: scale(1.05);
-        }
-        
-        .install-banner-close {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: #fff;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* iOS Install Instructions Modal */
-        .ios-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-            padding: 20px;
-        }
-        
-        .ios-modal.show {
-            display: flex;
-        }
-        
-        .ios-modal-content {
-            background: linear-gradient(145deg, #faf8f5 0%, #f5f0e8 100%);
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 350px;
-            width: 100%;
-            text-align: center;
-            color: #3d3229;
-        }
-        
-        .ios-modal-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #8B5A2B;
-            margin-bottom: 15px;
-        }
-        
-        .ios-modal-steps {
-            text-align: right;
-            font-size: 0.95rem;
-            line-height: 2;
-            margin-bottom: 20px;
-        }
-        
-        .ios-modal-steps strong {
-            color: #8B5A2B;
-        }
-        
-        .ios-modal-btn {
-            background: linear-gradient(145deg, #8B5A2B 0%, #6b4423 100%);
-            color: #fff;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .widget-countdown {
-            background: linear-gradient(145deg, #3d3229 0%, #2c241e 100%);
-            padding: 18px;
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .widget-next-prayer {
-            font-size: 0.85rem;
-            color: #c0b0a0;
-            margin-bottom: 12px;
-            font-weight: 500;
-        }
-        
-        .widget-next-prayer span {
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 1.15rem;
-            font-family: 'Amiri', serif;
-        }
-        
-        .widget-countdown-box {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-        }
-        
-        .widget-countdown-digit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            padding: 14px 16px;
-            background: linear-gradient(145deg, #2c2c2c 0%, #1a1a1a 100%);
-            border-radius: 14px;
-            box-shadow: 
-                0 4px 0 #0d0d0d, 
-                0 6px 12px rgba(0,0,0,0.3), 
-                inset 0 1px 0 rgba(255,255,255,0.1);
-            min-width: 60px;
-        }
-        
-        .widget-digit-value {
-            font-family: 'Tajawal', monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #ffffff;
-            direction: ltr;
-            text-shadow: 0 0 15px rgba(255,255,255,0.4);
-            line-height: 1;
-        }
-        
-        .widget-digit-label {
-            font-size: 0.6rem;
-            color: #a0a0a0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-        
-        .widget-location {
-            text-align: center;
-            padding: 10px;
-            background: rgba(139,125,107,0.05);
-            font-size: 0.8rem;
-            color: #5d4e37;
-            border-top: 1px solid rgba(139,125,107,0.1);
-        }
-        
-        .widget-location-icon {
-            margin-left: 4px;
-        }
-        
-        /* Dark mode support */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: linear-gradient(145deg, #1a1511 0%, #2a2018 100%);
+        /* Compact mode */
+        @media (max-width: 350px) {
+            .countdown-digit {
+                padding: 15px 18px;
+                min-width: 70px;
             }
-            .widget-container {
-                background: linear-gradient(145deg, #2a2018 0%, #1a1511 100%);
-                box-shadow: 
-                    15px 15px 40px rgba(0,0,0,0.4), 
-                    -15px -15px 40px rgba(60,50,40,0.1);
+            .digit-value {
+                font-size: 2.5rem;
             }
-            .widget-date {
-                background: linear-gradient(145deg, #2a2018 0%, #1a1511 100%);
-            }
-            .widget-hijri, .widget-day {
-                color: #e0d8c8;
-            }
-            .widget-prayers {
-                background: linear-gradient(145deg, #2a2018 0%, #1a1511 100%);
-            }
-            .widget-prayer-item {
-                background: linear-gradient(145deg, #3d3229 0%, #2c241e 100%);
-            }
-            .widget-prayer-name {
-                color: #c0b0a0;
-            }
-            .widget-prayer-time {
-                color: #e0d8c8;
-            }
-            .widget-location {
-                background: rgba(0,0,0,0.2);
-                color: #c0b0a0;
-            }
-        }
-        
-        /* Compact mode for smaller widgets */
-        .compact .widget-countdown-digit {
-            padding: 10px 12px;
-            min-width: 50px;
-        }
-        .compact .widget-digit-value {
-            font-size: 1.5rem;
-        }
-        .compact .widget-digit-label {
-            font-size: 0.5rem;
         }
     </style>
 </head>
 <body>
-    <!-- نفس HTML الويدجت اللي في التطبيق -->
-    <div class="prayer-widget-final">
+    <div class="prayer-widget-final" id="widget-container">
         <!-- Section 1: Date & Location -->
         <div class="section-date">
             <div class="hijri-final" id="hijri-date">---</div>
@@ -593,10 +272,10 @@
                 <span class="separator">|</span>
                 <span class="gregorian-final" id="gregorian-date">---</span>
             </div>
-            <div class="location-final" id="prayer-location">---</div>
+            <div class="location-final" id="prayer-location">جاري تحديد الموقع...</div>
         </div>
         
-        <!-- Section 2: All Prayer Times -->
+        <!-- Section 2: All Prayer Times - Single Row -->
         <div class="section-prayers">
             <div class="prayer-row">
                 <div class="prayer-item-final" id="final-fajr">
@@ -626,7 +305,7 @@
             </div>
         </div>
         
-        <!-- Section 3: Next Prayer Countdown -->
+        <!-- Section 3: Next Prayer Countdown - RTL like real clock -->
         <div class="section-countdown" id="section-countdown">
             <div class="next-prayer-title-final">الصلاة القادمة: <span id="next-prayer-name">---</span></div>
             <div class="countdown-box-final">
@@ -648,29 +327,6 @@
         <button class="open-app-btn" onclick="openMainApp()">
             📱 فتح تطبيق موسوعة المسلم
         </button>
-    </div>
-
-    <!-- Install Prompt Banner -->
-    <div class="install-banner" id="install-banner">
-        <div class="install-banner-content">
-            <div class="install-banner-title">📲 أضف للشاشة الرئيسية</div>
-            <div class="install-banner-text">احصل على وصول سريع للمواقيت</div>
-        </div>
-        <button class="install-banner-btn" id="install-btn">تثبيت</button>
-        <button class="install-banner-close" onclick="hideInstallBanner()">×</button>
-    </div>
-
-    <!-- iOS Install Instructions Modal -->
-    <div class="ios-modal" id="ios-modal">
-        <div class="ios-modal-content">
-            <div class="ios-modal-title">📱 إضافة للشاشة الرئيسية</div>
-            <div class="ios-modal-steps">
-                <div>1. اضغط على زر <strong>المشاركة</strong> (⬆️) في أسفل Safari</div>
-                <div>2. مرر للأسفل واضغط على <strong>"إضافة للشاشة الرئيسية"</strong></div>
-                <div>3. اضغط <strong>"إضافة"</strong> في الأعلى</div>
-            </div>
-            <button class="ios-modal-btn" onclick="hideIOSModal()">فهمت</button>
-        </div>
     </div>
 
     <script>
@@ -710,10 +366,17 @@
             };
         }
 
-        async function fetchPrayers(lat, lng) {
+        function formatTime(time24) {
+            const [h, m] = time24.split(':');
+            let hour = parseInt(h);
+            const ampm = hour >= 12 ? 'م' : 'ص';
+            hour = hour > 12 ? hour - 12 : (hour === 0 ? 12 : hour);
+            return `${hour}:${m} ${ampm}`;
+        }
+
+        async function fetchPrayerTimes(lat, lng) {
             const d = new Date();
             try {
-                // Add timeout for Android compatibility
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 10000);
                 
@@ -730,185 +393,246 @@
                     throw new Error('Invalid data');
                 }
                 
-                const t = data.data.timings;
-                const prayers = [
-                    {id:'Fajr',n:'الفجر'},
-                    {id:'Sunrise',n:'الشروق'},
-                    {id:'Dhuhr',n:'الظهر'},
-                    {id:'Asr',n:'العصر'},
-                    {id:'Maghrib',n:'المغرب'},
-                    {id:'Isha',n:'العشاء'}
-                ];
-                
-                let nextT=null, nextN='', now=new Date();
-                
-                prayers.forEach(p => {
-                    let [h, m] = t[p.id].split(':');
-                    let pDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
-                    let h12 = h>12?h-12:(h==0?12:h);
-                    
-                    if(pDate > now && !nextT && p.id !== 'Sunrise') { 
-                        nextT = pDate; 
-                        nextN = p.n;
-                    }
-                    
-                    const item = document.getElementById('widget-' + p.id.toLowerCase());
-                    if(item) {
-                        const timeEl = item.querySelector('.widget-prayer-time');
-                        if(timeEl) timeEl.innerText = `${h12}:${m}`;
-                        
-                        if(nextN === p.n) {
-                            item.classList.add('active');
-                        } else {
-                            item.classList.remove('active');
-                        }
-                    }
-                });
-                
-                if(!nextT) { 
-                    nextT = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, t.Fajr.split(':')[0], t.Fajr.split(':')[1], 0); 
-                    nextN = 'الفجر';
-                    document.querySelectorAll('.widget-prayer-item').forEach(el => el.classList.remove('active'));
-                    const fajrEl = document.getElementById('widget-fajr');
-                    if(fajrEl) fajrEl.classList.add('active');
+                // Save timezone from API for proper date calculations
+                if (data.data.meta && data.data.meta.timezone) {
+                    window.prayerTimezone = data.data.meta.timezone;
                 }
                 
-                const nextNameEl = document.getElementById('next-prayer-name');
-                if(nextNameEl) nextNameEl.innerText = nextN;
+                return data.data;
+            } catch (e) {
+                console.error('Error fetching prayer times:', e);
+                return null;
+            }
+        }
+
+        async function getHijriDate() {
+            const now = new Date();
+            try {
+                const response = await fetch(`https://api.aladhan.com/v1/gToH/${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}`);
+                const data = await response.json();
+                if (data && data.data && data.data.hijri) {
+                    return `${data.data.hijri.day} ${data.data.hijri.month.ar} ${data.data.hijri.year}هـ`;
+                }
+            } catch (e) {
+                console.error('Error fetching Hijri date:', e);
+            }
+            const hijri = gregorianToHijri(now);
+            return `${hijri.day} ${hijri.month} ${hijri.year}هـ`;
+        }
+
+        async function getCityName(lat, lng) {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=ar`, {
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
                 
-                const countdownSection = document.getElementById('section-countdown');
-                if(countdownSection) countdownSection.classList.add('active-next');
+                if (response.ok) {
+                    const data = await response.json();
+                    // Return city name in Arabic, fallback to English
+                    return data.city || data.locality || data.principalSubdivision || 'الموقع الحالي';
+                }
+            } catch (e) {
+                console.log('Could not fetch city name:', e);
+            }
+            return 'الموقع الحالي';
+        }
+
+        function getLocation() {
+            return new Promise((resolve) => {
+                // First check URL params
+                const urlParams = new URLSearchParams(window.location.search);
+                const lat = urlParams.get('lat');
+                const lng = urlParams.get('lng');
+                const city = urlParams.get('city');
                 
-                // Clear existing interval
-                if(countdownInterval) clearInterval(countdownInterval);
+                if (lat && lng) {
+                    resolve({ lat: parseFloat(lat), lng: parseFloat(lng), city: city || 'القاهرة' });
+                    return;
+                }
                 
-                // Start countdown
-                countdownInterval = setInterval(() => {
-                    let diff = nextT - new Date();
-                    if(diff > 0) {
-                        let h = Math.floor((diff/3600000)%24);
-                        let m = Math.floor((diff/60000)%60);
-                        let s = Math.floor((diff/1000)%60);
-                        
-                        const secondsEl = document.getElementById('countdown-seconds');
-                        const minutesEl = document.getElementById('countdown-minutes');
-                        const hoursEl = document.getElementById('countdown-hours');
-                        
-                        if(secondsEl) secondsEl.innerText = s.toString().padStart(2,'0');
-                        if(minutesEl) minutesEl.innerText = m.toString().padStart(2,'0');
-                        if(hoursEl) hoursEl.innerText = h.toString().padStart(2,'0');
-                    }
-                }, 1000);
+                // Try geolocation
+                if (navigator.geolocation) {
+                    document.getElementById('prayer-location').innerText = 'جاري تحديد الموقع...';
+                    
+                    navigator.geolocation.getCurrentPosition(
+                        async (position) => {
+                            const lat = position.coords.latitude;
+                            const lng = position.coords.longitude;
+                            
+                            // Check if location is near Cairo (within ~50km)
+                            const cairoLat = 30.0444;
+                            const cairoLng = 31.2357;
+                            const distance = Math.sqrt(
+                                Math.pow(lat - cairoLat, 2) + Math.pow(lng - cairoLng, 2)
+                            );
+                            
+                            let city;
+                            if (distance < 0.5) {
+                                city = 'القاهرة';
+                            } else {
+                                // Try to get city name from reverse geocoding
+                                city = await getCityName(lat, lng);
+                            }
+                            
+                            resolve({ lat: lat, lng: lng, city: city });
+                        },
+                        (error) => {
+                            console.log('Geolocation error:', error);
+                            // Default to Cairo
+                            resolve({ lat: 30.0444, lng: 31.2357, city: 'القاهرة' });
+                        },
+                        { 
+                            timeout: 10000, 
+                            enableHighAccuracy: true,
+                            maximumAge: 600000 // Accept positions up to 10 minutes old
+                        }
+                    );
+                } else {
+                    // Default to Cairo
+                    resolve({ lat: 30.0444, lng: 31.2357, city: 'القاهرة' });
+                }
+            });
+        }
+
+        async function updateDate() {
+            const now = new Date();
+            
+            // Update Gregorian date
+            const gregorianEl = document.getElementById('gregorian-date');
+            if (gregorianEl) {
+                gregorianEl.innerText = now.toLocaleDateString('ar-EG', {day:'numeric', month:'long', year:'numeric'});
+            }
+            
+            // Update day name
+            const dayEl = document.getElementById('day-name');
+            if (dayEl) dayEl.innerText = getArabicDayName(now);
+            
+            // Get Hijri date
+            const hijriDate = await getHijriDate();
+            const hijriEl = document.getElementById('hijri-date');
+            if (hijriEl) hijriEl.innerText = hijriDate;
+        }
+
+        async function renderWidget() {
+            const location = await getLocation();
+            
+            // Update location display
+            const locationEl = document.getElementById('prayer-location');
+            if (locationEl) locationEl.innerText = '📍 ' + location.city;
+            
+            const prayerData = await fetchPrayerTimes(location.lat, location.lng);
+            
+            if (!prayerData) {
+                document.getElementById('prayer-location').innerText = '⚠️ تعذر تحميل البيانات';
+                return;
+            }
+
+            const timings = prayerData.timings;
+            const now = new Date();
+            
+            const prayers = [
+                {id:'Fajr',n:'الفجر'},
+                {id:'Sunrise',n:'الشروق'},
+                {id:'Dhuhr',n:'الظهر'},
+                {id:'Asr',n:'العصر'},
+                {id:'Maghrib',n:'المغرب'},
+                {id:'Isha',n:'العشاء'}
+            ];
+            
+            let nextT=null, nextN='', nextId='';
+            
+            prayers.forEach(p => {
+                let [h, m] = timings[p.id].split(':');
+                let pDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
                 
-                // Initial countdown update
-                const initialDiff = nextT - new Date();
-                if(initialDiff > 0) {
-                    let h = Math.floor((initialDiff/3600000)%24);
-                    let m = Math.floor((initialDiff/60000)%60);
-                    let s = Math.floor((initialDiff/1000)%60);
+                // Update prayer time display
+                const timeEl = document.getElementById('widget-' + p.id.toLowerCase());
+                if (timeEl) {
+                    timeEl.innerText = formatTime(timings[p.id]);
+                }
+                
+                // Find next prayer (skip Sunrise)
+                if (pDate > now && !nextT && p.id !== 'Sunrise') {
+                    nextT = pDate;
+                    nextN = p.n;
+                    nextId = p.id.toLowerCase();
+                }
+            });
+            
+            // If no next prayer today, next is Fajr tomorrow
+            if (!nextT) {
+                let [h, m] = timings.Fajr.split(':');
+                nextT = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, h, m, 0);
+                nextN = 'الفجر';
+                nextId = 'fajr';
+                
+                // Reset all active states
+                document.querySelectorAll('.prayer-item-final').forEach(el => el.classList.remove('active'));
+                const fajrEl = document.getElementById('final-fajr');
+                if (fajrEl) fajrEl.classList.add('active');
+            } else {
+                // Highlight active prayer
+                document.querySelectorAll('.prayer-item-final').forEach(el => el.classList.remove('active'));
+                const activeEl = document.getElementById('final-' + nextId);
+                if (activeEl) activeEl.classList.add('active');
+            }
+            
+            // Update next prayer name
+            const nextPrayerEl = document.getElementById('next-prayer-name');
+            if (nextPrayerEl) nextPrayerEl.innerText = nextN;
+            
+            // Highlight countdown section
+            const countdownSection = document.getElementById('section-countdown');
+            if (countdownSection) countdownSection.classList.add('active-next');
+            
+            // Clear existing interval
+            if (countdownInterval) clearInterval(countdownInterval);
+            
+            // Start countdown
+            countdownInterval = setInterval(() => {
+                let diff = nextT - new Date();
+                if (diff > 0) {
+                    let h = Math.floor((diff / 3600000) % 24);
+                    let m = Math.floor((diff / 60000) % 60);
+                    let s = Math.floor((diff / 1000) % 60);
                     
                     const secondsEl = document.getElementById('countdown-seconds');
                     const minutesEl = document.getElementById('countdown-minutes');
                     const hoursEl = document.getElementById('countdown-hours');
                     
-                    if(secondsEl) secondsEl.innerText = s.toString().padStart(2,'0');
-                    if(minutesEl) minutesEl.innerText = m.toString().padStart(2,'0');
-                    if(hoursEl) hoursEl.innerText = h.toString().padStart(2,'0');
+                    if (secondsEl) secondsEl.innerText = s.toString().padStart(2, '0');
+                    if (minutesEl) minutesEl.innerText = m.toString().padStart(2, '0');
+                    if (hoursEl) hoursEl.innerText = h.toString().padStart(2, '0');
                 }
+            }, 1000);
+            
+            // Initial countdown update
+            const initialDiff = nextT - new Date();
+            if (initialDiff > 0) {
+                let h = Math.floor((initialDiff / 3600000) % 24);
+                let m = Math.floor((initialDiff / 60000) % 60);
+                let s = Math.floor((initialDiff / 1000) % 60);
                 
-            } catch(e) {
-                console.error('Error fetching prayers:', e);
-                showError('تعذر تحميل مواقيت الصلاة. تأكد من الاتصال بالإنترنت.');
-            }
-        }
-        
-        function showError(message) {
-            const container = document.getElementById('widget-container');
-            if(container) {
-                container.innerHTML = `
-                    <div class="error">
-                        <div style="font-size: 2rem; margin-bottom: 10px;">⚠️</div>
-                        <div>${message}</div>
-                        <button class="retry-btn" onclick="location.reload()">إعادة المحاولة</button>
-                    </div>
-                `;
-            }
-        }
-
-        async function updateDate() {
-            const now = new Date();
-            try {
-                const d = now.getDate();
-                const m = now.getMonth() + 1;
-                const y = now.getFullYear();
+                const secondsEl = document.getElementById('countdown-seconds');
+                const minutesEl = document.getElementById('countdown-minutes');
+                const hoursEl = document.getElementById('countdown-hours');
                 
-                // Update Gregorian date
-                const gregorianEl = document.getElementById('gregorian-date');
-                if(gregorianEl) {
-                    gregorianEl.innerText = now.toLocaleDateString('ar-EG', {day:'numeric', month:'long', year:'numeric'});
-                }
-                
-                // Update day name
-                const dayEl = document.getElementById('day-name');
-                if(dayEl) dayEl.innerText = getArabicDayName(now);
-                
-                // Get Hijri date from API with timeout
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 5000);
-                
-                const data = await fetch(`https://api.aladhan.com/v1/gToH/${d}-${m}-${y}`, {
-                    signal: controller.signal
-                }).then(r => r.json());
-                
-                clearTimeout(timeoutId);
-                
-                if(data && data.data && data.data.hijri) {
-                    const hijri = data.data.hijri;
-                    const hijriEl = document.getElementById('hijri-date');
-                    if(hijriEl) hijriEl.innerText = `${hijri.day} ${hijri.month.ar} ${hijri.year}هـ`;
-                } else {
-                    const hijri = gregorianToHijri(now);
-                    const hijriEl = document.getElementById('hijri-date');
-                    if(hijriEl) hijriEl.innerText = `${hijri.day} ${hijri.month} ${hijri.year}هـ`;
-                }
-            } catch(e) {
-                // Fallback
-                const gregorianEl = document.getElementById('gregorian-date');
-                if(gregorianEl) {
-                    gregorianEl.innerText = now.toLocaleDateString('ar-EG', {day:'numeric', month:'long', year:'numeric'});
-                }
-                const dayEl = document.getElementById('day-name');
-                if(dayEl) dayEl.innerText = getArabicDayName(now);
-                const hijri = gregorianToHijri(now);
-                const hijriEl = document.getElementById('hijri-date');
-                if(hijriEl) hijriEl.innerText = `${hijri.day} ${hijri.month} ${hijri.year}هـ`;
+                if (secondsEl) secondsEl.innerText = s.toString().padStart(2, '0');
+                if (minutesEl) minutesEl.innerText = m.toString().padStart(2, '0');
+                if (hoursEl) hoursEl.innerText = h.toString().padStart(2, '0');
             }
         }
 
-        // Update location display
-        function updateLocation(city) {
-            const locationText = document.getElementById('prayer-location');
-            if(locationText && city) {
-                locationText.innerText = '📍 ' + city;
-            }
-        }
-        
-        // Open main app
         function openMainApp() {
-            // Try to open the main app
             window.location.href = './index.html';
         }
 
-        // Try to get location from parent or use default (Cairo)
-        const urlParams = new URLSearchParams(window.location.search);
-        const lat = urlParams.get('lat') || '30.0444';
-        const lng = urlParams.get('lng') || '31.2357';
-        const city = urlParams.get('city') || 'القاهرة';
-        
         // Initialize
         updateDate();
-        fetchPrayers(lat, lng);
-        updateLocation(city);
+        renderWidget();
         
         // Auto-refresh every minute for date
         setInterval(() => {
@@ -919,86 +643,6 @@
         setInterval(() => {
             location.reload();
         }, 600000);
-        
-        // Register service worker for offline support
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(err => {
-                    console.log('SW registration failed:', err);
-                });
-            });
-        }
-        
-        // Install Prompt Logic
-        let deferredPrompt = null;
-        const installBanner = document.getElementById('install-banner');
-        const installBtn = document.getElementById('install-btn');
-        const iosModal = document.getElementById('ios-modal');
-        
-        // Check if already installed
-        const isInstalled = window.matchMedia('(display-mode: standalone)').matches || 
-                           window.navigator.standalone === true;
-        
-        // Check if user previously dismissed
-        const installDismissed = localStorage.getItem('installDismissed');
-        
-        // Handle beforeinstallprompt (Android/Chrome)
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            
-            // Show install banner after 3 seconds
-            setTimeout(() => {
-                if (!isInstalled && !installDismissed) {
-                    installBanner.classList.add('show');
-                }
-            }, 3000);
-        });
-        
-        // Install button click
-        installBtn.addEventListener('click', async () => {
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            
-            if (isIOS) {
-                // Show iOS instructions
-                iosModal.classList.add('show');
-            } else if (deferredPrompt) {
-                // Show native install prompt (Android)
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    console.log('User accepted install');
-                    hideInstallBanner();
-                }
-                deferredPrompt = null;
-            } else {
-                // Fallback: show manual instructions
-                alert('للإضافة للشاشة الرئيسية:\n\nAndroid: القائمة (⋮) ← "إضافة للشاشة الرئيسية"\niOS: مشاركة ← "إضافة للشاشة الرئيسية"');
-            }
-        });
-        
-        // Hide install banner
-        function hideInstallBanner() {
-            installBanner.classList.remove('show');
-            localStorage.setItem('installDismissed', 'true');
-        }
-        
-        // Hide iOS modal
-        function hideIOSModal() {
-            iosModal.classList.remove('show');
-            hideInstallBanner();
-        }
-        
-        // Show install banner manually if not triggered automatically
-        setTimeout(() => {
-            if (!isInstalled && !installDismissed && !deferredPrompt) {
-                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                // Only show on mobile devices
-                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                    installBanner.classList.add('show');
-                }
-            }
-        }, 5000);
     </script>
 </body>
 </html>

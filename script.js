@@ -83,9 +83,50 @@ const azkarData = {
         {text:"سُبْحَانَ اللَّهِ.",count:3,proof:"الدليل: كان النبي ﷺ وأصحابه يسبحون عند النزول"},
         {text:"أَسْتَغْفِرُ اللَّهَ.",count:3,proof:"الدليل: من الذكر المشروع العام"}
     ],
+    ruqyah:[
+        {text:"بِسْمِ اللَّهِ أَرْقِيكَ، مِنْ كُلِّ شَيْءٍ يُؤْذِيكَ، مِنْ شَرِّ كُلِّ نَفْسٍ أَوْ عَيْنِ حَاسِدٍ، اللَّهُ يَشْفِيكَ بِسْمِ اللَّهِ أَرْقِيكَ.",count:3,proof:"سنة نبوية"},
+        {text:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ، مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ، وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ.",count:3,proof:"سنة نبوية"},
+        {text:"اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَاسَ، اشْفِهِ وَأَنْتَ الشَّافِي، لَا شِفَاءَ إِلَّا شِفاؤُكَ، شِفَاءً لَا يُغَادِرُ سَقَمًا.",count:3,proof:"سنة نبوية"},
+        {text:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.",count:3,proof:"سنة نبوية"},
+        {text:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ، وَهُوَ السَّمِيعُ الْعَلِيمُ.",count:3,proof:"سنة نبوية"},
+        {text:surahAlIkhlas,count:3,proof:"المعوذات"},
+        {text:surahAlFalaq,count:3,proof:"المعوذات"},
+        {text:surahAnNas,count:3,proof:"المعوذات"}
+    ],
+    afterPrayer:[
+        {text:"أَسْتَغْفِرُ اللَّهَ (ثلاثاً) .. اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ.",count:1,proof:"رواه مسلم"},
+        {text:"لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ، لَا إِلَهَ إِلَّا اللَّهُ، وَلَا نَعْبُدُ إِلَّا إِيَّاهُ، لَهُ النِّعْمَةُ وَلَهُ الْفَضْلُ وَلَهُ الثَّنَاءُ الْحَسَنُ، لَا إِلَهَ إِلَّا اللَّهُ مُخْلِصِينَ لَهُ الدِّينَ وَلَوْ كَرِهَ الْكَافِرُونَ.",count:1,proof:"رواه مسلم"},
+        {text:"سُبْحَانَ اللَّهِ (33) .. الْحَمْدُ لِلَّهِ (33) .. اللَّهُ أَكْبَرُ (33) .. لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.",count:1,proof:"من قاله غفرت خطاياه وإن كانت مثل زبد البحر (رواه مسلم)"},
+        {text:ayatAlKursi,count:1,proof:"من قرأها دبر كل صلاة مكتوبة لم يمنعه من دخول الجنة إلا أن يموت"},
+        {text:surahAlIkhlas,count:1,proof:"تقرأ بعد كل صلاة"},
+        {text:surahAlFalaq,count:1,proof:"تقرأ بعد كل صلاة"},
+        {text:surahAnNas,count:1,proof:"تقرأ بعد كل صلاة"}
+    ],
     clothing:[
-        {text:"الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا الثَّوْبَ وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ.",count:1,proof:"الدليل: رواه أبو داود والترمذي"},
-        {text:"اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ، أَسْأَلُكَ خَيْرَهُ وَخَيْرَ مَا صُنِعَ لَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ.",count:1,proof:"الدليل: سنن أبي داود"}
+        {text:"بِسْمِ اللَّهِ.",count:1,proof:"ستر ما بين أعين الجن وعورات بني آدم"},
+        {text:"الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا (الثَّوْبَ) وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ.",count:1,proof:"غفر له ما تقدم من ذنبه"},
+        {text:"بِسْمِ اللَّهِ (عند خلع الملابس).",count:1,proof:"ستر العورة"}
+    ],
+    home:[
+        {text:"بِسْمِ اللَّهِ وَلَجْنَا، وَبِسْمِ اللَّهِ خَرَجْنَا، وَعَلَى رَبِّنَا تَوَكَّلْنَا (عند الدخول).",count:1,proof:"سنن أبي داود"},
+        {text:"بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ (عند الخروج).",count:1,proof:"يقال له هديت وكفيت ووقيت"}
+    ],
+    bathroom:[
+        {text:"بِسْمِ اللَّهِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ (عند الدخول).",count:1,proof:"متفق عليه"},
+        {text:"غُفْرَانَكَ (عند الخروج).",count:1,proof:"سنن الترمذي"}
+    ],
+    travel:[
+        {text:"اللَّهُ أَكْبَرُ (ثلاثاً) .. سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ.",count:1,proof:"صحيح مسلم"},
+        {text:"اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى.",count:1,proof:"صحيح مسلم"}
+    ],
+    food:[
+        {text:"بِسْمِ اللَّهِ (قبل الأكل).",count:1,proof:"سنة نبوية"},
+        {text:"الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ (بعد الأكل).",count:1,proof:"غفر له ما تقدم من ذنبه"}
+    ],
+    distress:[
+        {text:"لَا إِلَهَ إِلَّا اللَّهُ الْعَظِيمُ الْحَلِيمُ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لَا إِلَهَ إِلَّا اللَّهُ رَبُّ السَّمَاوَاتِ وَرَبُّ الْأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ.",count:1,proof:"صحيح البخاري"},
+        {text:"يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ.",count:1,proof:"سنن الترمذي"},
+        {text:"اللَّهُمَّ رَحْمَتَكَ أَرْجُو فَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ لَا إِلَهَ إِلَّا أَنْتَ.",count:1,proof:"سنن أبي داود"}
     ]
 };
 
@@ -216,6 +257,17 @@ const hadithLibraries = {
 };
 let hadithApiCategories = [];
 
+// Show random hadith on splash screen
+function showSplashHadith() {
+    const hadithEl = document.getElementById('splash-hadith');
+    const proofEl = document.getElementById('splash-proof');
+    if (hadithEl && hadithsList.length > 0) {
+        const randomHadith = hadithsList[Math.floor(Math.random() * hadithsList.length)];
+        hadithEl.innerText = randomHadith.text;
+        if (proofEl) proofEl.innerText = randomHadith.proof;
+    }
+}
+
 window.showToast = (msg) => {
     const t = document.getElementById('toast-msg'); if(!t) return;
     t.innerText = msg; t.style.bottom = '20px'; setTimeout(() => { t.style.bottom = '-100px'; }, 3000);
@@ -271,10 +323,13 @@ function handleRoute() {
 
     if(searchInput) { searchInput.value = ''; searchInput.classList.add('hidden'); }
     
-    if(hash === 'quranIndex' || hash === 'hadithReader') {
+    if(hash === 'quranIndex' || hash === 'hadithReader' || hash === 'quranSearch') {
         searchIcon.classList.remove('hidden');
         if(hash === 'quranIndex') {
             title.innerText = "المصحف";
+            subtitle.classList.add('hidden');
+        } else if (hash === 'quranSearch') {
+            title.innerText = "بحث في القرآن";
             subtitle.classList.add('hidden');
         } else {
             title.innerText = currentHadithBookTitle;
@@ -294,9 +349,11 @@ function handleRoute() {
             'azkarReader': 'الأذكار',
             'masbaha': 'السبحة',
             'prayerTimes': 'مواقيت الصلاة',
-            'audioMenu': 'الصوتيات',
+            'audio': 'الصوتيات',
             'bookmarks': 'علاماتي المرجعية',
-            'hadithMenu': 'مكتبة الحديث'
+            'hadithMenu': 'مكتبة الحديث',
+            'radio': 'إذاعة القرآن لايف',
+            'events': 'المناسبات'
         };
         title.innerText = titles[hash] || 'موسوعة المسلم';
     }
@@ -324,6 +381,8 @@ window.handleTopSearch = function() {
             let surahName = card.innerText;
             if(surahName.includes(text)) card.style.display = 'flex'; else card.style.display = 'none';
         });
+    } else if (hash === 'quranSearch') {
+        if (text.length > 2) searchQuran(text);
     } else if (hash === 'quranReader') {
         let ayahs = document.querySelectorAll('.ayah-span');
         ayahs.forEach(ayah => {
@@ -352,6 +411,8 @@ window.toggleTheme = () => {
 
 window.changeFontSizeSlider = (val) => {
     document.documentElement.style.setProperty('--zikr-font-size', `${val}rem`);
+    // القرآن يحتاج حجم خط أكبر قليلاً ليبدو فخماً
+    document.documentElement.style.setProperty('--quran-font-size', `${val * 1.3}rem`);
     localStorage.setItem('fontSize', val);
 };
 
@@ -524,37 +585,142 @@ window.setManualLocation = function() {
 };
 
 async function initLocationAndPrayers() {
+    // Display saved location first (for immediate display)
     document.getElementById('prayer-location').innerText = `${userCity}`;
     fetchPrayers(userLat, userLng);
+    
+    // Always try to get GPS location on startup for accuracy
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            const newLat = pos.coords.latitude; 
+            const newLng = pos.coords.longitude;
+            
+            // Only update if location changed significantly (more than 1km)
+            const distance = calculateDistance(userLat, userLng, newLat, newLng);
+            if (distance > 1 || !localStorage.getItem('savedCity')) {
+                userLat = newLat;
+                userLng = newLng;
+                
+                try {
+                    // Try to get city name
+                    let res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLat}&lon=${userLng}&accept-language=ar`);
+                    let data = await res.json();
+                    userCity = data.address?.city || data.address?.town || data.address?.village || data.address?.state || "الموقع الحالي";
+                } catch(e) {
+                    userCity = "الموقع الحالي";
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('savedLat', userLat); 
+                localStorage.setItem('savedLng', userLng); 
+                localStorage.setItem('savedCity', userCity);
+                localStorage.setItem('locationSource', 'gps');
+                
+                document.getElementById('prayer-location').innerText = `${userCity} (GPS)`;
+                fetchPrayers(userLat, userLng);
+            }
+        }, (error) => {
+            // GPS failed, try IP-based location if no saved location
+            if (!localStorage.getItem('savedLat')) {
+                tryIPLocation();
+            }
+        }, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 300000 // 5 minutes
+        });
+    }
+}
+
+// Calculate distance between two coordinates using Haversine formula
+function calculateDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Earth's radius in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+}
+
+async function tryIPLocation() {
     try {
-        let res = await fetch('http://ip-api.com/json/?lang=ar');
+        let res = await fetch('http://ip-api.com/json/?lang=ar', {timeout: 5000});
         let data = await res.json();
         if(data.status === "success" && !document.getElementById('prayer-location').innerText.includes("يدوي")) {
-            userLat = data.lat; userLng = data.lon; userCity = data.city;
-            localStorage.setItem('savedLat', userLat); localStorage.setItem('savedLng', userLng); localStorage.setItem('savedCity', userCity);
+            userLat = data.lat; 
+            userLng = data.lon; 
+            userCity = data.city;
+            localStorage.setItem('savedLat', userLat); 
+            localStorage.setItem('savedLng', userLng); 
+            localStorage.setItem('savedCity', userCity);
             document.getElementById('prayer-location').innerText = `${userCity}`;
             fetchPrayers(userLat, userLng);
         }
-    } catch(e) {}
+    } catch(e) {
+        // Keep using saved/default location
+    }
 }
 
 window.requestLocationPermission = function() {
-    showToast("جاري البحث عن موقعك الدقيق...");
+    showToast("جاري طلب صلاحية الموقع...");
     toggleSidebar();
-    if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async (pos) => {
-            userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-            try {
-                let res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLat}&lon=${userLng}&accept-language=ar`);
-                let data = await res.json();
-                userCity = data.address.town || data.address.village || data.address.city || "تم التحديد الدقيق";
-                localStorage.setItem('savedLat', userLat); localStorage.setItem('savedLng', userLng); localStorage.setItem('savedCity', userCity);
-                document.getElementById('prayer-location').innerText = `${userCity}`;
-                fetchPrayers(userLat, userLng);
-                showToast("✅ تم ضبط الموقع بدقة");
-            } catch(e) { fetchPrayers(userLat, userLng); }
-        }, () => { showToast("يرجى تفعيل الـ GPS من الهاتف"); }, {enableHighAccuracy: true, timeout: 10000});
+    
+    if (!navigator.geolocation) {
+        showToast("المتصفح لا يدعم تحديد الموقع");
+        return;
     }
+    
+    // Request permission with better options
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+        userLat = pos.coords.latitude; 
+        userLng = pos.coords.longitude;
+        
+        try {
+            // Try to get city name from coordinates
+            let res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLat}&lon=${userLng}&accept-language=ar`);
+            let data = await res.json();
+            userCity = data.address?.city || data.address?.town || data.address?.village || data.address?.state || "الموقع الحالي";
+            
+            // Save to localStorage
+            localStorage.setItem('savedLat', userLat); 
+            localStorage.setItem('savedLng', userLng); 
+            localStorage.setItem('savedCity', userCity);
+            localStorage.setItem('locationSource', 'gps');
+            
+            document.getElementById('prayer-location').innerText = `${userCity} (GPS)`;
+            fetchPrayers(userLat, userLng);
+            showToast("✅ تم تحديد موقعك بنجاح");
+            
+        } catch(e) { 
+            // If reverse geocoding fails, still save coordinates
+            localStorage.setItem('savedLat', userLat); 
+            localStorage.setItem('savedLng', userLng); 
+            localStorage.setItem('savedCity', "الموقع الحالي");
+            fetchPrayers(userLat, userLng);
+            showToast("✅ تم تحديد الموقع");
+        }
+    }, (error) => { 
+        // Handle specific error codes
+        let errorMsg = "تعذر تحديد الموقع";
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                errorMsg = "يرجى السماح بالوصول للموقع من إعدادات الهاتف";
+                break;
+            case error.POSITION_UNAVAILABLE:
+                errorMsg = "موقعك غير متاح حالياً، تأكد من تفعيل GPS";
+                break;
+            case error.TIMEOUT:
+                errorMsg = "انتهت مهلة تحديد الموقع، حاول مرة أخرى";
+                break;
+        }
+        showToast(errorMsg); 
+    }, {
+        enableHighAccuracy: true, 
+        timeout: 15000,
+        maximumAge: 600000 // 10 minutes cache
+    });
 };
 
 function playFallbackPrayerTone() {
@@ -583,13 +749,35 @@ function notifyPrayerTime(prayerName) {
     lastAlertKey = eventKey;
     localStorage.setItem('lastPrayerAlertKey', lastAlertKey);
 
-    if (alertsEnabled && 'Notification' in window && Notification.permission === 'granted') {
+    // Use service worker notification if available
+    if (alertsEnabled && serviceWorkerRegistration && serviceWorkerRegistration.active) {
+        serviceWorkerRegistration.active.postMessage({
+            type: 'SHOW_NOTIFICATION',
+            title: `حان الآن وقت صلاة ${prayerName}`,
+            options: {
+                body: 'حان وقت الأذان 🕌',
+                icon: './icon-192.png',
+                badge: './icon-192.png',
+                tag: eventKey,
+                requireInteraction: true,
+                vibrate: [200, 100, 200, 100, 200],
+                actions: [
+                    { action: 'open', title: 'فتح التطبيق 📱' },
+                    { action: 'dismiss', title: 'إغلاق' }
+                ]
+            }
+        });
+    } else if (alertsEnabled && 'Notification' in window && Notification.permission === 'granted') {
+        // Fallback to regular notification
         new Notification(`حان الآن وقت صلاة ${prayerName}`, {
             body: 'تقبل الله طاعتكم',
-            tag: eventKey
+            tag: eventKey,
+            icon: './icon-192.png',
+            badge: './icon-192.png'
         });
     }
 
+    // Play adhan audio
     const adhanUrl = ADHAN_AUDIO_URLS[selectedMuezzin] || ADHAN_AUDIO_URLS.makkah;
     const adhanAudio = new Audio(adhanUrl);
     adhanAudio.play().catch(() => {
@@ -857,6 +1045,11 @@ async function fetchPrayers(lat, lng) {
         if (alertsEnabled && serviceWorkerRegistration) {
             schedulePrayerNotificationsInSW(t);
         }
+
+        // تزامن مع ويدجت الأندرويد
+        if (window.Android && window.Android.updatePrayerTimes) {
+            window.Android.updatePrayerTimes(t.Fajr, t.Dhuhr, t.Asr, t.Maghrib, t.Isha, t.Sunrise);
+        }
         
         // Update next prayer name
         const nextPrayerEl = document.getElementById('next-prayer-name');
@@ -950,6 +1143,9 @@ window.openHadithBook = function(bookId) {
 };
 
 async function loadHadithApiCategories() {
+    // عرض الكتب المحلية أولاً دائماً
+    renderHadithLibraries();
+    
     try {
         const data = await fetchJsonWithRetry('https://hadeethenc.com/api/v1/categories/list/?language=ar', {}, 1, 9000);
         hadithApiCategories = (data || [])
@@ -963,6 +1159,7 @@ async function loadHadithApiCategories() {
         renderHadithLibraries();
     } catch (e) {
         // نبقي على مكتبة الكتب المحلية لو فشل الإنترنت
+        console.log('API categories failed, using local libraries only');
     }
 }
 
@@ -1157,28 +1354,18 @@ window.loadQuranPage = async (pageNum, scrollToAyahId = null) => {
     }
 };
 
-// الدالة السحرية لتظبيط الخط أوتوماتيك لملء الشاشة بدون سكرول
-function fitTextToScreen() {
-    let container = document.getElementById('quran-text');
-    if(!container) return;
-    
-    // إرجاع الخط للحجم الافتراضي عشان يقيس من جديد
-    container.style.fontSize = ''; 
-    let currentSize = 35; // أقصى حجم متوقع
-    container.style.fontSize = currentSize + 'px';
-
-    // طالما النص أطول من مساحة الشاشة (بيعمل سكرول)، صغّره درجة درجة
-    while (container.scrollHeight > container.clientHeight && currentSize > 14) {
-        currentSize -= 0.5;
-        container.style.fontSize = currentSize + 'px';
-    }
-}
-
 function renderPageData(pageData, pageNum, scrollToAyahId) {
     let ayahs = pageData.ayahs;
     let juzNum = toArabicNumerals(ayahs[0].juz);
-    let surahsOnPage = [...new Set(ayahs.map(a => a.surah.name))];
-    const primarySurahName = normalizeSurahDisplayName(surahsOnPage[0]);
+    
+    // تأمين جلب اسم السورة من القائمة المحلية دائماً لضمان عدم ظهور أرقام
+    const getSurahName = (ayah) => {
+        const sNum = ayah.surah ? ayah.surah.number : 0;
+        return surahsNames[sNum - 1] || `سورة ${sNum}`;
+    };
+
+    let surahsOnPage = [...new Set(ayahs.map(a => getSurahName(a)))];
+    const primarySurahName = surahsOnPage[0];
     
     let titleEl = document.getElementById('header-title');
     if(titleEl) titleEl.innerText = primarySurahName;
@@ -1192,15 +1379,19 @@ function renderPageData(pageData, pageNum, scrollToAyahId) {
 
     let html = '';
     const ayahContextMap = {};
+    let lastSurahNum = null;
+
     ayahs.forEach(a => {
-        let sName = normalizeSurahDisplayName(a.surah.name);
+        let sName = getSurahName(a);
         let sNum = a.surah.number;
         
-        if(a.numberInSurah === 1) {
+        // إذا تغيرت السورة في نفس الصفحة، نضع فاصل السورة والبسملة
+        if (sNum !== lastSurahNum) {
             html += `<div class="surah-divider">سُورَةُ ${sName}</div>`;
-            if(sNum !== 1 && sNum !== 9) {
+            if (sNum !== 1 && sNum !== 9) {
                 html += `<div class="bismillah-divider">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>`;
             }
+            lastSurahNum = sNum;
         }
         
         let text = getAyahDisplayText(a);
@@ -1215,14 +1406,17 @@ function renderPageData(pageData, pageNum, scrollToAyahId) {
     document.getElementById('quran-text').innerHTML = html;
     bindAyahLongPressActions(ayahContextMap);
     
-    // تشغيل دالة تثبيت الخط بعد وضع الآيات بـ 50 ملي ثانية
-    setTimeout(fitTextToScreen, 50);
+    // التمرير للأعلى عند تغيير الصفحة
+    document.getElementById('quran-text').scrollTop = 0;
 
     if(window.handleTopSearch) window.handleTopSearch();
     if(scrollToAyahId) {
         setTimeout(() => {
             let el = document.getElementById(`ayah-${scrollToAyahId}`);
-            if(el) { el.style.backgroundColor = "rgba(221, 167, 123, 0.4)"; }
+            if(el) { 
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                el.style.backgroundColor = "rgba(221, 167, 123, 0.4)"; 
+            }
         }, 100);
     }
 }
@@ -1478,58 +1672,416 @@ document.getElementById('counter-btn').onclick = () => {
     else { if(navigator.vibrate) navigator.vibrate(150); curIdx++; showZikr(); }
 };
 
-window.incrementMasbaha = () => { let c = parseInt(document.getElementById('masbaha-count').innerText) + 1; document.getElementById('masbaha-count').innerText = c; localStorage.setItem('masbahaCount', c); if(navigator.vibrate) navigator.vibrate(30); };
-window.resetMasbaha = () => { document.getElementById('masbaha-count').innerText = 0; localStorage.setItem('masbahaCount', 0); };
+window.incrementMasbaha = () => { 
+    let c = parseInt(document.getElementById('masbaha-count').innerText) + 1; 
+    document.getElementById('masbaha-count').innerText = c; 
+    localStorage.setItem('masbahaCount', c); 
+    if(navigator.vibrate) navigator.vibrate(30);
+    // تزامن مع ويدجت الأندرويد
+    if (window.Android && window.Android.updateMasbahaCount) {
+        window.Android.updateMasbahaCount(c);
+    }
+};
+window.resetMasbaha = () => { 
+    document.getElementById('masbaha-count').innerText = 0; 
+    localStorage.setItem('masbahaCount', 0); 
+    // تزامن مع ويدجت الأندرويد
+    if (window.Android && window.Android.updateMasbahaCount) {
+        window.Android.updateMasbahaCount(0);
+    }
+};
 
-// --- 10. الصوتيات ---
-let allAudioReciters = [];
-async function loadAudioReciters() {
+// --- 10. إدارة الصوتيات والقرّاء ---
+let allReciters = [];
+let favoriteReciters = JSON.parse(localStorage.getItem('favoriteReciters') || '[]');
+let selectedReciter = null;
+let selectedRecitation = null;
+let audioPlayer = new Audio();
+let isPlaying = false;
+let radioAudio = null;
+
+window.toggleRadioPlay = function() {
+    const playIcon = document.getElementById('radio-play-icon');
+    const visualizer = document.querySelector('.radio-visualizer');
+    
+    if (!radioAudio) {
+        // إذاعة القرآن الكريم من القاهرة (رابط مستقر)
+        radioAudio = new Audio('https://n0a.radiojar.com/8s5u8p3st?rj-ttl=5&rj-tok=AAABj-8f0mYAV9w8S9o4_A');
+        radioAudio.volume = document.getElementById('radio-volume').value;
+    }
+
+    if (radioAudio.paused) {
+        radioAudio.play().then(() => {
+            playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+            visualizer.classList.add('playing');
+        }).catch(e => {
+            console.error("Radio play failed:", e);
+            showToast("فشل تشغيل الإذاعة، يرجى المحاولة لاحقاً");
+        });
+    } else {
+        radioAudio.pause();
+        playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+        visualizer.classList.remove('playing');
+    }
+};
+
+window.updateRadioVolume = function(val) {
+    if (radioAudio) {
+        radioAudio.volume = val;
+    }
+};
+
+async function loadAudioData() {
+    // قائمة أولية لضمان "الفن" والسرعة فور فتح الصفحة
+    const initialReciters = [
+        { id: 108, name: "محمد صديق المنشاوي" },
+        { id: 54, name: "عبد الباسط عبد الصمد" },
+        { id: 128, name: "مشاري العفاسي" },
+        { id: 90, name: "محمود خليل الحصري" },
+        { id: 114, name: "ماهر المعيقلي" },
+        { id: 62, name: "سعد الغامدي" },
+        { id: 10, name: "أحمد العجمي" },
+        { id: 104, name: "فارس عباد" }
+    ];
+    
+    allReciters = initialReciters;
+    displayReciters(allReciters);
+    
     try {
-        let data = await fetchJsonWithRetry('https://mp3quran.net/api/v3/reciters?language=ar');
-        const sel = document.getElementById('reciter-select'); if(!sel) return;
-        data.reciters.forEach(r => { if(r.moshaf) r.moshaf.forEach(m => { let name = `${r.name} (${m.name.replace('حفص عن عاصم','حفص')})`; allAudioReciters.push({ n: name, s: m.server }); sel.innerHTML += `<option value="${m.server}">${name}</option>`; }); });
-    } catch(e){
-        showToast("تعذر تحميل القراء حالياً");
+        const data = await fetchJsonWithRetry('https://mp3quran.net/api/v3/reciters?language=ar');
+        if (data && data.reciters) {
+            allReciters = data.reciters;
+            // ترتيب القراء أبجدياً
+            allReciters.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+            displayReciters(allReciters);
+        }
+    } catch (error) {
+        console.error("Error loading reciters:", error);
     }
-    loadQuranIndex(); 
 }
-window.filterReciters = () => { let t = document.getElementById('reciter-search').value.toLowerCase(); const sel = document.getElementById('reciter-select'); sel.innerHTML='<option value="">اختر القارئ...</option>'; allAudioReciters.filter(r => r.n.toLowerCase().includes(t)).forEach(r => { sel.innerHTML += `<option value="${r.s}">${r.n}</option>`; }); };
-window.updateReciter = () => updateAudioSurah();
-window.updateAudioSurah = () => { let server = document.getElementById('reciter-select').value, surah = document.getElementById('surah-select-audio').value; if(!server || !surah) return; let surahName = document.getElementById('surah-select-audio').options[document.getElementById('surah-select-audio').selectedIndex].text; document.getElementById('now-playing-title').innerText = `سورة ${surahName}`; document.getElementById('global-quran-audio').src = `${server.endsWith('/')?server:server+'/'}${surah.padStart(3,'0')}.mp3`; document.getElementById('global-quran-audio').play(); };
 
-// --- 11. التحميل الأولي ---
+function displayReciters(reciters) {
+    const list = document.getElementById('reciters-list');
+    if (!list) return;
+    
+    if (reciters.length === 0) {
+        list.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding: 20px; opacity:0.6;">عذراً، لم نجد قارئ بهذا الاسم.</p>';
+        return;
+    }
+
+    const sorted = [...reciters].sort((a, b) => {
+        const aFav = favoriteReciters.includes(a.id);
+        const bFav = favoriteReciters.includes(b.id);
+        if (aFav && !bFav) return -1;
+        if (!aFav && bFav) return 1;
+        return 0;
+    });
+
+    list.innerHTML = '';
+    const batchSize = 15;
+    let currentIndex = 0;
+
+    function renderBatch() {
+        const end = Math.min(currentIndex + batchSize, sorted.length);
+        let htmlFragment = '';
+        
+        for (let i = currentIndex; i < end; i++) {
+            const r = sorted[i];
+            const isFav = favoriteReciters.includes(r.id);
+            const firstLetter = r.name.trim().charAt(0);
+            
+            // روابط الصور المحسنة
+            const photoUrl = `https://www.mp3quran.net/images/reciters/256/${r.id}.jpg`;
+            const fallbackUrl = `https://static.quran-mp3.org/images/reciters/${r.id}.jpg`;
+            
+            htmlFragment += `
+                <div class="reciter-card" onclick="openReciterOptions(${r.id})">
+                    <div class="reciter-info">
+                        <div class="reciter-photo-container">
+                            <img class="reciter-photo" src="${photoUrl}" 
+                                 loading="lazy"
+                                 onerror="this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}; this.src='${fallbackUrl}';">
+                            <div class="reciter-initial" style="display:none;">${firstLetter}</div>
+                        </div>
+                        <span class="reciter-name">${r.name}</span>
+                    </div>
+                    <button class="reciter-fav-btn ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavoriteReciter(${r.id})">
+                        ${isFav ? '★' : '☆'}
+                    </button>
+                </div>
+            `;
+        }
+        
+        list.insertAdjacentHTML('beforeend', htmlFragment);
+        currentIndex = end;
+        
+        if (currentIndex < sorted.length) {
+            requestAnimationFrame(renderBatch);
+        }
+    }
+
+    renderBatch();
+}
+
+// دالة tryNextSource لم تعد مطلوبة لأننا دمجناها في onerror مباشرة
+window.tryNextSource = function(imgElement, remainingSources) {};
+
+window.toggleFavoriteReciter = function(id) {
+    const index = favoriteReciters.indexOf(id);
+    if (index === -1) {
+        favoriteReciters.push(id);
+    } else {
+        favoriteReciters.splice(index, 1);
+    }
+    localStorage.setItem('favoriteReciters', JSON.stringify(favoriteReciters));
+    
+    // إعادة عرض القائمة بالترتيب الجديد
+    const query = document.getElementById('reciter-search').value;
+    if (query) filterReciters(query);
+    else displayReciters(allReciters);
+};
+
+function filterReciters(query) {
+    if (!allReciters) return;
+    const q = query.trim().toLowerCase();
+    const filtered = allReciters.filter(r => {
+        const nameMatch = r.name.toLowerCase().includes(q);
+        // البحث أيضاً داخل أسماء الروايات المتوفرة للقارئ
+        const moshafMatch = r.moshaf && r.moshaf.some(m => m.name.toLowerCase().includes(q));
+        return nameMatch || moshafMatch;
+    });
+    displayReciters(filtered);
+}
+
+window.openReciterOptions = async function(id) {
+    let reciter = allReciters.find(r => r.id == id);
+    
+    if (!reciter || !reciter.moshaf || reciter.moshaf.length === 0) {
+        showToast("جاري جلب تفاصيل القارئ...");
+        try {
+            const data = await fetchJsonWithRetry('https://mp3quran.net/api/v3/reciters?language=ar');
+            allReciters = data.reciters;
+            reciter = allReciters.find(r => r.id == id);
+        } catch (e) {}
+    }
+
+    if (!reciter || !reciter.moshaf || reciter.moshaf.length === 0) {
+        showToast("عذراً، بيانات هذا القارئ غير متوفرة حالياً.");
+        return;
+    }
+
+    selectedReciter = reciter;
+    const header = document.getElementById('reciter-info-header');
+    const list = document.getElementById('recitations-list');
+    
+    const imageUrl = `https://www.mp3quran.net/images/reciters/256/${selectedReciter.id}.jpg`;
+    header.innerHTML = `
+        <img src="${imageUrl}" onerror="this.src='icon-192.png'">
+        <div>
+            <h3 style="color:var(--accent-color);">${selectedReciter.name}</h3>
+            <p style="font-size:0.9rem; opacity:0.7;">اختر الرواية المناسبة</p>
+        </div>
+    `;
+    
+    list.innerHTML = '';
+    selectedReciter.moshaf.forEach((m, index) => {
+        list.innerHTML += `
+            <button class="btn" style="margin-bottom:12px; padding: 18px; font-weight: bold; border-radius: 15px;" onclick="openAudioSurahIndex(${index})">
+                ${m.name} <span style="font-size: 0.8rem; opacity: 0.6; display: block;">(${m.surah_total} سورة)</span>
+            </button>
+        `;
+    });
+    
+    navigateTo('recitationOptions');
+};
+
+window.openAudioSurahIndex = async function(moshafIndex) {
+    selectedRecitation = selectedReciter.moshaf[moshafIndex];
+    const list = document.getElementById('audio-surah-list');
+    list.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">جاري تحميل السور...</p>';
+    
+    navigateTo('audioSurahIndex');
+    
+    const surahList = selectedRecitation.surah_list.split(',');
+    list.innerHTML = '';
+    
+    surahList.forEach(numStr => {
+         const num = parseInt(numStr.trim());
+         const name = surahsNames[num - 1] || `سورة ${num}`;
+         list.innerHTML += `
+             <button class="audio-surah-btn" onclick="playAudioSurah(${num}, 'سورة ${name}')">
+                 <span style="opacity:0.5; font-size:0.9rem; margin-left:10px;">${toArabicNumerals(num)}</span>
+                 <span>سورة ${name}</span>
+             </button>
+         `;
+     });
+};
+
+function filterAudioSurahs(query) {
+    const btns = document.querySelectorAll('.audio-surah-btn');
+    btns.forEach(btn => {
+        if (btn.innerText.includes(query)) btn.style.display = 'block';
+        else btn.style.display = 'none';
+    });
+}
+
+window.playAudioSurah = function(surahNum, surahName) {
+    const formattedNum = surahNum.toString().padStart(3, '0');
+    const audioUrl = `${selectedRecitation.server}${formattedNum}.mp3`;
+    
+    document.getElementById('player-surah-name').innerText = surahName;
+    document.getElementById('player-reciter-name').innerText = selectedReciter.name;
+    document.getElementById('player-recitation-name').innerText = selectedRecitation.name;
+    document.getElementById('player-reciter-image').src = `https://www.mp3quran.net/images/reciters/256/${selectedReciter.id}.jpg`;
+    
+    audioPlayer.src = audioUrl;
+    audioPlayer.play();
+    isPlaying = true;
+    updatePlayBtnUI();
+    
+    navigateTo('audioPlayer');
+    
+    audioPlayer.ontimeupdate = () => {
+        const seekbar = document.getElementById('audio-seekbar');
+        const current = document.getElementById('current-time');
+        const total = document.getElementById('total-duration');
+        
+        if (!isNaN(audioPlayer.duration)) {
+            const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            seekbar.value = percent;
+            current.innerText = formatAudioTime(audioPlayer.currentTime);
+            total.innerText = formatAudioTime(audioPlayer.duration);
+        }
+    };
+    
+    audioPlayer.onended = () => {
+        isPlaying = false;
+        updatePlayBtnUI();
+    };
+};
+
+function formatAudioTime(seconds) {
+    const min = Math.floor(seconds / 60);
+    const sec = Math.floor(seconds % 60);
+    return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+}
+
+window.toggleAudioPlay = function() {
+    if (isPlaying) {
+        audioPlayer.pause();
+    } else {
+        audioPlayer.play();
+    }
+    isPlaying = !isPlaying;
+    updatePlayBtnUI();
+};
+
+function updatePlayBtnUI() {
+    const btn = document.getElementById('play-pause-btn');
+    if (btn) btn.innerText = isPlaying ? '⏸' : '▶';
+}
+
+window.seekAudio = function(value) {
+    const time = (value / 100) * audioPlayer.duration;
+    audioPlayer.currentTime = time;
+};
+
+window.skipAudio = function(sec) {
+    audioPlayer.currentTime += sec;
+};
+
+window.openSurah = (num) => jumpToAyah(num, 1);
+
+const surahsNames = ["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
+
+function renderQuranIndex() {
+    const list = document.getElementById('surah-list');
+    if (!list) return;
+    
+    let html = '';
+    surahsNames.forEach((name, index) => {
+        const num = index + 1;
+        html += `
+            <button class="surah-card-btn" onclick="openSurah(${num})">
+                <span class="surah-number">${toArabicNumerals(num)}</span>
+                <span class="surah-name-text">سورة ${name}</span>
+            </button>
+        `;
+    });
+    list.innerHTML = html;
+}
+
+// تعديل دالة التحميل الأولي لتشغيل الفهرس فوراً
 document.addEventListener("DOMContentLoaded", () => {
-    const rH = hadithsList[Math.floor(Math.random() * hadithsList.length)];
-    document.getElementById('splash-hadith').innerText = rH.text;
-    document.getElementById('splash-proof').innerText = rH.proof;
-    
-    if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-theme');
-    
-    let savedFont = localStorage.getItem('fontSize');
-    if(savedFont) {
-        document.documentElement.style.setProperty('--zikr-font-size', `${parseFloat(savedFont)}rem`);
-        let slider = document.getElementById('font-slider');
-        if(slider) slider.value = savedFont;
+    // 0. عرض حديث عشوائي على شاشة البداية فوراً
+    try {
+        showSplashHadith();
+    } catch (e) {
+        console.error('Error showing splash hadith:', e);
     }
     
-    if(localStorage.getItem('masbahaCount')) document.getElementById('masbaha-count').innerText = localStorage.getItem('masbahaCount');
-
-    const quranModeSelect = document.getElementById('quran-text-mode');
-    if(quranModeSelect) quranModeSelect.value = quranTextMode;
-    document.body.classList.toggle('quran-font-classic', quranTextMode === 'classic');
-    applyAppSettingsFromSidebar();
-
-    if(!window.location.hash || window.location.hash === '#splash') {
-        window.location.hash = 'splash'; setTimeout(() => { window.location.hash = 'home'; }, 2500); 
-    } else { handleRoute(); }
+    // 1. استعادة الإعدادات المحفوظة
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') document.body.classList.add('dark-theme');
     
+    const savedFontSize = localStorage.getItem('fontSize');
+    if (savedFontSize) {
+        document.documentElement.style.setProperty('--zikr-font-size', `${savedFontSize}rem`);
+        document.documentElement.style.setProperty('--quran-font-size', `${savedFontSize * 1.3}rem`);
+    }
+    
+    const savedTextMode = localStorage.getItem('quranTextMode');
+    if (savedTextMode === 'classic') {
+        quranTextMode = 'classic';
+        document.body.classList.add('quran-font-classic');
+    }
+
+    // 2. تشغيل الوظائف الأساسية
+    handleRoute();
+    renderQuranIndex();
+    loadAudioData();
     initLocationAndPrayers();
-    loadAudioReciters();
-    renderHadithLibraries();
     loadHadithApiCategories();
+    updatePrayerWidgetDate();
+    updateIslamicEvents();
+    initServiceWorker();
+    applyAppSettingsFromSidebar();
     renderBookmarks();
-    initServiceWorker(); // Initialize enhanced service worker for professional notifications
+    
+    // 3. طلب إذن الإشعارات بشكل احترافي بعد فترة قصيرة
+    requestNotificationPermissionOnLoad();
+
+    // 4. استعادة عداد السبحة
+    const savedMasbaha = localStorage.getItem('masbahaCount') || 0;
+    const masbahaEl = document.getElementById('masbaha-count');
+    if (masbahaEl) masbahaEl.innerText = savedMasbaha;
 });
+
+// Request notification permission on app load (only once)
+async function requestNotificationPermissionOnLoad() {
+    // Check if already requested
+    if (localStorage.getItem('notificationRequested')) return;
+    
+    if (!('Notification' in window)) return;
+    
+    // Wait a bit for the app to fully load
+    setTimeout(async () => {
+        try {
+            const permission = await Notification.requestPermission();
+            if (permission === 'granted') {
+                showToast('تم تفعيل إشعارات الأذان 🕌');
+                // Update settings in service worker
+                updateSWSettings();
+                // Reschedule notifications
+                fetchPrayers(userLat, userLng);
+            }
+            // Mark as requested so we don't ask again
+            localStorage.setItem('notificationRequested', 'true');
+        } catch (e) {
+            console.error('Notification request failed:', e);
+        }
+    }, 5000); // Wait 5 seconds after app load
+}
 
 // Service Worker Communication for Professional Prayer Notifications
 let serviceWorkerRegistration = null;
@@ -1668,3 +2220,224 @@ window.openWidgetStandalone = function() {
   
   showToast('تم فتح الويدجت. اضغط مشاركة لإضافته للشاشة الرئيسية 📱');
 };
+
+// --- 11. القبلة والمناسبات والمشاركة ---
+
+// بوصلة القبلة
+let compassActive = false;
+window.requestCompassPermission = function() {
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission()
+            .then(state => {
+                if (state === 'granted') {
+                    startCompass();
+                } else {
+                    showToast("يرجى السماح بالوصول للحساسات");
+                }
+            })
+            .catch(e => showToast("تعذر تفعيل الحساسات"));
+    } else {
+        startCompass();
+    }
+};
+
+function startCompass() {
+    if (compassActive) return;
+    compassActive = true;
+    window.addEventListener('deviceorientation', handleOrientation);
+    showToast("تم تفعيل البوصلة");
+}
+
+function handleOrientation(event) {
+    let alpha = event.alpha; // Z-axis rotation [0, 360]
+    if (alpha === null) return;
+
+    // Kaaba Coordinates: 21.4225, 39.8262
+    const kaabaLat = 21.4225;
+    const kaabaLng = 39.8262;
+    
+    const lat1 = userLat * Math.PI / 180;
+    const lng1 = userLng * Math.PI / 180;
+    const lat2 = kaabaLat * Math.PI / 180;
+    const lng2 = kaabaLng * Math.PI / 180;
+    
+    const y = Math.sin(lng2 - lng1);
+    const x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1);
+    let qiblaAngle = Math.atan2(y, x) * 180 / Math.PI;
+    qiblaAngle = (qiblaAngle + 360) % 360;
+
+    const compassNeedle = document.getElementById('compass-needle');
+    const kaabaIcon = document.getElementById('kaaba-icon');
+    const angleEl = document.getElementById('qibla-angle');
+
+    if (compassNeedle) {
+        // Rotate needle to point North
+        compassNeedle.style.transform = `translate(-50%, -50%) rotate(${-alpha}deg)`;
+        // Rotate Kaaba icon to point to Qibla relative to North
+        if (kaabaIcon) {
+            kaabaIcon.style.transform = `translateX(-50%) rotate(${qiblaAngle - alpha}deg)`;
+        }
+        if (angleEl) {
+            angleEl.innerText = `القبلة: ${toArabicNumerals(Math.round(qiblaAngle))}°`;
+        }
+    }
+}
+
+// المناسبات الإسلامية
+const islamicEvents = [
+    { name: "رمضان المبارك", month: 9, day: 1 },
+    { name: "عيد الفطر", month: 10, day: 1 },
+    { name: "عيد الأضحى", month: 12, day: 10 },
+    { name: "رأس السنة الهجرية", month: 1, day: 1 },
+    { name: "المولد النبوي الشريف", month: 3, day: 12 }
+];
+
+async function updateIslamicEvents() {
+    const list = document.getElementById('events-list');
+    if (!list) return;
+
+    try {
+        const now = new Date();
+        const res = await fetch(`https://api.aladhan.com/v1/gToH/${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}`);
+        const data = await res.json();
+        const currentHijri = data.data.hijri;
+        
+        list.innerHTML = '';
+        const sortedEvents = islamicEvents.map(event => {
+            let daysLeft = 0;
+            if (event.month > currentHijri.month.number || (event.month === currentHijri.month.number && event.day >= currentHijri.day)) {
+                daysLeft = (event.month - currentHijri.month.number) * 30 + (event.day - currentHijri.day);
+            } else {
+                daysLeft = (12 - currentHijri.month.number + event.month) * 30 + (event.day - currentHijri.day);
+            }
+            return { ...event, daysLeft };
+        }).sort((a, b) => a.daysLeft - b.daysLeft);
+
+        sortedEvents.forEach(event => {
+            list.innerHTML += `
+                <div class="event-item">
+                    <span class="event-name">${event.name}</span>
+                    <span class="event-days">باقي ${toArabicNumerals(event.daysLeft)} يوم تقريباً</span>
+                </div>
+            `;
+        });
+        
+        // Update Home Screen Widget if exists
+        const homeEvents = document.getElementById('home-events-countdown');
+        if (homeEvents && sortedEvents.length > 0) {
+            const next = sortedEvents[0];
+            homeEvents.innerHTML = `المناسبة القادمة: <b>${next.name}</b> (بعد ${toArabicNumerals(next.daysLeft)} يوم)`;
+        }
+    } catch (e) {
+        list.innerHTML = '<p>تعذر تحميل المناسبات حالياً</p>';
+    }
+}
+
+// مشاركة الذكر كصورة (محاكاة احترافية)
+window.shareZikrAsImage = function() {
+    const zikrText = document.getElementById('zikr-text').innerText;
+    const proofText = document.getElementById('zikr-proof').innerText;
+    
+    // Create temporary canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = 1080;
+    canvas.height = 1080;
+    const ctx = canvas.getContext('2d');
+    
+    // Background
+    ctx.fillStyle = '#FDFBF7';
+    ctx.fillRect(0, 0, 1080, 1080);
+    
+    // Border
+    ctx.strokeStyle = '#8B5A2B';
+    ctx.lineWidth = 40;
+    ctx.strokeRect(20, 20, 1040, 1040);
+    
+    // Header
+    ctx.fillStyle = '#8B5A2B';
+    ctx.font = 'bold 60px Amiri';
+    ctx.textAlign = 'center';
+    ctx.fillText('موسوعة المسلم', 540, 150);
+    
+    // Text Wrapping
+    ctx.fillStyle = '#4A3B32';
+    ctx.font = '50px Amiri';
+    const words = zikrText.split(' ');
+    let line = '';
+    let y = 400;
+    for(let n = 0; n < words.length; n++) {
+        let testLine = line + words[n] + ' ';
+        let metrics = ctx.measureText(testLine);
+        if (metrics.width > 800 && n > 0) {
+            ctx.fillText(line, 540, y);
+            line = words[n] + ' ';
+            y += 80;
+        } else {
+            line = testLine;
+        }
+    }
+    ctx.fillText(line, 540, y);
+    
+    // Proof
+    ctx.fillStyle = '#8B5A2B';
+    ctx.font = 'italic 35px Tajawal';
+    ctx.fillText(proofText, 540, 900);
+    
+    // Footer
+    ctx.font = '30px Tajawal';
+    ctx.fillText('تطبيق موسوعة المسلم', 540, 1000);
+
+    // Convert to image and share
+    try {
+        canvas.toBlob(blob => {
+            const file = new File([blob], 'zikr.png', { type: 'image/png' });
+            if (navigator.share) {
+                navigator.share({
+                    files: [file],
+                    title: 'ذكر من موسوعة المسلم',
+                    text: zikrText
+                }).catch(() => showToast("تعذر المشاركة"));
+            } else {
+                // Download as fallback
+                const link = document.createElement('a');
+                link.download = 'zikr.png';
+                link.href = canvas.toDataURL();
+                link.click();
+                showToast("تم حفظ الصورة");
+            }
+        });
+    } catch (e) {
+        showToast("تعذر توليد الصورة");
+    }
+};
+
+async function searchQuran(query) {
+    const container = document.getElementById('quran-search-results');
+    if (!container) return;
+    container.innerHTML = '<p style="text-align:center; padding:20px;">جاري البحث...</p>';
+    try {
+        const data = await fetchJsonWithRetry(`https://api.alquran.cloud/v1/search/${query}/all/quran-uthmani`);
+        if (data && data.data && data.data.results.length > 0) {
+            let html = '';
+            data.data.results.forEach(res => {
+                html += `
+                    <div class="search-result-card" onclick="jumpToAyah(${res.surah.number}, ${res.numberInSurah})">
+                        <p class="search-result-text">${res.text}</p>
+                        <p class="search-result-info">${res.surah.name} - آية ${toArabicNumerals(res.numberInSurah)}</p>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        } else {
+            container.innerHTML = '<p style="text-align:center; padding:20px;">لم يتم العثور على نتائج</p>';
+        }
+    } catch (e) {
+        container.innerHTML = '<p style="text-align:center; padding:20px;">حدث خطأ أثناء البحث</p>';
+    }
+}
+
+// تحديث البيانات عند تحميل الشاشة
+window.addEventListener('hashchange', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash === 'events') updateIslamicEvents();
+});

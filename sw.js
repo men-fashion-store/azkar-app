@@ -1,5 +1,5 @@
 // Enhanced Service Worker for Prayer Times with Professional Athan Notifications
-const CACHE_NAME = 'azkar-pro-v1';
+const CACHE_NAME = 'azkar-pro-v2';
 const urlsToCache = [
   './',
   './index.html',
@@ -8,7 +8,8 @@ const urlsToCache = [
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
-  './widget.html'
+  './widget.html',
+  './widget-standalone.html'
 ];
 
 // Athan audio URLs for background playback
@@ -25,14 +26,19 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME).then((cache) =>
       Promise.all(
         urlsToCache.map((url) =>
-          cache.add(url).catch(() => null)
+          cache.add(url).catch((err) => {
+            console.log('Failed to cache:', url, err);
+            return null;
+          })
         )
       )
-    )
+    ).then(() => {
+      console.log('Service Worker installed and cached resources');
+    })
   );
 });
 
-// Fetch event - serve from cache or network
+// Fetch event - serve from cache or network with better offline support
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
@@ -40,7 +46,11 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
 
   // Don't cache audio files
-  if (url.pathname.endsWith('.mp3') || url.pathname.endsWith('.wav') || url.pathname.endsWith('.ogg')) return;
+  if (url.pathname.endsWith('.mp3') || url.pathname.endsWith('.wav') || url.pathname.endsWith('.ogg')) {
+    // Try network first, fallback not needed for audio
+    event.respondWith(fetch(req).catch(() => new Response('', {status: 404})));
+    return;
+  }
 
   const apiHosts = [
     'https://api.alquran.cloud',
@@ -48,25 +58,55 @@ self.addEventListener('fetch', (event) => {
     'https://www.mp3quran.net',
     'https://api.aladhan.com',
     'https://api.quran.com',
-    'https://hadeethenc.com'
+    'https://hadeethenc.com',
+    'https://nominatim.openstreetmap.org'
   ];
 
-  if (apiHosts.some((h) => url.origin === new URL(h).origin)) {
+  const isAPI = apiHosts.some((h) => url.origin === new URL(h).origin);
+
+  if (isAPI) {
+    // For APIs: network first, then cache
     event.respondWith(
-      caches.match(req).then((cachedRes) => {
-        return (
-          cachedRes ||
-          fetch(req).then((fetchRes) => {
-            return caches.open('quran-api-cache').then((cache) => {
-              cache.put(req, fetchRes.clone());
-              return fetchRes;
-            });
-          })
-        );
+      fetch(req).then((fetchRes) => {
+        return caches.open('quran-api-cache').then((cache) => {
+          cache.put(req, fetchRes.clone());
+          return fetchRes;
+        });
+      }).catch(() => {
+        // Network failed, try cache
+        return caches.match(req).then((cachedRes) => {
+          if (cachedRes) {
+            return cachedRes;
+          }
+          // Return offline response for API
+          return new Response(JSON.stringify({offline: true}), {
+            headers: {'Content-Type': 'application/json'}
+          });
+        });
       })
     );
   } else {
-    event.respondWith(caches.match(req).then((response) => response || fetch(req)));
+    // For static files: cache first, then network
+    event.respondWith(
+      caches.match(req).then((cachedRes) => {
+        if (cachedRes) {
+          // Update cache in background
+          fetch(req).then((fetchRes) => {
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(req, fetchRes.clone());
+            });
+          }).catch(() => {});
+          return cachedRes;
+        }
+        // Not in cache, fetch from network
+        return fetch(req).then((fetchRes) => {
+          return caches.open(CACHE_NAME).then((cache) => {
+            cache.put(req, fetchRes.clone());
+            return fetchRes;
+          });
+        });
+      })
+    );
   }
 });
 
@@ -77,10 +117,15 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) =>
       Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheWhitelist.indexOf(cacheName) === -1) return caches.delete(cacheName);
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
         })
       )
-    )
+    ).then(() => {
+      console.log('Service Worker activated');
+    })
   );
   self.clients.claim();
 });

@@ -116,7 +116,7 @@
                 <p id="splash-hadith" class="splash-text">جاري التحميل...</p>
                 <p id="splash-proof" class="proof-text"></p>
             </div>
-            <button class="btn enter-btn" onclick="navigateTo('home')">بِسْمِ اللَّهِ</button>
+            <button class="btn enter-btn" onclick="window.location.hash='home'">بِسْمِ اللَّهِ</button>
         </div>
     </div>
 
@@ -184,6 +184,11 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Section 4: Islamic Events -->
+                <div id="home-events-countdown" style="padding: 10px; font-size: 0.85rem; color: var(--accent-color); text-align: center; border-top: 1px solid rgba(139, 90, 43, 0.1); font-family: 'Tajawal', sans-serif;">
+                    جاري تحميل المناسبات...
+                </div>
             </div>
 
             <div class="main-grid">
@@ -217,27 +222,64 @@
                         <svg viewBox="0 0 24 24"><path d="M5 5h11a3 3 0 0 1 3 3v11H8a3 3 0 0 0-3 3V5zm3 14h11M8 9h8M8 13h8"/></svg>
                     </span><br>الحديث
                 </button>
-                <button class="grid-btn" onclick="openWidgetStandalone()" style="background: linear-gradient(145deg, #8B5A2B20 0%, #6b442320 100%);">
+                <button class="grid-btn" onclick="navigateTo('radio')">
                     <span class="grid-icon" aria-hidden="true">
-                        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-                    </span><br>ويدجت الصلاة
+                        <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                    </span><br>الإذاعة لايف
+                </button>
+                <button class="grid-btn" onclick="navigateTo('events')">
+                    <span class="grid-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    </span><br>المناسبات
                 </button>
             </div>
         </div>
     </div>
 
     <div id="azkarMenu-screen" class="screen hidden">
-        <div class="buttons-container" style="margin-top: 60px;">
-            <button class="btn" onclick="startAzkar('morning')">أذكار الصباح</button>
-            <button class="btn" onclick="startAzkar('evening')">أذكار المساء</button>
-            <button class="btn" onclick="startAzkar('sleep')">أذكار النوم</button>
-            <button class="btn" onclick="startAzkar('prayer')">أذكار بعد الصلاة</button>
-            <button class="btn" onclick="startAzkar('wakeup')">أذكار الاستيقاظ</button>
-            <button class="btn" onclick="startAzkar('friday')">أذكار يوم الجمعة</button>
-            <button class="btn" onclick="startAzkar('stairsUp')">ذكر طلوع السلم</button>
-            <button class="btn" onclick="startAzkar('stairsDown')">ذكر النزول</button>
-            <button class="btn" onclick="startAzkar('clothing')">ذكر لبس الملابس</button>
-            <button class="btn" onclick="startAzkar('ruqyah')">الرقية الشرعية</button>
+        <div class="azkar-grid">
+            <button class="azkar-item-btn" onclick="startAzkar('morning')">
+                <span class="azkar-item-icon">☀️</span>أذكار الصباح
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('evening')">
+                <span class="azkar-item-icon">🌙</span>أذكار المساء
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('sleep')">
+                <span class="azkar-item-icon">🛌</span>أذكار النوم
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('wakeup')">
+                <span class="azkar-item-icon">☕</span>أذكار الاستيقاظ
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('afterPrayer')">
+                <span class="azkar-item-icon">🕌</span>أذكار بعد الصلاة
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('ruqyah')">
+                <span class="azkar-item-icon">🛡️</span>الرقية الشرعية
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('clothing')">
+                <span class="azkar-item-icon">👕</span>اللباس والخلع
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('home')">
+                <span class="azkar-item-icon">🏠</span>أذكار المنزل
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('bathroom')">
+                <span class="azkar-item-icon">🚿</span>أذكار الخلاء
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('travel')">
+                <span class="azkar-item-icon">✈️</span>أذكار السفر
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('food')">
+                <span class="azkar-item-icon">🍽️</span>أذكار الطعام
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('stairsUp')">
+                <span class="azkar-item-icon">🪜</span>صعود السلم
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('stairsDown')">
+                <span class="azkar-item-icon">🪜</span>نزول السلم
+            </button>
+            <button class="azkar-item-btn" onclick="startAzkar('distress')">
+                <span class="azkar-item-icon">🤲</span>أذكار الكرب
+            </button>
         </div>
     </div>
 
@@ -248,6 +290,9 @@
             <div id="zikr-text">...</div>
             <p id="zikr-proof" class="proof-text"></p>
             <button id="counter-btn" class="counter-circle"><span id="zikr-count">١</span></button>
+            <button class="btn share-zikr-btn" onclick="shareZikrAsImage()" style="margin-top: 20px; font-size: 1rem; padding: 10px; width: auto; background: transparent;">
+                <span class="inline-ui-icon"><svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4l-4 4M12 2v13"/></svg></span> مشاركة كصورة
+            </button>
         </div>
     </div>
 
@@ -280,47 +325,112 @@
     <div id="prayerTimes-screen" class="screen hidden">
         <div class="paper-card" style="margin-top: 60px;">
             <div id="prayer-times-list" style="width:100%;"></div>
-            
-            <!-- Widget Installation Section -->
-            <div style="margin-top: 25px; padding: 20px; background: linear-gradient(145deg, #f0ebe3 0%, #e8e2d8 100%); border-radius: 16px; border: 1px solid rgba(139,90,43,0.2);">
-                <div style="font-size: 1rem; font-weight: 700; color: #8B5A2B; margin-bottom: 12px; text-align: center;">
-                    📱 إضافة ويدجت للشاشة الرئيسية
+        </div>
+    </div>
+
+    <div id="radio-screen" class="screen hidden">
+        <div class="radio-player-container" style="margin-top: 80px;">
+            <div class="radio-card">
+                <div class="radio-logo">📜</div>
+                <h2 class="radio-title">إذاعة القرآن الكريم</h2>
+                <p class="radio-subtitle">بث مباشر من القاهرة</p>
+                
+                <div class="radio-visualizer">
+                    <span></span><span></span><span></span><span></span><span></span>
                 </div>
-                <div style="font-size: 0.85rem; color: #5d4e37; line-height: 1.7; margin-bottom: 15px; text-align: center;">
-                    احصل على مواقيت الصلاة مباشرة على شاشتك الرئيسية
-                </div>
-                <button class="btn" style="width: 100%; background: linear-gradient(145deg, #8B5A2B 0%, #6b4423 100%); color: #fff; border: none;" onclick="openWidgetStandalone()">
-                    فتح الويدجت المنفصل
+
+                <button id="radio-play-btn" class="radio-main-play" onclick="toggleRadioPlay()">
+                    <svg id="radio-play-icon" viewBox="0 0 24 24" width="40" height="40" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 </button>
-                <div style="font-size: 0.75rem; color: #8B5A2B; margin-top: 12px; text-align: center; line-height: 1.6;">
-                    <strong>iOS:</strong> افتح الويدجت ← اضغط مشاركة ← "إضافة للشاشة الرئيسية"<br>
-                    <strong>Android:</strong> افتح الويدجت ← القائمة ← "إضافة للشاشة الرئيسية"
+
+                <div class="radio-volume-container">
+                    <span class="inline-ui-icon"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 10 0 0 1 0 7.07"/></svg></span>
+                    <input type="range" id="radio-volume" min="0" max="1" step="0.1" value="0.8" oninput="updateRadioVolume(this.value)">
+                    <span class="inline-ui-icon"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 10 0 0 1 0 7.07M22.61 1.39a15 15 0 0 1 0 21.22"/></svg></span>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="audioMenu-screen" class="screen hidden">
-        <div class="audio-player-container" style="margin-top: 60px;">
-            <input type="text" id="reciter-search" placeholder="ابحث عن قارئ..." onkeyup="filterReciters()">
-            <select id="reciter-select" onchange="updateReciter()">
-                <option value="">جاري التحميل...</option>
-            </select>
-            <select id="surah-select-audio" onchange="updateAudioSurah()">
-                <option value="">اختر السورة...</option>
-            </select>
-            <audio id="global-quran-audio" controls style="width:100%; margin-top:10px;"></audio>
+    <div id="events-screen" class="screen hidden">
+        <div class="paper-card" style="margin-top: 60px; width: 92%;">
+            <h3 style="color:var(--accent-color); margin-bottom: 20px;">المناسبات الإسلامية القادمة</h3>
+            <div id="events-list" style="width: 100%; text-align: right;">
+                <!-- سيتم ملؤها برمجياً -->
+            </div>
         </div>
-        <div class="paper-card" style="min-height:20vh; justify-content:center;">
-            <div id="now-playing-title" style="font-family:'Amiri'; color:var(--accent-color); font-size:1.4rem; padding: 10px;">اختر قارئ وسورة</div>
+    </div>
+
+    <div id="audioMenu-screen" class="screen hidden">
+        <div class="audio-search-container" style="margin-top: 60px; width: 90%; max-width: 500px;">
+            <input type="text" id="reciter-search" class="top-search-input" style="position: relative; right: auto; left: auto; width: 100%; display: block;" placeholder="ابحث عن قارئ..." onkeyup="filterReciters(this.value)">
+        </div>
+        <div id="reciters-list" class="reciters-grid" style="margin-top: 20px;">
+            <!-- سيتم ملء القائمة برمجياً بصور وأسماء الشيوخ -->
+        </div>
+    </div>
+
+    <div id="recitationOptions-screen" class="screen hidden">
+        <div class="header-placeholder" style="height: 60px;"></div>
+        <div id="reciter-info-header" class="reciter-info-card">
+            <!-- معلومات القارئ المختارة -->
+        </div>
+        <div id="recitations-list" class="buttons-container" style="margin-top: 20px;">
+            <!-- الروايات المتاحة -->
+        </div>
+    </div>
+
+    <div id="audioSurahIndex-screen" class="screen hidden">
+        <div class="header-placeholder" style="height: 60px;"></div>
+        <div class="audio-search-container" style="width: 90%; max-width: 500px; margin-bottom: 15px;">
+            <input type="text" id="surah-audio-search" class="top-search-input" style="position: relative; right: auto; left: auto; width: 100%; display: block;" placeholder="ابحث عن سورة..." onkeyup="filterAudioSurahs(this.value)">
+        </div>
+        <div id="audio-surah-list" class="surah-grid">
+            <!-- قائمة السور -->
+        </div>
+    </div>
+
+    <div id="audioPlayer-screen" class="screen hidden">
+        <div class="player-container">
+            <div class="player-info">
+                <img id="player-reciter-image" src="" alt="">
+                <h3 id="player-surah-name">اسم السورة</h3>
+                <p id="player-reciter-name">اسم القارئ</p>
+                <p id="player-recitation-name">الرواية</p>
+            </div>
+            
+            <div class="player-controls">
+                <div class="progress-area">
+                    <span id="current-time">00:00</span>
+                    <input type="range" id="audio-seekbar" value="0" max="100" oninput="seekAudio(this.value)">
+                    <span id="total-duration">00:00</span>
+                </div>
+                
+                <div class="control-buttons">
+                    <button class="player-btn" onclick="skipAudio(-10)">⏪</button>
+                    <button id="play-pause-btn" class="player-btn play-main" onclick="toggleAudioPlay()">▶</button>
+                    <button class="player-btn" onclick="skipAudio(10)">⏩</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <div id="quranIndex-screen" class="screen hidden">
         <div class="surah-grid-container" style="margin-top: 60px;">
             <div class="index-summary-card" id="quran-index-summary">فهرس المصحف</div>
-            <button class="btn" style="width: 100%; margin-bottom: 20px; background-color: var(--accent-color); color: var(--bg-color);" onclick="navigateTo('bookmarks')">علاماتي المرجعية</button>
+            <div style="display:flex; gap:10px; margin-bottom: 15px;">
+                <button class="btn" style="flex:1; background-color: var(--accent-color); color: var(--bg-color); font-size: 1rem;" onclick="navigateTo('bookmarks')">المحفوظات</button>
+                <button class="btn" style="flex:1; font-size: 1rem;" onclick="navigateTo('quranSearch')">بحث في القرآن</button>
+            </div>
             <div id="surah-list" class="surah-grid"></div>
+        </div>
+    </div>
+
+    <div id="quranSearch-screen" class="screen hidden">
+        <div class="search-container" style="margin-top: 60px; width: 92%;">
+            <div id="quran-search-results" style="width: 100%;">
+                <p style="text-align:center; padding:20px; opacity:0.6;">ابدأ الكتابة في شريط البحث العلوي...</p>
+            </div>
         </div>
     </div>
 
