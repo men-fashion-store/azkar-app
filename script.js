@@ -238,35 +238,77 @@ const hadithLibraries = {
             {text: "نعم المال الصالح للرجل الصالح.", narrator: "سنن ابن ماجه (بالمعنى)"}
         ]
     },
-    malik: {
-        title: "الموطأ",
-        icon: "MK",
-        description: "مختارات من موطأ الإمام مالك",
-        sourceLabel: "كتاب",
+    nawawi: {
+        title: "الأربعون النووية",
+        icon: "AN",
+        description: "أربعون حديثاً جامعة في أصول الدين وفروعه",
+        sourceLabel: "حديث",
         hadiths: [
-            {text: "إنما بعثت لأتمم صالح الأخلاق.", narrator: "الموطأ (بالمعنى)"},
-            {text: "البيّعان بالخيار ما لم يتفرقا.", narrator: "الموطأ (بالمعنى)"},
-            {text: "ليس الشديد بالصرعة، إنما الشديد الذي يملك نفسه عند الغضب.", narrator: "الموطأ (بالمعنى)"},
-            {text: "من كان يؤمن بالله واليوم الآخر فليكرم ضيفه.", narrator: "الموطأ (بالمعنى)"},
-            {text: "إياكم والظن فإن الظن أكذب الحديث.", narrator: "الموطأ (بالمعنى)"},
-            {text: "الراحمون يرحمهم الله.", narrator: "الموطأ (بالمعنى)"},
-            {text: "صلة الرحم تزيد في العمر.", narrator: "الموطأ (بالمعنى)"},
-            {text: "من كان في حاجة أخيه كان الله في حاجته.", narrator: "الموطأ (بالمعنى)"}
+            {text: "إنما الأعمال بالنيات، وإنما لكل امرئ ما نوى، فمن كانت هجرته إلى الله ورسوله، فهجرته إلى الله ورسوله، ومن كانت هجرته لدنيا يصيبها أو امرأة ينكحها، فهجرته إلى ما هاجر إليه.", narrator: "الحديث الأول"},
+            {text: "بني الإسلام على خمس: شهادة أن لا إله إلا الله وأن محمداً رسول الله، وإقام الصلاة، وإيتاء الزكاة، وحج البيت، وصوم رمضان.", narrator: "الحديث الثالث"},
+            {text: "عن أبي هريرة رضي الله عنه قال: قال رسول الله ﷺ: (من حسن إسلام المرء تركه ما لا يعنيه).", narrator: "الحديث الثاني عشر"},
+            {text: "لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه.", narrator: "الحديث الثالث عشر"},
+            {text: "من كان يؤمن بالله واليوم الآخر فليقل خيراً أو ليصمت، ومن كان يؤمن بالله واليوم الآخر فليكرم جاره، ومن كان يؤمن بالله واليوم الآخر فليكرم ضيفه.", narrator: "الحديث الخامس عشر"},
+            {text: "عن أبي هريرة رضي الله عنه، أن رجلاً قال للنبي ﷺ: أوصني، قال: (لا تغضب). فردد مراراً، قال: (لا تغضب).", narrator: "الحديث السادس عشر"},
+            {text: "إن الله كتب الإحسان على كل شيء، فإذا قتلتم فأحسنوا القتلة، وإذا ذبحتم فأحسنوا الذبحة، وليحد أحدكم شفرته، وليرح ذبيحته.", narrator: "الحديث السابع عشر"},
+            {text: "اتق الله حيثما كنت، وأتبع السيئة الحسنة تمحها، وخالق الناس بخلق حسن.", narrator: "الحديث الثامن عشر"},
+            {text: "احفظ الله يحفظك، احفظ الله تجده تجاهك، إذا سألت فاسأل الله، وإذا استعنت فاستعن بالله.", narrator: "الحديث التاسع عشر"},
+            {text: "الحياء لا يأتي إلا بخير.", narrator: "الحديث العشرون (بالمعنى)"}
         ]
     }
 };
-let hadithApiCategories = [];
 
-// Show random hadith on splash screen
+// --- Last Read Feature for Quran ---
+let lastRead = JSON.parse(localStorage.getItem('lastReadQuran')) || null;
+
+function saveLastRead(surahNum, pageNum) {
+    lastRead = { surahNum, pageNum, date: new Date().toISOString() };
+    localStorage.setItem('lastReadQuran', JSON.stringify(lastRead));
+    updateLastReadUI();
+}
+
+function updateLastReadUI() {
+    const summaryCard = document.getElementById('quran-index-summary');
+    if (summaryCard && lastRead) {
+        summaryCard.innerHTML = `فهرس المصحف <br><small style="font-size:0.8rem; opacity:0.8; font-weight:normal;">آخر قراءة: سورة ${surahListCached.find(s=>s.number===lastRead.surahNum)?.name || ''} (صفحة ${lastRead.pageNum})</small>`;
+        summaryCard.style.cursor = 'pointer';
+        summaryCard.onclick = () => jumpToPage(lastRead.pageNum);
+    }
+}
+
 function showSplashHadith() {
     const hadithEl = document.getElementById('splash-hadith');
     const proofEl = document.getElementById('splash-proof');
-    if (hadithEl && hadithsList.length > 0) {
-        const randomHadith = hadithsList[Math.floor(Math.random() * hadithsList.length)];
-        hadithEl.innerText = randomHadith.text;
-        if (proofEl) proofEl.innerText = randomHadith.proof;
-    }
+    const defaultHadith = {text:"إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى.",proof:"(متفق عليه)"};
+    if (!hadithEl) return;
+    let hadith = (hadithsList && hadithsList.length > 0) ? hadithsList[Math.floor(Math.random() * hadithsList.length)] : defaultHadith;
+    hadithEl.innerText = hadith.text;
+    if (proofEl) proofEl.innerText = hadith.proof;
 }
+
+function showHomeHadith() {
+    const textEl = document.getElementById('home-hadith-text');
+    const narratorEl = document.getElementById('home-hadith-narrator');
+    if (!textEl) return;
+    
+    const hadith = hadithsList[Math.floor(Math.random() * hadithsList.length)];
+    textEl.innerText = `«${hadith.text}»`;
+    if (narratorEl) narratorEl.innerText = hadith.proof;
+}
+
+// Update initialization to call these functions
+window.addEventListener('DOMContentLoaded', () => {
+    showSplashHadith();
+    showHomeHadith();
+    updateLastReadUI();
+    loadHadithApiCategories();
+    initLocationAndPrayers();
+    applyAppSettingsFromSidebar();
+    
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-theme');
+    }
+});
 
 window.showToast = (msg) => {
     const t = document.getElementById('toast-msg'); if(!t) return;
@@ -358,6 +400,10 @@ function handleRoute() {
         title.innerText = titles[hash] || 'موسوعة المسلم';
     }
 
+    if (hash === 'radio' && allRadios.length === 0) {
+        loadRadios();
+    }
+
     document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.classList.add('hidden'); });
     const target = document.getElementById(hash + '-screen') || document.getElementById('home-screen');
     if(target) { target.classList.replace('hidden', 'active'); window.scrollTo(0, 0); }
@@ -414,6 +460,15 @@ window.changeFontSizeSlider = (val) => {
     // القرآن يحتاج حجم خط أكبر قليلاً ليبدو فخماً
     document.documentElement.style.setProperty('--quran-font-size', `${val * 1.3}rem`);
     localStorage.setItem('fontSize', val);
+    localStorage.setItem('fontSizeManual', 'true'); // تم تغيير الخط يدوياً
+};
+
+window.resetFontSizeToAuto = () => {
+    localStorage.removeItem('fontSizeManual');
+    showToast("تم تفعيل التناسب التلقائي لخط المصحف");
+    if (window.location.hash.includes('quranReader')) {
+        autoFitQuranFontSize();
+    }
 };
 
 // --- 5. المشاركة والتحديث والخروج ---
@@ -488,7 +543,15 @@ let alertsEnabled = (localStorage.getItem('alertsEnabled') || 'on') === 'on';
 const AYAH_RECITER_EDITIONS = {
     afs: 'ar.alafasy',
     basit: 'ar.abdulbasitmurattal',
-    husary: 'ar.husary'
+    husary: 'ar.husary',
+    husary_warsh: 'ar.husary', 
+    minshawi: 'ar.minshawi',
+    minshawi_mujawwad: 'ar.minshawimujawwad',
+    minshawi_warsh: 'ar.minshawi', 
+    mustafa: 'ar.mustafaismail',
+    mustafa_mujawwad: 'ar.mustafaismail',
+    mustafa_warsh: 'ar.mustafaismail',
+    mustafa_khalaf: 'ar.mustafaismail'
 };
 const ADHAN_AUDIO_URLS = {
     makkah: 'https://archive.org/download/MakkahAdhan_201901/Adhan%20Makkah.mp3',
@@ -585,52 +648,61 @@ window.setManualLocation = function() {
 };
 
 async function initLocationAndPrayers() {
-    // Display saved location first (for immediate display)
-    document.getElementById('prayer-location').innerText = `${userCity}`;
+    // 1. عرض الموقع المحفوظ فوراً لسرعة الاستجابة
+    const locationEl = document.getElementById('prayer-location');
+    if (locationEl) locationEl.innerText = `${userCity}`;
     fetchPrayers(userLat, userLng);
     
-    // Always try to get GPS location on startup for accuracy
+    // 2. محاولة تحديث الموقع تلقائياً عبر GPS ومراقبته في حالة السفر
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async (pos) => {
+        // نستخدم watchPosition بدلاً من getCurrentPosition لمراقبة التغير التلقائي أثناء السفر
+        navigator.geolocation.watchPosition(async (pos) => {
             const newLat = pos.coords.latitude; 
             const newLng = pos.coords.longitude;
             
-            // Only update if location changed significantly (more than 1km)
+            // تحديث فقط إذا تغير الموقع بأكثر من 2 كيلومتر أو لا يوجد مدينة محفوظة
             const distance = calculateDistance(userLat, userLng, newLat, newLng);
-            if (distance > 1 || !localStorage.getItem('savedCity')) {
+            if (distance > 2 || !localStorage.getItem('savedCity') || localStorage.getItem('locationSource') !== 'gps') {
                 userLat = newLat;
                 userLng = newLng;
                 
                 try {
-                    // Try to get city name
+                    // جلب اسم المدينة بدقة (القنطرة، الإسماعيلية، إلخ)
                     let res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLat}&lon=${userLng}&accept-language=ar`);
                     let data = await res.json();
-                    userCity = data.address?.city || data.address?.town || data.address?.village || data.address?.state || "الموقع الحالي";
+                    // محاولة استخراج أدق اسم للمكان
+                    userCity = data.address?.city || data.address?.town || data.address?.village || data.address?.suburb || data.address?.state || "موقعك الحالي";
                 } catch(e) {
-                    userCity = "الموقع الحالي";
+                    if (!userCity || userCity === "القاهرة (افتراضي)") userCity = "موقعك الحالي";
                 }
                 
-                // Save to localStorage
                 localStorage.setItem('savedLat', userLat); 
                 localStorage.setItem('savedLng', userLng); 
                 localStorage.setItem('savedCity', userCity);
                 localStorage.setItem('locationSource', 'gps');
                 
-                document.getElementById('prayer-location').innerText = `${userCity} (GPS)`;
+                if (locationEl) locationEl.innerText = `${userCity}`;
                 fetchPrayers(userLat, userLng);
             }
         }, (error) => {
-            // GPS failed, try IP-based location if no saved location
-            if (!localStorage.getItem('savedLat')) {
+            // في حالة فشل GPS وعدم وجود موقع محفوظ، نجرب تحديد الموقع عبر IP
+            if (!localStorage.getItem('savedLat') || userCity.includes("افتراضي")) {
                 tryIPLocation();
             }
         }, {
             enableHighAccuracy: true,
             timeout: 10000,
-            maximumAge: 300000 // 5 minutes
+            maximumAge: 300000 // 5 minutes cache
         });
     }
 }
+
+// تحديث المواقيت والموقع عند العودة للتطبيق (مثلاً عند فتحه بعد فترة)
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+        initLocationAndPrayers();
+    }
+});
 
 // Calculate distance between two coordinates using Haversine formula
 function calculateDistance(lat1, lon1, lat2, lon2) {
@@ -1279,6 +1351,11 @@ async function loadQuranIndex() {
     }
 }
 
+window.jumpToPage = (pageNum) => {
+    navigateTo('quranReader');
+    loadQuranPage(pageNum);
+};
+
 window.jumpToAyah = async (sNum, aNum) => {
     document.getElementById('quran-text').innerHTML="جاري التحميل...";
     navigateTo('quranReader');
@@ -1315,6 +1392,12 @@ window.loadQuranPage = async (pageNum, scrollToAyahId = null) => {
     quranCurrentPage = pageNum;
     localStorage.setItem('quranCurrentPage', quranCurrentPage);
 
+    // Save as last read
+    const firstAyah = quranPageCache[pageNum]?.ayahs?.[0];
+    if (firstAyah) {
+        saveLastRead(firstAyah.surah.number, pageNum);
+    }
+
     if(quranPageCache[pageNum]) {
         renderPageData(quranPageCache[pageNum], pageNum, scrollToAyahId);
         preloadPages(pageNum); 
@@ -1327,13 +1410,15 @@ window.loadQuranPage = async (pageNum, scrollToAyahId = null) => {
         if(tryQuranComFirst) {
             let quranComData = await fetchJsonWithRetry(`https://api.quran.com/api/v4/verses/by_page/${pageNum}?language=ar&words=false&fields=text_uthmani,verse_key,page_number,juz_number`);
             let mapped = mapQuranComPageDataToLegacyShape(quranComData.verses || []);
-            quranPageCache[pageNum] = mapped;
-            renderPageData(mapped, pageNum, scrollToAyahId);
-        } else {
-            let data = await fetchJsonWithRetry(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
-        quranPageCache[pageNum] = data.data; 
-        renderPageData(data.data, pageNum, scrollToAyahId);
-        }
+        quranPageCache[pageNum] = mapped;
+        saveLastRead(mapped.ayahs[0].surah.number, pageNum);
+        renderPageData(mapped, pageNum, scrollToAyahId);
+    } else {
+        let data = await fetchJsonWithRetry(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
+    quranPageCache[pageNum] = data.data; 
+    saveLastRead(data.data.ayahs[0].surah.number, pageNum);
+    renderPageData(data.data, pageNum, scrollToAyahId);
+    }
         preloadPages(pageNum); 
     } catch(e) {
         try {
@@ -1353,6 +1438,33 @@ window.loadQuranPage = async (pageNum, scrollToAyahId = null) => {
         }
     }
 };
+
+// دالة التناسب التلقائي لحجم خط المصحف لملء الصفحة
+function autoFitQuranFontSize() {
+    const container = document.getElementById('quran-text');
+    if (!container) return;
+
+    // نبدأ بحجم خط افتراضي كبير ثم نصغره حتى يناسب الشاشة تماماً
+    let fontSize = 2.8; // rem (نبدأ بحجم أكبر قليلاً)
+    const minFontSize = 1.1; // rem
+    const maxHeight = container.clientHeight;
+
+    // تعيين حجم الخط المبدئي
+    container.style.fontSize = `${fontSize}rem`;
+
+    // تقليل حجم الخط إذا كان هناك تمرير (Scroll) أو تجاوز للارتفاع
+    // نقوم بالتحقق من scrollHeight مقارنة بـ clientHeight
+    while (container.scrollHeight > maxHeight && fontSize > minFontSize) {
+        fontSize -= 0.05; // تصغير تدريجي أدق
+        container.style.fontSize = `${fontSize}rem`;
+    }
+    
+    // إذا كان النص لا يزال أصغر بكثير من الصفحة، يمكننا محاولة تكبيره قليلاً (اختياري)
+    // لكن القاعدة الأساسية هي عدم وجود سكرول
+    
+    // تحديث المتغير العالمي لضمان الاتساق في الصفحة الحالية
+    document.documentElement.style.setProperty('--quran-font-size', `${fontSize}rem`);
+}
 
 function renderPageData(pageData, pageNum, scrollToAyahId) {
     let ayahs = pageData.ayahs;
@@ -1404,6 +1516,17 @@ function renderPageData(pageData, pageNum, scrollToAyahId) {
     });
     
     document.getElementById('quran-text').innerHTML = html;
+    
+    // منطق التناسب التلقائي لحجم الخط (Auto-fit)
+    if (localStorage.getItem('fontSizeManual') === 'true') {
+        // إذا كان المستخدم حدد خط يدوي، نطبق الحجم المخزن
+        const savedFontSize = localStorage.getItem('fontSize') || 1.6;
+        document.documentElement.style.setProperty('--quran-font-size', `${savedFontSize * 1.3}rem`);
+        document.getElementById('quran-text').style.fontSize = ''; // نترك الـ CSS يتعامل معه عبر المتغير
+    } else {
+        autoFitQuranFontSize();
+    }
+
     bindAyahLongPressActions(ayahContextMap);
     
     // التمرير للأعلى عند تغيير الصفحة
@@ -1699,44 +1822,118 @@ let selectedRecitation = null;
 let audioPlayer = new Audio();
 let isPlaying = false;
 let radioAudio = null;
+let allRadios = [];
+let currentRadio = null;
+
+// --- 11. إدارة الإذاعات ---
+async function loadRadios() {
+    const radioListEl = document.getElementById('radio-list');
+    if (!radioListEl) return;
+
+    try {
+        const data = await fetchJsonWithRetry('https://mp3quran.net/api/v3/radios?language=ar');
+        if (data && data.radios) {
+            allRadios = data.radios;
+            displayRadios(allRadios);
+        }
+    } catch (error) {
+        console.error("Error loading radios:", error);
+        radioListEl.innerHTML = '<div class="loading-spinner">تعذر تحميل الإذاعات، تأكد من الاتصال بالإنترنت.</div>';
+    }
+}
+
+function displayRadios(radios) {
+    const radioListEl = document.getElementById('radio-list');
+    if (!radioListEl) return;
+
+    if (radios.length === 0) {
+        radioListEl.innerHTML = '<div class="loading-spinner">لا توجد إذاعات تطابق بحثك.</div>';
+        return;
+    }
+
+    radioListEl.innerHTML = '';
+    radios.forEach(radio => {
+        const isActive = currentRadio && currentRadio.id === radio.id;
+        const item = document.createElement('div');
+        item.className = `radio-item ${isActive ? 'active' : ''}`;
+        item.onclick = () => selectRadio(radio);
+        
+        item.innerHTML = `
+            <div class="radio-item-play-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="${isActive && !radioAudio.paused ? 'M6 19h4V5H6v14zm8-14v14h4V5h-4z' : 'M8 5v14l11-7z'}"/>
+                </svg>
+            </div>
+            <div class="radio-item-info">
+                <div class="radio-item-name">${radio.name}</div>
+                <div class="radio-item-tags">${radio.recent_date || ''}</div>
+            </div>
+        `;
+        radioListEl.appendChild(item);
+    });
+}
+
+window.filterRadios = function(query) {
+    const q = query.trim().toLowerCase();
+    const filtered = allRadios.filter(r => r.name.toLowerCase().includes(q));
+    displayRadios(filtered);
+};
+
+window.selectRadio = function(radio) {
+    if (currentRadio && currentRadio.id === radio.id) {
+        toggleRadioPlay();
+        return;
+    }
+
+    if (radioAudio) {
+        radioAudio.pause();
+        radioAudio.src = '';
+    }
+
+    currentRadio = radio;
+    document.getElementById('radio-current-title').innerText = radio.name;
+    document.getElementById('radio-current-subtitle').innerText = "بث مباشر";
+    
+    radioAudio = new Audio(radio.url);
+    radioAudio.volume = document.getElementById('radio-volume').value;
+    
+    // UI update
+    displayRadios(allRadios);
+    toggleRadioPlay();
+};
 
 window.toggleRadioPlay = function() {
     const playIcon = document.getElementById('radio-play-icon');
     const visualizer = document.querySelector('.radio-visualizer');
     
     if (!radioAudio) {
-        // إذاعة القرآن الكريم من القاهرة - رابط بديل مستقر
-        radioAudio = new Audio('https://stream.radiojar.com/8s5u8p3st');
-        radioAudio.volume = document.getElementById('radio-volume').value;
+        if (allRadios.length > 0) {
+            selectRadio(allRadios[0]);
+            return;
+        } else {
+            showToast('جاري تحميل الإذاعات...');
+            return;
+        }
     }
 
     if (radioAudio.paused) {
         radioAudio.play().then(() => {
             playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
             visualizer.classList.add('playing');
+            showToast(`🎵 جاري تشغيل: ${currentRadio.name}`);
+            displayRadios(allRadios);
         }).catch(e => {
             console.error("Radio play failed:", e);
-            showToast("فشل تشغيل الإذاعة، جاري تجربة رابط بديل...");
-            // Try alternative URL
-            tryAlternativeRadio(playIcon, visualizer);
+            showToast('❌ فشل تشغيل هذه الإذاعة، جرب إذاعة أخرى.');
         });
     } else {
         radioAudio.pause();
         playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
         visualizer.classList.remove('playing');
+        showToast('⏸️ تم إيقاف الإذاعة');
+        displayRadios(allRadios);
     }
 };
-
-function tryAlternativeRadio(playIcon, visualizer) {
-    radioAudio = new Audio('https://qurancafe.com/radio/quran/');
-    radioAudio.volume = document.getElementById('radio-volume').value;
-    radioAudio.play().then(() => {
-        playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-        visualizer.classList.add('playing');
-    }).catch(e => {
-        showToast("تعذر تشغيل الإذاعة حالياً، يرجى المحاولة لاحقاً");
-    });
-}
 
 window.updateRadioVolume = function(val) {
     if (radioAudio) {
@@ -1744,10 +1941,12 @@ window.updateRadioVolume = function(val) {
     }
 };
 
+// --- 10. إدارة الصوتيات والقرّاء ---
 async function loadAudioData() {
     // قائمة أولية لضمان "الفن" والسرعة فور فتح الصفحة
     const initialReciters = [
         { id: 108, name: "محمد صديق المنشاوي" },
+        { id: 94, name: "مصطفى إسماعيل" },
         { id: 54, name: "عبد الباسط عبد الصمد" },
         { id: 128, name: "مشاري العفاسي" },
         { id: 90, name: "محمود خليل الحصري" },
@@ -2458,4 +2657,9 @@ async function searchQuran(query) {
 window.addEventListener('hashchange', () => {
     const hash = window.location.hash.replace('#', '');
     if (hash === 'events') updateIslamicEvents();
+    if (hash === 'radio' && allRadios.length === 0) loadRadios();
 });
+
+// Initial load check
+if (window.location.hash === '#radio') loadRadios();
+if (window.location.hash === '#events') updateIslamicEvents();

@@ -21,6 +21,7 @@
             <button class="sidebar-btn btn-with-icon" onclick="toggleTheme()"><span class="inline-ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4A7 7 0 0 0 20 14.5z"/></svg></span><span>الوضع الليلي / النهاري</span></button>
             <label style="display:block; text-align:center; margin:15px 0 10px;">حجم الخط (للتطبيق والأذكار)</label>
             <input type="range" id="font-slider" min="1.2" max="3.5" step="0.1" oninput="changeFontSizeSlider(this.value)" style="width: 100%;">
+            <button class="sidebar-btn" onclick="resetFontSizeToAuto()" style="margin-top: 10px; font-size: 0.9rem; padding: 8px;">إعادة التناسب التلقائي للمصحف</button>
             <label style="display:block; text-align:center; margin:15px 0 10px;">نمط نص المصحف</label>
             <select id="quran-text-mode" onchange="updateQuranTextMode(this.value)" class="sidebar-select">
                 <option value="kfgqpc">مجمع الملك فهد (نصي - المفضل)</option>
@@ -42,10 +43,17 @@
                 <option value="off">إيقاف التنبيهات</option>
             </select>
             <select id="reciter-settings-select" class="sidebar-select">
-                <option value="husary">القارئ الافتراضي</option>
+                <option value="husary">القارئ الافتراضي (الحصري)</option>
                 <option value="afs">مشاري العفاسي</option>
                 <option value="basit">عبد الباسط عبد الصمد</option>
                 <option value="husary">محمود خليل الحصري</option>
+                <option value="minshawi">محمد صديق المنشاوي (مرتل)</option>
+                <option value="minshawi_mujawwad">محمد صديق المنشاوي (مجود)</option>
+                <option value="minshawi_warsh">محمد صديق المنشاوي (ورش)</option>
+                <option value="mustafa">مصطفى إسماعيل (مرتل)</option>
+                <option value="mustafa_mujawwad">مصطفى إسماعيل (مجود)</option>
+                <option value="mustafa_warsh">مصطفى إسماعيل (ورش)</option>
+                <option value="mustafa_khalaf">مصطفى إسماعيل (خلف عن حمزة)</option>
             </select>
         </div>
 
@@ -93,9 +101,13 @@
         </div>
     </div>
 
-    <div id="main-header" class="top-header hidden">
-        <button id="header-back-btn" class="header-back-btn" onclick="goBack()">↩</button>
-        <button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
+    <div id="main-header" class="top-header hidden glass-header">
+        <button id="header-back-btn" class="header-back-btn" onclick="goBack()">
+            <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <button class="hamburger-btn" onclick="toggleSidebar()">
+            <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
         
         <div id="header-center" class="header-center">
             <span id="header-title" class="header-title">موسوعة المسلم</span>
@@ -103,7 +115,7 @@
         </div>
         
         <button id="header-search-icon" class="header-search-icon hidden" onclick="toggleTopSearch()">
-            <span class="inline-ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 19a8 8 0 1 1 0-16a8 8 0 0 1 0 16zm10 2l-4.3-4.3"/></svg></span>
+            <span class="inline-ui-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
         </button>
         <input type="text" id="top-search-input" class="top-search-input hidden" placeholder="بحث..." onkeyup="handleTopSearch()">
     </div>
@@ -111,14 +123,21 @@
     <div id="splash-screen" class="screen active splash-bg">
         <div class="splash-overlay"></div>
         <div class="splash-content">
-            <h2 class="splash-title">موسوعة المسلم</h2>
-            <div class="hadith-box">
+            <h2 class="splash-title animate-in">موسوعة المسلم</h2>
+            <div class="hadith-box animate-in" style="animation-delay: 0.2s;">
                 <p id="splash-hadith" class="splash-text">جاري التحميل...</p>
                 <p id="splash-proof" class="proof-text"></p>
             </div>
-            <button class="btn enter-btn" onclick="window.location.hash='home'">بِسْمِ اللَّهِ</button>
+            <button class="btn enter-btn animate-in" onclick="navigateTo('home')" style="animation-delay: 0.4s;">بِسْمِ اللَّهِ</button>
         </div>
     </div>
+
+    <style>
+        .animate-in { opacity: 0; transform: translateY(20px); animation: slideUpFade 0.8s forwards; }
+        @keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
+        .glass-header { background: rgba(253, 251, 247, 0.8) !important; backdrop-filter: blur(12px); border-bottom: 1px solid rgba(197, 160, 89, 0.2); }
+        .dark-theme .glass-header { background: rgba(18, 13, 10, 0.8) !important; border-bottom: 1px solid rgba(197, 160, 89, 0.1); }
+    </style>
 
     <div id="home-screen" class="screen hidden">
         <button class="home-menu-btn" onclick="toggleSidebar()">☰</button>
@@ -185,11 +204,23 @@
                     </div>
                 </div>
 
-                <!-- Section 4: Islamic Events -->
+                <!-- Section 4: Hadith of the Day -->
+                <div id="hadith-of-day-widget" class="paper-card glass-card" style="margin: 15px 0; width: 100%; padding: 15px; text-align: center; cursor: default;">
+                    <div style="color: var(--gold-color); font-family: 'Amiri', serif; font-size: 1.1rem; font-weight: bold; margin-bottom: 8px;">حديث اليوم</div>
+                    <p id="home-hadith-text" style="font-family: 'Amiri', serif; font-size: 1.2rem; line-height: 1.6; color: var(--text-color); margin: 0;">«إنما الأعمال بالنيات»</p>
+                    <div id="home-hadith-narrator" style="font-size: 0.8rem; opacity: 0.7; margin-top: 5px;">(متفق عليه)</div>
+                </div>
+
+                <!-- Section 5: Islamic Events -->
                 <div id="home-events-countdown" style="padding: 10px; font-size: 0.85rem; color: var(--accent-color); text-align: center; border-top: 1px solid rgba(139, 90, 43, 0.1); font-family: 'Tajawal', sans-serif;">
                     جاري تحميل المناسبات...
                 </div>
             </div>
+
+            <style>
+                .glass-card { background: rgba(255, 255, 255, 0.4) !important; backdrop-filter: blur(10px); border: 1px solid rgba(197, 160, 89, 0.2); }
+                .dark-theme .glass-card { background: rgba(0, 0, 0, 0.3) !important; }
+            </style>
 
             <div class="main-grid">
                 <button class="grid-btn quran-grid-btn" onclick="navigateTo('quranIndex')">
@@ -316,9 +347,10 @@
     </div>
 
     <div id="hadithReader-screen" class="screen hidden">
-        <div class="paper-card" style="width: 95%; max-width: 800px; margin-top: 50px; padding: 20px 10px; background: transparent; box-shadow: none; border: none;">
-            <div id="hadith-list-container" style="width: 100%; display: flex; flex-direction: column; gap: 20px;">
-                </div>
+        <div class="paper-card glass-card" style="width: 95%; max-width: 800px; margin-top: 70px; padding: 25px; border-radius: 30px;">
+            <div id="hadith-list-container" style="width: 100%; display: flex; flex-direction: column; gap: 25px;">
+                <!-- سيتم ملؤها برمجياً -->
+            </div>
         </div>
     </div>
 
@@ -329,24 +361,35 @@
     </div>
 
     <div id="radio-screen" class="screen hidden">
-        <div class="radio-player-container" style="margin-top: 80px;">
+        <div class="radio-player-container" style="margin-top: 60px;">
             <div class="radio-card">
                 <div class="radio-logo">📜</div>
-                <h2 class="radio-title">إذاعة القرآن الكريم</h2>
-                <p class="radio-subtitle">بث مباشر من القاهرة</p>
+                <h2 id="radio-current-title" class="radio-title">إذاعة القرآن الكريم</h2>
+                <p id="radio-current-subtitle" class="radio-subtitle">بث مباشر</p>
                 
                 <div class="radio-visualizer">
                     <span></span><span></span><span></span><span></span><span></span>
                 </div>
 
-                <button id="radio-play-btn" class="radio-main-play" onclick="toggleRadioPlay()">
-                    <svg id="radio-play-icon" viewBox="0 0 24 24" width="40" height="40" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                </button>
+                <div class="radio-main-controls">
+                    <button id="radio-play-btn" class="radio-main-play" onclick="toggleRadioPlay()">
+                        <svg id="radio-play-icon" viewBox="0 0 24 24" width="40" height="40" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                </div>
 
                 <div class="radio-volume-container">
                     <span class="inline-ui-icon"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 10 0 0 1 0 7.07"/></svg></span>
                     <input type="range" id="radio-volume" min="0" max="1" step="0.1" value="0.8" oninput="updateRadioVolume(this.value)">
                     <span class="inline-ui-icon"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 10 0 0 1 0 7.07M22.61 1.39a15 15 0 0 1 0 21.22"/></svg></span>
+                </div>
+            </div>
+
+            <div class="radio-library-section">
+                <div class="radio-search-box">
+                    <input type="text" id="radio-search-input" placeholder="بحث عن إذاعة..." onkeyup="filterRadios(this.value)">
+                </div>
+                <div id="radio-list" class="radio-list">
+                    <div class="loading-spinner">جاري تحميل الإذاعات...</div>
                 </div>
             </div>
         </div>

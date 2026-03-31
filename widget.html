@@ -22,29 +22,127 @@
         
         body {
             font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(145deg, #faf8f5 0%, #f5f0e8 100%);
+            background: #FDFBF7;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 15px 10px;
+            padding: 10px;
         }
         
-        /* --- ويدجت الصلاة النهائية - 3 أقسام --- */
-        .prayer-widget-final { 
+        /* Skeleton Loading Animation */
+        .skeleton {
+            background: linear-gradient(90deg, #e8e2d8 25%, #f0ebe3 50%, #e8e2d8 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .skeleton-text {
+            height: 1.2em;
+            margin: 0.3em 0;
+        }
+        
+        .skeleton-time {
+            height: 0.8em;
+            width: 60%;
+            margin: 0.2em auto;
+        }
+        
+        /* Error State */
+        .error-state {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .error-state p {
+            color: #8B5A2B;
+            margin-bottom: 15px;
+        }
+        
+        .retry-btn {
+            background: linear-gradient(145deg, #8B5A2B 0%, #6b4423 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .retry-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Last Updated Indicator */
+        .last-updated {
+            font-size: 0.65rem;
+            color: #7a6b5d;
+            text-align: center;
+            padding: 5px;
+            opacity: 0.8;
+        }
+        
+        /* Offline Badge */
+        .offline-badge {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: rgba(255, 193, 7, 0.9);
+            color: #333;
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            z-index: 10;
+        }
+        
+        /* Pulse animation for active prayer */
+        .prayer-item-final.active {
+            background: linear-gradient(145deg, #6b5b4f 0%, #5d4e37 100%);
+            transform: translateY(-2px);
+            box-shadow: 
+                4px 4px 15px rgba(107,91,79,0.3),
+                -4px -4px 15px rgba(255,255,255,0.9);
+            animation: pulseActive 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseActive {
+            0%, 100% { 
+                box-shadow: 4px 4px 15px rgba(107,91,79,0.3), -4px -4px 15px rgba(255,255,255,0.9);
+            }
+            50% { 
+                box-shadow: 6px 6px 20px rgba(107,91,79,0.4), -6px -6px 20px rgba(255,255,255,1);
+            }
+        }
+        
+        /* Widget container with relative positioning for badges */
+        .prayer-widget-final {
+            position: relative;
             background: linear-gradient(145deg, #faf8f5 0%, #f5f0e8 100%); 
-            width: 98%; 
+            width: 100%; 
             max-width: 480px; 
             border-radius: 20px; 
             padding: 0; 
-            margin-top: 10px; 
+            margin-top: 0;
             box-shadow: 
                 15px 15px 40px rgba(139,125,107,0.2),
                 -15px -15px 40px rgba(255,255,255,0.9);
             overflow: hidden;
+            animation: fadeIn 0.5s ease;
         }
         
-        /* Section 1: Date & Location */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* القسم الأول: التاريخ والموقع */
         .section-date {
             background: linear-gradient(145deg, #f0ebe3 0%, #e8e2d8 100%);
             padding: 15px;
@@ -52,12 +150,16 @@
             box-shadow: inset 0 -2px 4px rgba(139,125,107,0.1);
         }
         .hijri-final { 
-            font-size: 1.3rem; 
-            color: #000000;
+            font-size: 1.4rem; 
+            color: #C9A227;
             font-family: 'Amiri', serif;
             font-weight: 700;
             margin-bottom: 8px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            text-shadow: 0 2px 4px rgba(201, 162, 39, 0.3);
+            background: linear-gradient(145deg, #C9A227, #8B6914);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .day-gregorian {
             display: flex;
@@ -92,7 +194,7 @@
             box-shadow: inset 1px 1px 3px rgba(0,0,0,0.05);
         }
         
-        /* Section 2: All Prayer Times */
+        /* القسم الثاني: أوقات الصلاة */
         .section-prayers {
             background: linear-gradient(145deg, #fffcfa 0%, #faf7f2 100%);
             padding: 15px 12px;
@@ -119,15 +221,23 @@
             transition: all 0.3s ease;
         }
         .prayer-item-final.active {
-            background: linear-gradient(145deg, #6b5b4f 0%, #5d4e37 100%);
-            transform: translateY(-2px);
+            background: linear-gradient(145deg, #8B5A2B 0%, #5d4e37 100%);
+            transform: translateY(-3px) scale(1.05);
             box-shadow: 
-                4px 4px 15px rgba(107,91,79,0.3),
-                -4px -4px 15px rgba(255,255,255,0.9);
+                0 8px 25px rgba(139, 90, 43, 0.4),
+                inset 0 2px 4px rgba(255, 215, 0, 0.3);
+            border: 2px solid #C9A227;
+            z-index: 10;
         }
-        .prayer-item-final.active .prayer-label-final,
+        .prayer-item-final.active .prayer-label-final {
+            color: #FFD700;
+            font-weight: 700;
+            font-size: 0.65rem;
+        }
         .prayer-item-final.active .prayer-time-final {
-            color: #faf8f5;
+            color: #FFD700;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
         }
         .prayer-label-final {
             font-size: 0.6rem;
@@ -143,7 +253,7 @@
             direction: ltr;
         }
         
-        /* Section 3: Next Prayer Countdown */
+        /* القسم الثالث: العد التنازلي */
         .section-countdown {
             background: linear-gradient(145deg, #f0ebe3 0%, #e8e2d8 100%);
             padding: 20px;
@@ -187,12 +297,24 @@
         }
         .digit-value {
             font-family: 'Tajawal', monospace;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
             color: #3d3229;
             direction: ltr;
             line-height: 1;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        
+        .digit-value.changed {
+            animation: digitPop 0.3s ease;
+        }
+        
+        @keyframes digitPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); color: #8B5A2B; }
+            100% { transform: scale(1); }
+        }
+        
         .digit-label {
             font-size: 0.7rem;
             color: #7a6b5d;
@@ -201,16 +323,7 @@
             letter-spacing: 1px;
         }
         
-        /* Very subtle animation like mobile clock */
-        @keyframes digitChange {
-            0% { color: #5d4e37; }
-            50% { color: #8b7355; }
-            100% { color: #3d3229; }
-        }
-        .digit-value.changing {
-            animation: digitChange 0.3s ease-in-out;
-        }
-        
+        /* زر فتح التطبيق */
         .open-app-btn {
             display: block;
             width: 100%;
@@ -224,13 +337,14 @@
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
         }
         
         .open-app-btn:hover {
             opacity: 0.9;
         }
         
-        .loading, .error {
+        .loading {
             text-align: center;
             padding: 40px 20px;
             color: #8B5A2B;
@@ -250,7 +364,6 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Compact mode */
         @media (max-width: 350px) {
             .countdown-digit {
                 padding: 15px 18px;
@@ -264,7 +377,7 @@
 </head>
 <body>
     <div class="prayer-widget-final" id="widget-container">
-        <!-- Section 1: Date & Location -->
+        <!-- قسم التاريخ والموقع -->
         <div class="section-date">
             <div class="hijri-final" id="hijri-date">---</div>
             <div class="day-gregorian">
@@ -275,7 +388,7 @@
             <div class="location-final" id="prayer-location">جاري تحديد الموقع...</div>
         </div>
         
-        <!-- Section 2: All Prayer Times - Single Row -->
+        <!-- قسم أوقات الصلاة -->
         <div class="section-prayers">
             <div class="prayer-row">
                 <div class="prayer-item-final" id="final-fajr">
@@ -305,7 +418,7 @@
             </div>
         </div>
         
-        <!-- Section 3: Next Prayer Countdown - RTL like real clock -->
+        <!-- قسم العد التنازلي -->
         <div class="section-countdown" id="section-countdown">
             <div class="next-prayer-title-final">الصلاة القادمة: <span id="next-prayer-name">---</span></div>
             <div class="countdown-box-final">
@@ -334,6 +447,57 @@
         const arabicDays = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
         
         let countdownInterval = null;
+        let lastPrayerData = null;
+        let lastFetchTime = null;
+        let previousCountdown = { h: '00', m: '00', s: '00' };
+
+        // Check online status
+        function updateOnlineStatus() {
+            const widget = document.getElementById('widget-container');
+            let badge = document.querySelector('.offline-badge');
+            
+            if (!navigator.onLine) {
+                if (!badge) {
+                    badge = document.createElement('div');
+                    badge.className = 'offline-badge';
+                    badge.innerHTML = '📴 بدون إنترنت';
+                    widget.appendChild(badge);
+                }
+            } else {
+                if (badge) badge.remove();
+            }
+        }
+        
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+
+        // Cache prayer times
+        function cachePrayerTimes(data) {
+            try {
+                localStorage.setItem('cachedPrayerTimes', JSON.stringify(data));
+                localStorage.setItem('cachedPrayerTimeTimestamp', Date.now().toString());
+            } catch (e) {
+                console.log('Could not cache prayer times');
+            }
+        }
+
+        // Get cached prayer times
+        function getCachedPrayerTimes() {
+            try {
+                const cached = localStorage.getItem('cachedPrayerTimes');
+                const timestamp = localStorage.getItem('cachedPrayerTimeTimestamp');
+                if (cached && timestamp) {
+                    const age = Date.now() - parseInt(timestamp);
+                    // Cache valid for 24 hours
+                    if (age < 24 * 60 * 60 * 1000) {
+                        return JSON.parse(cached);
+                    }
+                }
+            } catch (e) {
+                console.log('Could not retrieve cached prayer times');
+            }
+            return null;
+        }
 
         function getArabicDayName(date) {
             return arabicDays[date.getDay()];
@@ -374,6 +538,38 @@
             return `${hour}:${m} ${ampm}`;
         }
 
+        // Show skeleton loading
+        function showSkeletonLoading() {
+            document.getElementById('hijri-date').innerHTML = '<div class="skeleton skeleton-text" style="width: 80%; margin: 0 auto;"></div>';
+            document.getElementById('day-name').innerHTML = '<div class="skeleton skeleton-text" style="width: 60px;"></div>';
+            document.getElementById('gregorian-date').innerHTML = '<div class="skeleton skeleton-text" style="width: 100px;"></div>';
+            document.getElementById('prayer-location').innerText = 'جاري تحميل البيانات...';
+            
+            // Show skeleton for prayer times
+            ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'].forEach(prayer => {
+                document.getElementById('widget-' + prayer).innerHTML = '<div class="skeleton skeleton-time"></div>';
+            });
+            
+            document.getElementById('next-prayer-name').innerHTML = '<div class="skeleton skeleton-text" style="width: 60px; display: inline-block;"></div>';
+        }
+
+        // Show error state with retry button
+        function showErrorState() {
+            const locationEl = document.getElementById('prayer-location');
+            locationEl.innerHTML = `
+                <div class="error-state">
+                    <p>⚠️ تعذر تحميل مواقيت الصلاة</p>
+                    <button class="retry-btn" onclick="retryLoad()">🔄 إعادة المحاولة</button>
+                </div>
+            `;
+        }
+
+        // Retry loading
+        window.retryLoad = async function() {
+            showSkeletonLoading();
+            await renderWidget();
+        };
+
         async function fetchPrayerTimes(lat, lng) {
             const d = new Date();
             try {
@@ -398,9 +594,19 @@
                     window.prayerTimezone = data.data.meta.timezone;
                 }
                 
+                // Cache the data
+                cachePrayerTimes(data.data);
+                lastFetchTime = Date.now();
+                
                 return data.data;
             } catch (e) {
                 console.error('Error fetching prayer times:', e);
+                // Try to get cached data
+                const cached = getCachedPrayerTimes();
+                if (cached) {
+                    console.log('Using cached prayer times');
+                    return cached;
+                }
                 return null;
             }
         }
@@ -420,81 +626,112 @@
             return `${hijri.day} ${hijri.month} ${hijri.year}هـ`;
         }
 
-        async function getCityName(lat, lng) {
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 5000);
-                const response = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=ar`, {
-                    signal: controller.signal
-                });
-                clearTimeout(timeoutId);
-                
-                if (response.ok) {
-                    const data = await response.json();
-                    // Return city name in Arabic, fallback to English
-                    return data.city || data.locality || data.principalSubdivision || 'الموقع الحالي';
-                }
-            } catch (e) {
-                console.log('Could not fetch city name:', e);
-            }
-            return 'الموقع الحالي';
-        }
-
+        // Get location automatically using geolocation, fallback to saved or default
         function getLocation() {
             return new Promise((resolve) => {
-                // First check URL params
-                const urlParams = new URLSearchParams(window.location.search);
-                const lat = urlParams.get('lat');
-                const lng = urlParams.get('lng');
-                const city = urlParams.get('city');
-                
-                if (lat && lng) {
-                    resolve({ lat: parseFloat(lat), lng: parseFloat(lng), city: city || 'القاهرة' });
-                    return;
-                }
-                
-                // Try geolocation
+                // First try geolocation for automatic detection
                 if (navigator.geolocation) {
-                    document.getElementById('prayer-location').innerText = 'جاري تحديد الموقع...';
+                    document.getElementById('prayer-location').innerText = 'جاري تحديد الموقع تلقائياً...';
                     
                     navigator.geolocation.getCurrentPosition(
                         async (position) => {
                             const lat = position.coords.latitude;
                             const lng = position.coords.longitude;
                             
-                            // Check if location is near Cairo (within ~50km)
-                            const cairoLat = 30.0444;
-                            const cairoLng = 31.2357;
-                            const distance = Math.sqrt(
-                                Math.pow(lat - cairoLat, 2) + Math.pow(lng - cairoLng, 2)
-                            );
+                            // Try to get city name from multiple reverse geocoding services
+                            let city = null;
+                            try {
+                                // Try OpenStreetMap Nominatim first (more reliable for Arabic names)
+                                const controller = new AbortController();
+                                const timeoutId = setTimeout(() => controller.abort(), 5000);
+                                const response = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=ar`, {
+                                    signal: controller.signal,
+                                    headers: { 'User-Agent': 'AzkarApp/1.0' }
+                                });
+                                clearTimeout(timeoutId);
+                                if (response.ok) {
+                                    const data = await response.json();
+                                    city = data.address?.city || data.address?.town || data.address?.village || data.address?.suburb || data.address?.state;
+                                }
+                            } catch (e) {
+                                console.log('Nominatim failed, trying bigdatacloud');
+                            }
                             
-                            let city;
-                            if (distance < 0.5) {
-                                city = 'القاهرة';
-                            } else {
-                                // Try to get city name from reverse geocoding
-                                city = await getCityName(lat, lng);
+                            // Fallback to bigdatacloud if Nominatim failed
+                            if (!city) {
+                                try {
+                                    const controller2 = new AbortController();
+                                    const timeoutId2 = setTimeout(() => controller2.abort(), 3000);
+                                    const response2 = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=ar`, {
+                                        signal: controller2.signal
+                                    });
+                                    clearTimeout(timeoutId2);
+                                    if (response2.ok) {
+                                        const data2 = await response2.json();
+                                        city = data2.city || data2.locality || data2.principalSubdivision;
+                                    }
+                                } catch (e2) {
+                                    console.log('BigDataCloud also failed');
+                                }
+                            }
+                            
+                            // Final fallback
+                            if (!city) {
+                                city = 'الموقع الحالي';
                             }
                             
                             resolve({ lat: lat, lng: lng, city: city });
                         },
                         (error) => {
-                            console.log('Geolocation error:', error);
-                            // Default to Cairo
-                            resolve({ lat: 30.0444, lng: 31.2357, city: 'القاهرة' });
+                            console.log('Geolocation failed:', error);
+                            // Fallback to saved location or default
+                            tryFallbackLocation(resolve);
                         },
                         { 
-                            timeout: 10000, 
-                            enableHighAccuracy: true,
-                            maximumAge: 600000 // Accept positions up to 10 minutes old
+                            timeout: 8000, 
+                            enableHighAccuracy: false,
+                            maximumAge: 300000 // Accept positions up to 5 minutes old
                         }
                     );
                 } else {
-                    // Default to Cairo
-                    resolve({ lat: 30.0444, lng: 31.2357, city: 'القاهرة' });
+                    // Geolocation not supported, fallback to saved or default
+                    tryFallbackLocation(resolve);
                 }
             });
+        }
+
+        function tryFallbackLocation(resolve) {
+            // Try to get from localStorage (app's saved location)
+            try {
+                const savedLat = localStorage.getItem('savedLat');
+                const savedLng = localStorage.getItem('savedLng');
+                const savedCity = localStorage.getItem('savedCity');
+                
+                if (savedLat && savedLng) {
+                    resolve({ 
+                        lat: parseFloat(savedLat), 
+                        lng: parseFloat(savedLng), 
+                        city: savedCity || 'الموقع المحفوظ' 
+                    });
+                    return;
+                }
+            } catch(e) {
+                console.log('localStorage not available');
+            }
+            
+            // Check URL params
+            const urlParams = new URLSearchParams(window.location.search);
+            const lat = urlParams.get('lat');
+            const lng = urlParams.get('lng');
+            const city = urlParams.get('city');
+            
+            if (lat && lng) {
+                resolve({ lat: parseFloat(lat), lng: parseFloat(lng), city: city || 'القاهرة' });
+                return;
+            }
+            
+            // Default to Cairo
+            resolve({ lat: 30.0444, lng: 31.2357, city: 'القاهرة' });
         }
 
         async function updateDate() {
@@ -516,7 +753,89 @@
             if (hijriEl) hijriEl.innerText = hijriDate;
         }
 
+        // Update countdown with smooth animation
+        function updateCountdown(h, m, s) {
+            const hoursEl = document.getElementById('countdown-hours');
+            const minutesEl = document.getElementById('countdown-minutes');
+            const secondsEl = document.getElementById('countdown-seconds');
+            
+            const hStr = h.toString().padStart(2, '0');
+            const mStr = m.toString().padStart(2, '0');
+            const sStr = s.toString().padStart(2, '0');
+            
+            // Always update the DOM and trigger animation
+            if (hoursEl) {
+                hoursEl.innerText = hStr;
+                hoursEl.classList.remove('changed');
+                void hoursEl.offsetWidth; // Force reflow
+                hoursEl.classList.add('changed');
+            }
+            
+            if (minutesEl) {
+                minutesEl.innerText = mStr;
+                minutesEl.classList.remove('changed');
+                void minutesEl.offsetWidth; // Force reflow
+                minutesEl.classList.add('changed');
+            }
+            
+            if (secondsEl) {
+                secondsEl.innerText = sStr;
+                secondsEl.classList.remove('changed');
+                void secondsEl.offsetWidth; // Force reflow
+                secondsEl.classList.add('changed');
+            }
+        }
+
+        // Convert prayer time to timestamp
+        function getPrayerTimestamp(prayerTimeStr, timezone) {
+            const [h, m] = prayerTimeStr.split(':');
+            const now = new Date();
+            
+            // Get current date in target timezone
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: timezone,
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric'
+            });
+            const parts = formatter.formatToParts(now);
+            const year = parseInt(parts.find(p => p.type === 'year').value);
+            const month = parseInt(parts.find(p => p.type === 'month').value);
+            const day = parseInt(parts.find(p => p.type === 'day').value);
+            
+            // Create date in target timezone (as UTC for comparison)
+            const prayerDate = new Date(Date.UTC(year, month - 1, day, parseInt(h), parseInt(m), 0));
+            return prayerDate.getTime();
+        }
+
+        // Get current time in target timezone as timestamp
+        function getCurrentTimestamp(timezone) {
+            const now = new Date();
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: timezone,
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                hour12: false
+            });
+            const parts = formatter.formatToParts(now);
+            const year = parseInt(parts.find(p => p.type === 'year').value);
+            const month = parseInt(parts.find(p => p.type === 'month').value);
+            const day = parseInt(parts.find(p => p.type === 'day').value);
+            const hour = parseInt(parts.find(p => p.type === 'hour').value);
+            const minute = parseInt(parts.find(p => p.type === 'minute').value);
+            const second = parseInt(parts.find(p => p.type === 'second').value);
+            
+            return new Date(Date.UTC(year, month - 1, day, hour, minute, second)).getTime();
+        }
+
         async function renderWidget() {
+            showSkeletonLoading();
+            updateOnlineStatus();
+            
             const location = await getLocation();
             
             // Update location display
@@ -526,46 +845,53 @@
             const prayerData = await fetchPrayerTimes(location.lat, location.lng);
             
             if (!prayerData) {
-                document.getElementById('prayer-location').innerText = '⚠️ تعذر تحميل البيانات';
+                showErrorState();
                 return;
             }
 
             const timings = prayerData.timings;
+            const timezone = prayerData.meta?.timezone || 'Africa/Cairo';
+            
+            // Get current time in the prayer location's timezone
             const now = new Date();
+            const locationTimeStr = now.toLocaleString('en-US', { timeZone: timezone });
+            const locationDate = new Date(locationTimeStr);
             
             const prayers = [
-                {id:'Fajr',n:'الفجر'},
-                {id:'Sunrise',n:'الشروق'},
-                {id:'Dhuhr',n:'الظهر'},
-                {id:'Asr',n:'العصر'},
-                {id:'Maghrib',n:'المغرب'},
-                {id:'Isha',n:'العشاء'}
+                {id:'Fajr', n:'الفجر'},
+                {id:'Sunrise', n:'الشروق'},
+                {id:'Dhuhr', n:'الظهر'},
+                {id:'Asr', n:'العصر'},
+                {id:'Maghrib', n:'المغرب'},
+                {id:'Isha', n:'العشاء'}
             ];
             
-            let nextT=null, nextN='', nextId='';
+            // Get current timestamp in target timezone
+            const currentTimestamp = getCurrentTimestamp(timezone);
+            
+            let nextPrayerTimestamp = null, nextN = '', nextId = '';
             
             prayers.forEach(p => {
-                let [h, m] = timings[p.id].split(':');
-                let pDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
-                
                 // Update prayer time display
                 const timeEl = document.getElementById('widget-' + p.id.toLowerCase());
                 if (timeEl) {
                     timeEl.innerText = formatTime(timings[p.id]);
                 }
                 
+                // Get prayer timestamp
+                const prayerTimestamp = getPrayerTimestamp(timings[p.id], timezone);
+                
                 // Find next prayer (skip Sunrise)
-                if (pDate > now && !nextT && p.id !== 'Sunrise') {
-                    nextT = pDate;
+                if (prayerTimestamp > currentTimestamp && !nextPrayerTimestamp && p.id !== 'Sunrise') {
+                    nextPrayerTimestamp = prayerTimestamp;
                     nextN = p.n;
                     nextId = p.id.toLowerCase();
                 }
             });
             
             // If no next prayer today, next is Fajr tomorrow
-            if (!nextT) {
-                let [h, m] = timings.Fajr.split(':');
-                nextT = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, h, m, 0);
+            if (!nextPrayerTimestamp) {
+                nextPrayerTimestamp = getPrayerTimestamp(timings.Fajr, timezone) + (24 * 60 * 60 * 1000); // Add 24 hours
                 nextN = 'الفجر';
                 nextId = 'fajr';
                 
@@ -593,37 +919,39 @@
             
             // Start countdown
             countdownInterval = setInterval(() => {
-                let diff = nextT - new Date();
+                const now = getCurrentTimestamp(timezone);
+                let diff = nextPrayerTimestamp - now;
+                
                 if (diff > 0) {
                     let h = Math.floor((diff / 3600000) % 24);
                     let m = Math.floor((diff / 60000) % 60);
                     let s = Math.floor((diff / 1000) % 60);
                     
-                    const secondsEl = document.getElementById('countdown-seconds');
-                    const minutesEl = document.getElementById('countdown-minutes');
-                    const hoursEl = document.getElementById('countdown-hours');
-                    
-                    if (secondsEl) secondsEl.innerText = s.toString().padStart(2, '0');
-                    if (minutesEl) minutesEl.innerText = m.toString().padStart(2, '0');
-                    if (hoursEl) hoursEl.innerText = h.toString().padStart(2, '0');
+                    updateCountdown(h, m, s);
                 }
             }, 1000);
             
             // Initial countdown update
-            const initialDiff = nextT - new Date();
+            const initialDiff = nextPrayerTimestamp - currentTimestamp;
             if (initialDiff > 0) {
                 let h = Math.floor((initialDiff / 3600000) % 24);
                 let m = Math.floor((initialDiff / 60000) % 60);
                 let s = Math.floor((initialDiff / 1000) % 60);
                 
-                const secondsEl = document.getElementById('countdown-seconds');
-                const minutesEl = document.getElementById('countdown-minutes');
-                const hoursEl = document.getElementById('countdown-hours');
-                
-                if (secondsEl) secondsEl.innerText = s.toString().padStart(2, '0');
-                if (minutesEl) minutesEl.innerText = m.toString().padStart(2, '0');
-                if (hoursEl) hoursEl.innerText = h.toString().padStart(2, '0');
+                updateCountdown(h, m, s);
             }
+            
+            // Add last updated indicator
+            const existingLastUpdated = document.querySelector('.last-updated');
+            if (existingLastUpdated) existingLastUpdated.remove();
+            
+            const lastUpdated = document.createElement('div');
+            lastUpdated.className = 'last-updated';
+            const cached = getCachedPrayerTimes();
+            if (cached && !navigator.onLine) {
+                lastUpdated.innerText = '📴 بيانات محفوظة (بدون إنترنت)';
+            }
+            document.getElementById('widget-container').appendChild(lastUpdated);
         }
 
         function openMainApp() {
@@ -639,10 +967,10 @@
             updateDate();
         }, 60000);
         
-        // Auto-refresh page every 10 minutes to get fresh prayer times
+        // Auto-refresh page every 30 minutes to get fresh prayer times
         setInterval(() => {
             location.reload();
-        }, 600000);
+        }, 1800000);
     </script>
 </body>
 </html>
